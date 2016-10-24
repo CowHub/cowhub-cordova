@@ -8,8 +8,12 @@ var myApp = new Framework7({
     }
 );
 
-// If we need to use custom DOM library, let's save it to $$ variable:
+// To use Framework7s custom DOM library, save it to $$ variable:
 var $$ = Dom7;
+
+var image = {
+  imageData : null
+};
 
 // Add view
 var mainView = myApp.addView('.view-main');
@@ -19,9 +23,6 @@ $$(document).on('deviceready', function () {
   console.log("Device is ready!");
 });
 
-
-// var twentyWidth = window.screen.width * 0.2;
-// var twentyHeight = window.screen.height * 0.2;
 
 myApp.onPageInit('Camera', function (page) {
   ezar.initializeVideoOverlay(
@@ -35,11 +36,17 @@ myApp.onPageInit('Camera', function (page) {
   var pageContainer = $$(page.container);
   pageContainer.find('.button').on('click', function () {
     ezar.snapshot(
-        null,null,
+        function(base64EncodedImage) {
+          image.imageData = base64EncodedImage;
+          mainView.router.loadPage({url: 'reviewImage.html'});
+        },
+        function(error) {
+          alert("ezar snapshot failed");
+        },
         {encodingType: ezar.ImageEncoding.PNG,
           includeWebView: false,
-          saveToPhotoAlbum: true});
-    myApp.alert('Photo taken');
+          saveToPhotoAlbum: false});
+
   });
 });
 
@@ -55,6 +62,7 @@ myApp.onPageInit('login-screen', function (page) {
   });
 });
 
+
 myApp.onPageAfterAnimation('Input', function () {
   $$('.page-on-left').remove();
 });
@@ -65,5 +73,11 @@ myApp.onPageAfterAnimation('Camera', function () {
 
 myApp.onPageAfterAnimation('Menu', function () {
   $$('.page-on-left').remove();
+});
+
+myApp.onPageAfterAnimation('Camera-review', function () {
+  $$('.review-image').attr('src',image.imageData);
+  $$('.page-on-left').remove();
+  ezar.getBackCamera().stop();
 });
 
