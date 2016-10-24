@@ -26,3 +26,35 @@ img.logo {
     max-width:100%;
     max-height:100%;
 }
+
+body {
+    background: rgba(255,255,255,0);
+}
+
+.page {
+    background-color: transparent;
+}
+
+.capture {
+    position:fixed;
+    bottom:0px;
+    width:200px;
+    margin: 0 auto;
+    left:0;
+    right:0;
+}
+
+.overlay {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+.camera-text    {
+    position:fixed;
+    top:30%;
+    margin: 0 auto;
+    left:0;
+    right:0;
+    text-align: center;
+}

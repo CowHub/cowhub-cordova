@@ -67,7 +67,7 @@ module.exports = (function() {
              "snapshot",
             [encoding, quality, scale, saveToPhotoGallery, imageName, includeCameraView, includeWebView]);
 
-    }
+    };
 
      _snapshot.saveToPhotoGallery = function(imageData,successCallback,errorCallback,options) {
                 
@@ -102,7 +102,7 @@ module.exports = (function() {
              "snapshot",
              "saveToPhotoGallery",
              [imageData, encoding, quality, scale, saveToPhotoGallery, imageName]);
-     }
+     };
                   
     _snapshot.ImageEncoding = {
         JPEG: 0,             // Return JPEG encoded image

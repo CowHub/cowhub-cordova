@@ -51,7 +51,7 @@ var Camera = function(ezar,id,position,hasZoom,maxZoom,zoom) {
      */
     this.isActive = function() {
         return _ezar.hasActiveCamera() && _ezar.getActiveCamera() === _self;
-    }
+    };
         
     /**
      * Camera's unique id assigned by the device.
@@ -232,7 +232,7 @@ var Camera = function(ezar,id,position,hasZoom,maxZoom,zoom) {
         return !_self.isRunning();
     };
     
-}
+};
 
 function isFunction(f) {
     return typeof f == "function";

@@ -29,7 +29,7 @@ module.exports = (function() {
      */
     _ezAR.isVideoOverlayInitialized = function() {
         return _isInitialized;
-    }
+    };
    
     /**
      * Initialize ezAR internal state, cameras and zoom features.
@@ -70,7 +70,7 @@ module.exports = (function() {
             if (successCallback) {
                 successCallback();
             }
-        }
+        };
         
         _ezAR.onError = errorCallback;
         
@@ -79,7 +79,7 @@ module.exports = (function() {
             "videoOverlay",
             "init",
             [backgroundColorRGB]);
-    }
+    };
     
     /**
      * Return Camera[]. Must call initialize() before calling this function.
@@ -90,7 +90,7 @@ module.exports = (function() {
         if (_frontCamera) cameras.push(_frontCamera);
         if (_backCamera) cameras.push(_backCamera);
          return cameras;
-    }
+    };
     
     /**
      * The camera facing away from the user. The camera has position BACK. 
@@ -98,7 +98,7 @@ module.exports = (function() {
      */
     _ezAR.getBackCamera = function() {
          return _backCamera;
-    }
+    };
     
     
     /**
@@ -107,7 +107,7 @@ module.exports = (function() {
      */
     _ezAR.hasBackCamera = function() {
          return !!_ezAR.getBackCamera();
-    }
+    };
     
     
     /**
@@ -116,7 +116,7 @@ module.exports = (function() {
      */
     _ezAR.getFrontCamera = function() {
          return _frontCamera;
-    }
+    };
     
     /**
      * Test for a camera facing towards the user. Call initialize() before using this function.
@@ -124,7 +124,7 @@ module.exports = (function() {
      */    
     _ezAR.hasFrontCamera = function() {
          return !!_ezAR.getFrontCamera();
-    }
+    };
     
     /**
      * The camera currently running or null.
@@ -133,7 +133,7 @@ module.exports = (function() {
      */
     _ezAR.getActiveCamera = function() {
         return _activeCamera;
-    }
+    };
     
     /**
      * Test for a running camera.
@@ -142,7 +142,7 @@ module.exports = (function() {
      */           
     _ezAR.hasActiveCamera = function() {
         return _ezAR.getActiveCamera() != null;
-    }
+    };
                   
     
     //PROTECTED ------------
@@ -150,13 +150,13 @@ module.exports = (function() {
     //protected, update ezar active camera
     _ezAR._activateCamera = function(camera) {
          _activeCamera = camera;  
-    }
+    };
     
            
     //protected - update ezar activate camera to undefined
     _ezAR._deactivateCamera = function() {
         _activeCamera = null;   
-    }
+    };
                   
     
     
@@ -175,7 +175,7 @@ module.exports = (function() {
     function initCamera(cameraData) {
         var id = cameraData.id;
         var position = cameraData.position;
-        var zoom = cameraData.zoom
+        var zoom = cameraData.zoom;
         var maxZoom = cameraData.maxZoom;
         var hasZoom = maxZoom > 0;
         var camera = new Camera(_ezAR,id,position,hasZoom,maxZoom,zoom);

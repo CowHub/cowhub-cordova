@@ -2898,7 +2898,7 @@
                         history.back();
                     }
                 }
-                return;
+                
             }
         
             // Simple go back when we have pages on left
@@ -2942,7 +2942,7 @@
                 if (content) {
                     parseNewPage();
                     setPages();
-                    return;
+                    
                 }
                 else if (pageName) {
                     // Get dom cached pages
@@ -2957,11 +2957,11 @@
                         }
                     }
                     setPages();
-                    return;
+                    
                 }
                 else {
                     view.allowPageChange = true;
-                    return;
+                    
                 }
             }
             else {
@@ -2973,7 +2973,7 @@
                 if (content) {
                     parseNewPage();
                     setPages();
-                    return;
+                    
                 }
                 else if (pageName && view.params.domCache) {
                     if (pageName) url = '#' + pageName;
@@ -2992,11 +2992,11 @@
                         }
                     }
                     setPages();
-                    return;
+                    
                 }
                 else {
                     view.allowPageChange = true;
-                    return;
+                    
                 }
             }
         
@@ -3085,7 +3085,7 @@
                 }
             }
             view.allowPageChange = true;
-            return;
+            
         };
         
         app.router.afterBack = function (view, oldPage, newPage) {
@@ -3910,7 +3910,7 @@
                 progressbar.remove();
                 progressbar = null;
             });
-            return;
+            
         };
         app.initPageProgressbar = function (pageContainer) {
             pageContainer = $(pageContainer);
@@ -6256,7 +6256,7 @@
                     pullStarted = false;
                     container.removeClass('pull-up pull-down');
                     refresh = false;
-                    return;
+                    
                 }
             }
             function handleTouchEnd(e) {
@@ -9924,11 +9924,11 @@
                 if (!p.opened || p.inline) return;
                 if (inPopover()) {
                     app.closeModal(p.popover);
-                    return;
+                    
                 }
                 else {
                     app.closeModal(p.container);
-                    return;
+                    
                 }
             };
         
@@ -10922,11 +10922,11 @@
                 if (!p.opened || p.inline) return;
                 if (inPopover()) {
                     app.closeModal(p.popover);
-                    return;
+                    
                 }
                 else {
                     app.closeModal(p.container);
-                    return;
+                    
                 }
             };
         
