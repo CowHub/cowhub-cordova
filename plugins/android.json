@@ -18,6 +18,12 @@
         },
         "com.mbppower.camerapreview": {
             "PACKAGE_NAME": "org.devgirl.framework7.mediaexplorer"
+        },
+        "com.ezartech.ezar.videooverlay": {
+            "PACKAGE_NAME": "org.devgirl.framework7.mediaexplorer"
+        },
+        "com.ezartech.ezar.snapshot": {
+            "PACKAGE_NAME": "org.devgirl.framework7.mediaexplorer"
         }
     },
     "dependent_plugins": {

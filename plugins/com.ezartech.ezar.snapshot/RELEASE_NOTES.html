@@ -1,0 +1,68 @@
+<h1 id="ezarsnapshotpluginreleasenotes">ezAR Snapshot Plugin Release Notes</h1>
+
+<h2 id="02620160915">0.2.6 (20160915)</h2>
+
+<ol>
+<li>iOS - added NSPhotoLibraryUsageDescription to plist, required for iOS 10</li>
+</ol>
+
+<h2 id="02520160901">0.2.5 (20160901)</h2>
+
+<ol>
+<li>Android - added support for the <a href="https://crosswalk-project.org/">Crosswalk webview</a>. </li>
+</ol>
+
+<h2 id="02420160818">0.2.4 (20160818)</h2>
+
+<ol>
+<li>Provide a custom name for the snapshot image when saved to the Android photo gallery (Android only). 
+Added name option property for snapshot(successCB,errorCB,options).</li>
+
+<li>Added new options to saveToPhotoGallery(imageBase64,successCB,errorCB,options). Options include:
+name (Android only), quality, scale, ImageEncoding)</li>
+</ol>
+
+<h2 id="02320160620">0.2.3 (20160620)</h2>
+
+<ol>
+<li>New quality [0-100] and scale [0-100] options property for snapshot(successCB,errorCB,options). </li>
+
+<li>New saveToPhotoGallery(base64ImageData) function. Use this function along with the snapshot function 
+to implement a preview-before-save UI for selfies or other images you capture in your app.</li>
+</ol>
+
+<h2 id="02220160606">0.2.2 (20160606)</h2>
+
+<ol>
+<li>Fixed distorted image on first snapshot for iOS devices. You must update the VideoOverlay plugin in your project to 0.2.4 or greater for 
+this fix to take effect.</li>
+
+<li>Added snapshot options 'includeCameraView' from the VideoOverlay plugin and  'includeWebView' to control the layers in the snapshot image.</li>
+
+<li>When 'includeCameraView' is false, the snapshot image background is set to  the videoOverlay background property</li>
+
+<li>A black image the size of the display is returned when both the cameraVieaw 
+and webView are omitted.  </li>
+</ol>
+
+<h2 id="02120160310">0.2.1 (20160310)</h2>
+
+<ol>
+<li>Added camera shutter sound for cases when the video overlay is not installed or running on iOS devices.</li>
+
+<li>Fixed iOS camera exception issue.</li>
+</ol>
+
+<h2 id="02020160302">0.2.0 (20160302)</h2>
+
+<p>Initial release of the snapshot functionality. Capture an image of the app user interface</p>
+
+<p>This plugin works with or without the Flashlight and VideoOverlay plugins.</p>
+
+<h3 id="knownissues">Known Issues</h3>
+
+<ol>
+<li>Plugin error reporting needs improvement.</li>
+
+<li>No camera shutter sound when the video overlay is not installed or running on iOS devices.</li>
+</ol>
