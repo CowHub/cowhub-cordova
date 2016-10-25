@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="org.devgirl.framework7.mediaexplorer" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>com.groupproject.cowhub</name>
+    <name>CowHub</name>
     <description>
         A Cow related application
     </description>
@@ -23,4 +23,5 @@
     <plugin name="cordova-plugin-whitelist" spec="~1.2.0" />
     <plugin name="cordova-plugin-console" spec="~1.0.1" />
     <plugin name="cordova-plugin-statusbar" spec="~1.0.1" />
+    <preference name="orientation" value="portrait" />
 </widget>

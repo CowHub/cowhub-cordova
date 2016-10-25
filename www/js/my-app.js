@@ -62,22 +62,13 @@ myApp.onPageInit('login-screen', function (page) {
   });
 });
 
-
-myApp.onPageAfterAnimation('Input', function () {
-  $$('.page-on-left').remove();
-});
-
 myApp.onPageAfterAnimation('Camera', function () {
-  $$('.page-on-left').remove();
-});
-
-myApp.onPageAfterAnimation('Menu', function () {
+  $$(".page").css("background-color", "transparent");
   $$('.page-on-left').remove();
 });
 
 myApp.onPageAfterAnimation('Camera-review', function () {
   $$('.review-image').attr('src',image.imageData);
-  $$('.page-on-left').remove();
   ezar.getBackCamera().stop();
 });
 

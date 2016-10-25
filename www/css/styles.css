@@ -31,9 +31,9 @@ body {
     background: rgba(255,255,255,0);
 }
 
-.page {
-    background-color: transparent;
-}
+/*.page {*/
+    /*background-color: transparent;*/
+/*}*/
 
 .capture {
     position:fixed;
@@ -57,4 +57,13 @@ body {
     left:0;
     right:0;
     text-align: center;
+}
+
+.review-image   {
+    position: fixed;
+    height: 70%;
+    width: 70%;
+    margin: 0 auto;
+    left:0;
+    right:0;
 }
