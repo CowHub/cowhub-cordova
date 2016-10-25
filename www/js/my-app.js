@@ -1,3 +1,6 @@
+// API SERVER ADDRESS
+var api = 'http://146.169.46.166';
+
 // Initialize app
 var myApp = new Framework7({
       // Enable Material theme
@@ -11,6 +14,16 @@ var myApp = new Framework7({
 // To use Framework7s custom DOM library, save it to $$ variable:
 var $$ = Dom7;
 
+// Global Variables
+
+// Session Token
+var session = {
+  id: null,
+  auth_token: null,
+  email: null
+};
+
+// Captured Image
 var image = {
   imageData : null
 };
@@ -53,11 +66,46 @@ myApp.onPageInit('Camera', function (page) {
 myApp.onPageInit('login-screen', function (page) {
   var pageContainer = $$(page.container);
   pageContainer.find('.list-button').on('click', function () {
-    var username = pageContainer.find('input[name="username"]').val();
+    // Capture email and password
+    var email = pageContainer.find('input[name="email"]').val();
     var password = pageContainer.find('input[name="password"]').val();
-    // Handle username and password
-    myApp.alert('Username: ' + username + ', Password: ' + password, function () {
-      mainView.router.loadPage({url: 'menu.html'});
+    myApp.showIndicator();
+    var postdata = {
+      email : email,
+      password: password
+    };
+
+    // $$.ajax({
+    //       url: api + '/health',
+    //       type: "GET",
+    //       success: function (data, textStatus, jqXHR) {
+    //         myApp.hideIndicator();
+    //         alert('success ' + data);
+    //       },
+    //       error: function (data, textStatus, jqXHR) {
+    //         myApp.hideIndicator();
+    //         alert('fail ' + data + textStatus);
+    //       }
+    //     }
+    // );
+
+    $$.ajax({
+      url: api + '/user/authenticate',
+      type: "POST",
+      data: postdata,
+      success: function(data, textStatus, jqXHR) {
+        myApp.hideIndicator();
+        var returnedData = JSON.parse(data);
+        session.auth_token = returnedData.auth_token;
+        session.email = returnedData.email;
+        session.id = returnedData.id;
+        mainView.router.loadPage({url: 'menu.html'});
+
+      },
+      error: function(data, textStatus, jqXHR) {
+        myApp.hideIndicator();
+        myApp.alert('Login was unsuccessful, please try again');
+      }
     });
   });
 });
