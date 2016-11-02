@@ -16,46 +16,54 @@
             <div class="content-block">
                 <div class="list-block">
                     <ul>
-                        <!-- Text inputs -->
+                        <!-- Country Code -->
                         <li>
                             <div class="item-content">
                                 <div class="item-media"><i class="icon icon-form-name"></i></div>
                                 <div class="item-inner">
-                                    <div class="item-title label">Name</div>
+                                    <div class="item-title label">Country Code</div>
                                     <div class="item-input">
-                                        <input type="text" placeholder="Animal ID">
+                                        <input type="text" placeholder="eg. UK">
                                     </div>
                                 </div>
                             </div>
                         </li>
 
-                        <!-- Select -->
+                        <!-- Herdmark -->
                         <li>
                             <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                                <div class="item-media"><i class="icon icon-label"></i></div>
                                 <div class="item-inner">
-                                    <div class="item-title label">Gender</div>
+                                    <div class="item-title label">Herdmark</div>
                                     <div class="item-input">
-                                        <select>
-                                            <option>Male</option>
-                                            <option>Female</option>
-                                        </select>
+                                       <input type="tel" placeholder="000000" minlength="6" maxlength="6" >
                                     </div>
                                 </div>
                             </div>
                         </li>
-                        <!-- Date -->
+                        <!-- Check_digit -->
                         <li>
                             <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-calendar"></i></div>
+                                <div class="item-media"><i class="icon icon-label"></i></div>
                                 <div class="item-inner">
-                                    <div class="item-title label">Birth date</div>
+                                    <div class="item-title label">Check Digit</div>
                                     <div class="item-input">
-                                        <input type="date" placeholder="Birth day" value="2014-04-30">
+                                        <input type="tel" min="0" max="7" maxlength="1">
                                     </div>
                                 </div>
                             </div>
                         </li>
+                        <!-- Individual_number -->
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-label"></i></div> 
+                                <div class="item-inner">
+                                    <div class="item-title label">Individual number</div>
+                                    <div class="item-input">
+                                       <input type="tel" min="0" max="7" maxlength="1">
+                                    </div>
+                                </div>
+                            </div>
                     </ul>
                 </div>
                 <br>
