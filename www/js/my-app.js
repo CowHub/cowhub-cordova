@@ -91,7 +91,7 @@ myApp.onPageInit('login-screen', function (page) {
 
     $$.ajax({
       url: api + '/user/authenticate',
-      type: "POST",
+      method: 'POST',
       data: postdata,
       success: function(data, textStatus, jqXHR) {
         myApp.hideIndicator();
@@ -105,6 +105,44 @@ myApp.onPageInit('login-screen', function (page) {
       error: function(data, textStatus, jqXHR) {
         myApp.hideIndicator();
         myApp.alert('Login was unsuccessful, please try again');
+      }
+    });
+  });
+});
+
+myApp.onPageInit('Input', function (page) {
+  var pageContainer = $$(page.container);
+  pageContainer.find('.button-raised').on('click', function () {
+    // Capture Form Data
+    var country_code = pageContainer.find('input[name="country_code"]').val();
+    var herdmark = pageContainer.find('input[name="herdmark"]').val();
+    var check_digit = pageContainer.find('input[name="check_digit"]').val();
+    var individual_number = pageContainer.find('input[name="individual_number"]').val();
+    myApp.showIndicator();
+    var postdata = {
+      country_code : country_code,
+      herdmark: herdmark,
+      check_digit: check_digit,
+      individual_number: individual_number
+    };
+    var auth_token_ = 'Bearer ' + session.auth_token;
+    $$.ajax({
+      url: api + '/cattle/new',
+      method: 'POST',
+      headers: {
+        'Authorization': auth_token_
+      },
+      data: postdata,
+      success: function(data, textStatus, jqXHR) {
+        myApp.hideIndicator();
+        myApp.alert(data.responseText + textStatus);
+        mainView.router.loadPage({url: 'camera.html'});
+
+      },
+      error: function(data, textStatus, jqXHR) {
+        myApp.hideIndicator();
+        myApp.alert(data.responseText + textStatus);
+        myApp.alert('Something went wrong');
       }
     });
   });
