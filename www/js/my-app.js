@@ -51,7 +51,7 @@ myApp.onPageInit('Camera', function (page) {
     ezar.snapshot(
         function(base64EncodedImage) {
           image.imageData = base64EncodedImage;
-          mainView.router.loadPage({url: 'reviewImage.html'});
+          mainView.router.loadPage({url: 'pages/reviewImage.html'});
         },
         function(error) {
           alert("ezar snapshot failed");
@@ -75,20 +75,6 @@ myApp.onPageInit('login-screen', function (page) {
       password: password
     };
 
-    // $$.ajax({
-    //       url: api + '/health',
-    //       type: "GET",
-    //       success: function (data, textStatus, jqXHR) {
-    //         myApp.hideIndicator();
-    //         alert('success ' + data);
-    //       },
-    //       error: function (data, textStatus, jqXHR) {
-    //         myApp.hideIndicator();
-    //         alert('fail ' + data + textStatus);
-    //       }
-    //     }
-    // );
-
     $$.ajax({
       url: api + '/user/authenticate',
       method: 'POST',
@@ -99,7 +85,7 @@ myApp.onPageInit('login-screen', function (page) {
         session.auth_token = returnedData.auth_token;
         session.email = returnedData.email;
         session.id = returnedData.id;
-        mainView.router.loadPage({url: 'menu.html'});
+        mainView.router.loadPage({url: 'pages/menu.html'});
 
       },
       error: function(data, textStatus, jqXHR) {
@@ -136,7 +122,7 @@ myApp.onPageInit('Input', function (page) {
       success: function(data, textStatus, jqXHR) {
         myApp.hideIndicator();
         myApp.alert(data.responseText + textStatus);
-        mainView.router.loadPage({url: 'camera.html'});
+        mainView.router.loadPage({url: 'pages/camera.html'});
 
       },
       error: function(data, textStatus, jqXHR) {
