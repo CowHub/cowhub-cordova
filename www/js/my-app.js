@@ -280,7 +280,7 @@ myApp.onPageAfterAnimation('Edit', function (page) {
   pageContainer.find('input[name="individual_number"]').val(individual_number);
 
   // Update data on submit
-  pageContainer.find('.button-raised').on('click', function () {
+  pageContainer.find('.update').on('click', function () {
     // Capture Form Data
     var country_code = pageContainer.find('input[name="country_code"]').val();
     var herdmark = pageContainer.find('input[name="herdmark"]').val();
@@ -315,35 +315,6 @@ myApp.onPageAfterAnimation('Edit', function (page) {
     });
   });
 
-  // myApp.showIndicator();
-  // // Get existing cow data
-  // $$.ajax({
-  //   method: 'GET',
-  //   url: api + '/cattle/' + cattle_id,
-  //   cache: false,
-  //   headers: {
-  //       'Authorization': auth_token_
-  //     },
-  //   success: function(data, textStatus, jqXHR){
-  //     myApp.hideIndicator();
-  //     var returnedData = JSON.parse(data);
-  //     var cattle = returnedData.cattle;
-  //     country_code = cattle.country_code;
-  //     herdmark = cattle.herdmark;
-  //     check_digit = cattle.check_digit;
-  //     individual_number = cattle.individual_number;
-  //     var pageContainer = $$(page.container);
-  //     // Fill in form with exising values
-  //     pageContainer.find('input[name="country_code"]').val(country_code);
-  //     pageContainer.find('input[name="herdmark"]').val(herdmark);
-  //     pageContainer.find('input[name="check_digit"]').val(check_digit);
-  //     pageContainer.find('input[name="individual_number"]').val(individual_number);
-  //     myApp.alert(country_code);
-  //   },
-  //   failure: function(data, textStatus, jqXHR){
-  //     myApp.hideIndicator();
-  //     myApp.alert('Something went wrong');
-  //   }
-  // });
+
 
 });
