@@ -67,3 +67,34 @@ body {
     left:0;
     right:0;
 }
+
+.cattle-card .card-header {
+    display: block;
+    padding: 10px;
+}
+.cattle-card .cattle-avatar {
+    float: left;
+}
+.cattle-card .cattle-name {
+    margin-left: 44px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.cattle-card .cattle-date {
+    margin-left: 44px;
+    font-size: 13px;
+    color: #8e8e93;
+}
+.cattle-card .card-footer {
+    background: #fafafa;
+}
+.cattle-card .card-footer a {
+    color: #81848b;
+    font-weight: 500;
+}
+.cattle-card .card-content img {
+    display: block;
+}
+.cattle-card .card-content-inner {
+    padding: 15px 10px;
+}  

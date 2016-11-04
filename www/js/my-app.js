@@ -179,3 +179,66 @@ myApp.onPageAfterAnimation('Camera-review', function () {
   ezar.getBackCamera().stop();
 });
 
+myApp.onPageAfterAnimation('Cattle-view', function () {
+  var auth_token_ = 'Bearer ' + session.auth_token;
+  myApp.showIndicator();
+  $$.ajax({
+    method: 'GET',
+    url: api + '/cattle',
+    headers: {
+        'Authorization': auth_token_
+      },
+    success: function(data, textStatus, jqXHR){
+      myApp.hideIndicator();
+      var returnedData = JSON.parse(data);
+      var cattle = returnedData.cattle;
+      $$.each(cattle, function(i, field){
+        var images = null;
+        $$.ajax({
+              method: 'GET',
+              url: api + '/cattle/'+field.id+'/images',
+              headers: {
+                'Authorization': auth_token_
+              },
+              async: false,
+              success: function (data, textStatus, jqXHR) {
+                var returnedData = JSON.parse(data);
+                images = returnedData.images;
+              }
+        });
+        var imageHtml = "";
+        images.forEach(function(image) {
+          alert(image.id);
+          imageHtml = imageHtml + '<p>' +
+              '<img src="' + image.image_uri + '" width="100%"/>' +
+              '</p>';
+        });
+
+
+        $$(".cattle").append('<div class="card cattle-card">'+
+        '<div class="card-header">'+
+            '<div class="cattle-name">Cow id '+field.id +'</div>' +
+        '</div>' +
+        '<div class="card-content">' +
+            '<div class="card-content-inner">' +
+            '<p>Country code:' + field.country_code +'</p>' +
+        '<p>Herdmark: ' + field.herdmark+'</p>' +
+        '<p>Check digit: '+ field.check_digit +'</p>' +
+        '<p>Individual number: ' + field.individual_number +'</p>' +
+        imageHtml +
+        '</div>' +
+        '</div>' +
+        '<div class="card-footer">' +
+            '<a href="#" class="link">Edit</a>' +
+            '<a href="#" class="link">Delete</a>' +
+            '</div>' +
+            '</div>');
+      });
+    },
+    error: function (data, textStatus, jqXHR) {
+      myApp.hideIndicator();
+      alert('Something went wrong');
+    }
+  });
+});
+
