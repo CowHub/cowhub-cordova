@@ -24,8 +24,9 @@ var session = {
 };
 
 // Captured Image
-var image = {
-  imageData : null
+var img = {
+  imageData : null,
+  cowId : null
 };
 
 // Add view
@@ -50,7 +51,7 @@ myApp.onPageInit('Camera', function (page) {
   pageContainer.find('.button').on('click', function () {
     ezar.snapshot(
         function(base64EncodedImage) {
-          image.imageData = base64EncodedImage;
+          img.imageData = base64EncodedImage;
           mainView.router.loadPage({url: 'pages/reviewImage.html'});
         },
         function(error) {
@@ -104,6 +105,7 @@ myApp.onPageInit('Input', function (page) {
     var herdmark = pageContainer.find('input[name="herdmark"]').val();
     var check_digit = pageContainer.find('input[name="check_digit"]').val();
     var individual_number = pageContainer.find('input[name="individual_number"]').val();
+    // Set current cowId for image upload
     myApp.showIndicator();
     var postdata = {
       country_code : country_code,
@@ -121,8 +123,41 @@ myApp.onPageInit('Input', function (page) {
       data: postdata,
       success: function(data, textStatus, jqXHR) {
         myApp.hideIndicator();
-        myApp.alert(data.responseText + textStatus);
+        var returnedData = JSON.parse(data);
+        var cattle = returnedData.cattle;
+        // Set Cowid for image upload
+        img.cowId=cattle.id;
         mainView.router.loadPage({url: 'pages/camera.html'});
+
+      },
+      error: function(data, textStatus, jqXHR) {
+        myApp.hideIndicator();
+        myApp.alert(data.responseText + textStatus);
+      }
+    });
+  });
+});
+
+myApp.onPageInit('Camera-review', function (page) {
+  var pageContainer = $$(page.container);
+  pageContainer.find('.button-raised').on('click', function () {
+    myApp.showIndicator();
+    var auth_token_ = 'Bearer ' + session.auth_token;
+    var post_data = {
+      data: img.imageData
+    };
+    $$.ajax({
+      url: api + '/cattle/'+img.cowId+'/images/',
+      method: 'POST',
+      headers: {
+        'Authorization': auth_token_
+      },
+      data: post_data,
+      success: function(data, textStatus, jqXHR) {
+        myApp.hideIndicator();
+        myApp.alert(data.responseText + textStatus);
+
+        mainView.router.loadPage({url: 'pages/menu.html'});
 
       },
       error: function(data, textStatus, jqXHR) {
@@ -140,7 +175,7 @@ myApp.onPageAfterAnimation('Camera', function () {
 });
 
 myApp.onPageAfterAnimation('Camera-review', function () {
-  $$('.review-image').attr('src',image.imageData);
+  $$('.review-image').attr('src', img.imageData);
   ezar.getBackCamera().stop();
 });
 
