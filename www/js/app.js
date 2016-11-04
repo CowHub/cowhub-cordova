@@ -2,7 +2,7 @@
 var api = 'http://146.169.46.166';
 
 // Initialize app
-var myApp = new Framework7({
+var cowHub = new Framework7({
       // Enable Material theme
       material: true,
       animatePages: false,
@@ -30,7 +30,7 @@ var img = {
 };
 
 // Add view
-var mainView = myApp.addView('.view-main');
+var mainView = cowHub.addView('.view-main');
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function () {
@@ -38,7 +38,7 @@ $$(document).on('deviceready', function () {
 });
 
 
-myApp.onPageInit('Camera', function (page) {
+cowHub.onPageInit('Camera', function (page) {
   ezar.initializeVideoOverlay(
       function () {
         ezar.getBackCamera().start();
@@ -64,13 +64,13 @@ myApp.onPageInit('Camera', function (page) {
   });
 });
 
-myApp.onPageInit('login-screen', function (page) {
+cowHub.onPageInit('login-screen', function (page) {
   var pageContainer = $$(page.container);
   pageContainer.find('.list-button').on('click', function () {
     // Capture email and password
     var email = pageContainer.find('input[name="email"]').val();
     var password = pageContainer.find('input[name="password"]').val();
-    myApp.showIndicator();
+    cowHub.showIndicator();
     var postdata = {
       email : email,
       password: password
@@ -81,7 +81,7 @@ myApp.onPageInit('login-screen', function (page) {
       method: 'POST',
       data: postdata,
       success: function(data, textStatus, jqXHR) {
-        myApp.hideIndicator();
+        cowHub.hideIndicator();
         var returnedData = JSON.parse(data);
         session.auth_token = returnedData.auth_token;
         session.email = returnedData.email;
@@ -90,14 +90,14 @@ myApp.onPageInit('login-screen', function (page) {
 
       },
       error: function(data, textStatus, jqXHR) {
-        myApp.hideIndicator();
-        myApp.alert('Login was unsuccessful, please try again');
+        cowHub.hideIndicator();
+        cowHub.alert('Login was unsuccessful, please try again');
       }
     });
   });
 });
 
-myApp.onPageInit('Input', function (page) {
+cowHub.onPageInit('Input', function (page) {
   var pageContainer = $$(page.container);
   pageContainer.find('.button-raised').on('click', function () {
     // Capture Form Data
@@ -106,7 +106,7 @@ myApp.onPageInit('Input', function (page) {
     var check_digit = pageContainer.find('input[name="check_digit"]').val();
     var individual_number = pageContainer.find('input[name="individual_number"]').val();
     // Set current cowId for image upload
-    myApp.showIndicator();
+    cowHub.showIndicator();
     var postdata = {
       country_code : country_code,
       herdmark: herdmark,
@@ -122,7 +122,7 @@ myApp.onPageInit('Input', function (page) {
       },
       data: postdata,
       success: function(data, textStatus, jqXHR) {
-        myApp.hideIndicator();
+        cowHub.hideIndicator();
         var returnedData = JSON.parse(data);
         var cattle = returnedData.cattle;
         // Set Cowid for image upload
@@ -131,17 +131,17 @@ myApp.onPageInit('Input', function (page) {
 
       },
       error: function(data, textStatus, jqXHR) {
-        myApp.hideIndicator();
-        myApp.alert(data.responseText + textStatus);
+        cowHub.hideIndicator();
+        cowHub.alert(data.responseText + textStatus);
       }
     });
   });
 });
 
-myApp.onPageInit('Camera-review', function (page) {
+cowHub.onPageInit('Camera-review', function (page) {
   var pageContainer = $$(page.container);
   pageContainer.find('.button-raised').on('click', function () {
-    myApp.showIndicator();
+    cowHub.showIndicator();
     var auth_token_ = 'Bearer ' + session.auth_token;
     var post_data = {
       data: img.imageData
@@ -154,32 +154,32 @@ myApp.onPageInit('Camera-review', function (page) {
       },
       data: post_data,
       success: function(data, textStatus, jqXHR) {
-        myApp.hideIndicator();
+        cowHub.hideIndicator();
         mainView.router.loadPage({url: 'pages/menu.html'});
 
       },
       error: function(data, textStatus, jqXHR) {
-        myApp.hideIndicator();
-        myApp.alert(data.responseText + textStatus);
-        myApp.alert('Something went wrong');
+        cowHub.hideIndicator();
+        cowHub.alert(data.responseText + textStatus);
+        cowHub.alert('Something went wrong');
       }
     });
   });
 });
 
-myApp.onPageAfterAnimation('Camera', function () {
+cowHub.onPageAfterAnimation('Camera', function () {
   $$(".page").css("background-color", "transparent");
   $$('.page-on-left').remove();
 });
 
-myApp.onPageAfterAnimation('Camera-review', function () {
+cowHub.onPageAfterAnimation('Camera-review', function () {
   $$('.review-image').attr('src', img.imageData);
   ezar.getBackCamera().stop();
 });
 
-myApp.onPageAfterAnimation('Cattle-view', function () {
+cowHub.onPageAfterAnimation('Cattle-view', function () {
   var auth_token_ = 'Bearer ' + session.auth_token;
-  myApp.showIndicator();
+  cowHub.showIndicator();
   $$.ajax({
     method: 'GET',
     url: api + '/cattle',
@@ -188,7 +188,7 @@ myApp.onPageAfterAnimation('Cattle-view', function () {
         'Authorization': auth_token_
       },
     success: function(data, textStatus, jqXHR){
-      myApp.hideIndicator();
+      cowHub.hideIndicator();
       var returnedData = JSON.parse(data);
       var cattle = returnedData.cattle;
       $$.each(cattle, function(i, field){
@@ -239,13 +239,13 @@ myApp.onPageAfterAnimation('Cattle-view', function () {
       });
     },
     error: function (data, textStatus, jqXHR) {
-      myApp.hideIndicator();
+      cowHub.hideIndicator();
       alert('Something went wrong');
     }
   });
   $$(".cattle").on('click', '.delete-cattle', function () {
     cattle_id = $$(this).attr('id');
-    myApp.showIndicator();
+    cowHub.showIndicator();
     var auth_token_ = 'Bearer ' + session.auth_token;
     $$.ajax({
       url: api + '/cattle/'+cattle_id,
@@ -254,19 +254,19 @@ myApp.onPageAfterAnimation('Cattle-view', function () {
         'Authorization': auth_token_
       },
       success: function(data, textStatus, jqXHR) {
-        myApp.hideIndicator();
+        cowHub.hideIndicator();
         mainView.router.loadPage({url: 'pages/menu.html'});
       },
       error: function(data, textStatus, jqXHR) {
-        myApp.hideIndicator();
-        myApp.alert(data.responseText + textStatus);
-        myApp.alert('Something went wrong');
+        cowHub.hideIndicator();
+        cowHub.alert(data.responseText + textStatus);
+        cowHub.alert('Something went wrong');
       }
     });
   });
 });
 
-myApp.onPageAfterAnimation('Edit', function (page) {
+cowHub.onPageAfterAnimation('Edit', function (page) {
   var cattle_id= page.query.id;
   var country_code = page.query.country_code;
   var herdmark = page.query.herdmark;
@@ -287,7 +287,7 @@ myApp.onPageAfterAnimation('Edit', function (page) {
     var check_digit = pageContainer.find('input[name="check_digit"]').val();
     var individual_number = pageContainer.find('input[name="individual_number"]').val();
     // Set current cowId for image upload
-    myApp.showIndicator();
+    cowHub.showIndicator();
     var postdata = {
       country_code : country_code,
       herdmark: herdmark,
@@ -303,14 +303,14 @@ myApp.onPageAfterAnimation('Edit', function (page) {
       },
       data: postdata,
       success: function(data, textStatus, jqXHR) {
-        myApp.hideIndicator();
+        cowHub.hideIndicator();
 
         mainView.router.loadPage({url: 'pages/menu.html'});
 
       },
       error: function(data, textStatus, jqXHR) {
-        myApp.hideIndicator();
-        myApp.alert(data.responseText + textStatus);
+        cowHub.hideIndicator();
+        cowHub.alert(data.responseText + textStatus);
       }
     });
   });
