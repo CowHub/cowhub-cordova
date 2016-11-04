@@ -7,7 +7,10 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-whitelist": {
+        "com.ezartech.ezar.snapshot": {
+            "PACKAGE_NAME": "org.devgirl.framework7.mediaexplorer"
+        },
+        "com.ezartech.ezar.videooverlay": {
             "PACKAGE_NAME": "org.devgirl.framework7.mediaexplorer"
         },
         "cordova-plugin-console": {
@@ -16,13 +19,9 @@
         "cordova-plugin-statusbar": {
             "PACKAGE_NAME": "org.devgirl.framework7.mediaexplorer"
         },
-        "com.mbppower.camerapreview": {
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "org.devgirl.framework7.mediaexplorer"
         }
     },
-    "dependent_plugins": {
-        "com.mbppower.camerapreview": {
-            "PACKAGE_NAME": "com.mbppower.CordovaCameraPreviewApp"
-        }
-    }
+    "dependent_plugins": {}
 }
