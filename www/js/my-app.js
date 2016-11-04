@@ -183,6 +183,7 @@ myApp.onPageAfterAnimation('Cattle-view', function () {
   $$.ajax({
     method: 'GET',
     url: api + '/cattle',
+    cache: false,
     headers: {
         'Authorization': auth_token_
       },
@@ -206,7 +207,6 @@ myApp.onPageAfterAnimation('Cattle-view', function () {
         });
         var imageHtml = "";
         images.forEach(function(image) {
-          alert(image.id);
           imageHtml = imageHtml + '<p>' +
               '<img src="' + image.image_uri + '" width="100%"/>' +
               '</p>';
@@ -227,8 +227,9 @@ myApp.onPageAfterAnimation('Cattle-view', function () {
         '</div>' +
         '</div>' +
         '<div class="card-footer">' +
-            '<a href="#" class="link edit" id="' + field.id +'">Edit</a>' +
-            '<a href="#" class="link delete" id="' + field.id +'">Delete</a>' +
+            '<a href="#" class="link edit" "id="' + field.id +'">Edit</a>' +
+            '<a href="#" class="link delete-cattle" id="' + field.id
+            +'">Delete</a>' +
             '</div>' +
             '</div>');
       });
@@ -238,20 +239,19 @@ myApp.onPageAfterAnimation('Cattle-view', function () {
       alert('Something went wrong');
     }
   });
-  pageContainer.find('.delete').on('click', function () {
-    
+  $$(".cattle").on('click', '.delete-cattle', function () {
+    cattle_id = $$(this).attr('id');
     myApp.showIndicator();
     var auth_token_ = 'Bearer ' + session.auth_token;
     $$.ajax({
-      url: api + '/cattle/'+img.cowId,
+      url: api + '/cattle/'+cattle_id,
       method: 'DELETE',
       headers: {
         'Authorization': auth_token_
       },
       success: function(data, textStatus, jqXHR) {
         myApp.hideIndicator();
-        mainView.router.loadPage({url: 'pages/viewCattle.html'});
-
+        mainView.router.loadPage({url: 'pages/menu.html'});
       },
       error: function(data, textStatus, jqXHR) {
         myApp.hideIndicator();
@@ -260,6 +260,4 @@ myApp.onPageAfterAnimation('Cattle-view', function () {
       }
     });
   });
-
 });
-
