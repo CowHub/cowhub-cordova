@@ -155,8 +155,6 @@ myApp.onPageInit('Camera-review', function (page) {
       data: post_data,
       success: function(data, textStatus, jqXHR) {
         myApp.hideIndicator();
-        myApp.alert(data.responseText + textStatus);
-
         mainView.router.loadPage({url: 'pages/menu.html'});
 
       },
@@ -229,8 +227,8 @@ myApp.onPageAfterAnimation('Cattle-view', function () {
         '</div>' +
         '</div>' +
         '<div class="card-footer">' +
-            '<a href="#" class="link">Edit</a>' +
-            '<a href="#" class="link">Delete</a>' +
+            '<a href="#" class="link edit" id="' + field.id +'">Edit</a>' +
+            '<a href="#" class="link delete" id="' + field.id +'">Delete</a>' +
             '</div>' +
             '</div>');
       });
@@ -240,5 +238,28 @@ myApp.onPageAfterAnimation('Cattle-view', function () {
       alert('Something went wrong');
     }
   });
+  pageContainer.find('.delete').on('click', function () {
+    
+    myApp.showIndicator();
+    var auth_token_ = 'Bearer ' + session.auth_token;
+    $$.ajax({
+      url: api + '/cattle/'+img.cowId,
+      method: 'DELETE',
+      headers: {
+        'Authorization': auth_token_
+      },
+      success: function(data, textStatus, jqXHR) {
+        myApp.hideIndicator();
+        mainView.router.loadPage({url: 'pages/viewCattle.html'});
+
+      },
+      error: function(data, textStatus, jqXHR) {
+        myApp.hideIndicator();
+        myApp.alert(data.responseText + textStatus);
+        myApp.alert('Something went wrong');
+      }
+    });
+  });
+
 });
 
