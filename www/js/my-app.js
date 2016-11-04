@@ -227,7 +227,11 @@ myApp.onPageAfterAnimation('Cattle-view', function () {
         '</div>' +
         '</div>' +
         '<div class="card-footer">' +
-            '<a href="#" class="link edit" "id="' + field.id +'">Edit</a>' +
+            '<a href="pages/editForm.html?id='+ field.id + '&country_code='+
+            field.country_code + '&herdmark='+ field.herdmark +
+            '&check_digit='+ field.check_digit +'&individual_number='+
+            field.individual_number +
+            '" class="link edit">Edit</a>' +
             '<a href="#" class="link delete-cattle" id="' + field.id
             +'">Delete</a>' +
             '</div>' +
@@ -260,4 +264,86 @@ myApp.onPageAfterAnimation('Cattle-view', function () {
       }
     });
   });
+});
+
+myApp.onPageAfterAnimation('Edit', function (page) {
+  var cattle_id= page.query.id;
+  var country_code = page.query.country_code;
+  var herdmark = page.query.herdmark;
+  var check_digit = page.query.check_digit;
+  var individual_number = page.query.individual_number;
+  var pageContainer = $$(page.container);
+      // Fill in form with exising values
+  pageContainer.find('input[name="country_code"]').val(country_code);
+  pageContainer.find('input[name="herdmark"]').val(herdmark);
+  pageContainer.find('input[name="check_digit"]').val(check_digit);
+  pageContainer.find('input[name="individual_number"]').val(individual_number);
+
+  // Update data on submit
+  pageContainer.find('.button-raised').on('click', function () {
+    // Capture Form Data
+    var country_code = pageContainer.find('input[name="country_code"]').val();
+    var herdmark = pageContainer.find('input[name="herdmark"]').val();
+    var check_digit = pageContainer.find('input[name="check_digit"]').val();
+    var individual_number = pageContainer.find('input[name="individual_number"]').val();
+    // Set current cowId for image upload
+    myApp.showIndicator();
+    var postdata = {
+      country_code : country_code,
+      herdmark: herdmark,
+      check_digit: check_digit,
+      individual_number: individual_number
+    };
+    var auth_token_ = 'Bearer ' + session.auth_token;
+    $$.ajax({
+      url: api + '/cattle/' + cattle_id,
+      method: 'PUT',
+      headers: {
+        'Authorization': auth_token_
+      },
+      data: postdata,
+      success: function(data, textStatus, jqXHR) {
+        myApp.hideIndicator();
+
+        mainView.router.loadPage({url: 'pages/menu.html'});
+
+      },
+      error: function(data, textStatus, jqXHR) {
+        myApp.hideIndicator();
+        myApp.alert(data.responseText + textStatus);
+      }
+    });
+  });
+
+  // myApp.showIndicator();
+  // // Get existing cow data
+  // $$.ajax({
+  //   method: 'GET',
+  //   url: api + '/cattle/' + cattle_id,
+  //   cache: false,
+  //   headers: {
+  //       'Authorization': auth_token_
+  //     },
+  //   success: function(data, textStatus, jqXHR){
+  //     myApp.hideIndicator();
+  //     var returnedData = JSON.parse(data);
+  //     var cattle = returnedData.cattle;
+  //     country_code = cattle.country_code;
+  //     herdmark = cattle.herdmark;
+  //     check_digit = cattle.check_digit;
+  //     individual_number = cattle.individual_number;
+  //     var pageContainer = $$(page.container);
+  //     // Fill in form with exising values
+  //     pageContainer.find('input[name="country_code"]').val(country_code);
+  //     pageContainer.find('input[name="herdmark"]').val(herdmark);
+  //     pageContainer.find('input[name="check_digit"]').val(check_digit);
+  //     pageContainer.find('input[name="individual_number"]').val(individual_number);
+  //     myApp.alert(country_code);
+  //   },
+  //   failure: function(data, textStatus, jqXHR){
+  //     myApp.hideIndicator();
+  //     myApp.alert('Something went wrong');
+  //   }
+  // });
+
 });
