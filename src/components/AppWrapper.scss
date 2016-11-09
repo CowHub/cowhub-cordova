@@ -1,0 +1,14 @@
+@import "../style/colours.scss";
+
+.content-wrapper {
+  margin-top: 20px;
+}
+
+.navbar-link {
+  color: $text-colour-default !important;
+}
+
+.navbar-btn {
+  background: inherit;
+  border: none;
+}

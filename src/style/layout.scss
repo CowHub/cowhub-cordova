@@ -1,0 +1,42 @@
+@import "./colours.scss";
+@import "./fonts.scss";
+
+// Font defaults
+a,
+body,
+button,
+input {
+  font: $font-size-default $font-family-default;
+  font-family: $font-family-default;
+  font-size: $font-size-default;
+}
+
+// Colour defaults
+body,
+button {
+  background-color: $background-colour;
+  color: $text-colour-default;
+}
+
+body {
+  margin: 0;
+  min-height: calc(100vh);
+  padding-top: 60px;
+  width: calc(100vw);
+}
+
+button {
+  border: 1px solid black;
+  cursor: pointer;
+  margin: auto;
+  outline: none;
+}
+
+.btn,
+.btn:active,
+.btn:focus,
+.btn:hover,
+.btn:visited {
+  box-shadow: none !important;
+  outline: none !important;
+}
