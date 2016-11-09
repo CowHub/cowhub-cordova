@@ -8,19 +8,21 @@
     },
     "installed_plugins": {
         "com.ezartech.ezar.snapshot": {
-            "PACKAGE_NAME": "org.devgirl.framework7.mediaexplorer"
+            "PHOTOLIBRARY_USAGE_DESCRIPTION": " ",
+            "PACKAGE_NAME": "com.cowhub.cowhub"
         },
         "com.ezartech.ezar.videooverlay": {
-            "PACKAGE_NAME": "org.devgirl.framework7.mediaexplorer"
+            "CAMERA_USAGE_DESCRIPTION": " ",
+            "PACKAGE_NAME": "com.cowhub.cowhub"
         },
         "cordova-plugin-console": {
-            "PACKAGE_NAME": "org.devgirl.framework7.mediaexplorer"
+            "PACKAGE_NAME": "com.cowhub.cowhub"
         },
         "cordova-plugin-statusbar": {
-            "PACKAGE_NAME": "org.devgirl.framework7.mediaexplorer"
+            "PACKAGE_NAME": "com.cowhub.cowhub"
         },
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "org.devgirl.framework7.mediaexplorer"
+            "PACKAGE_NAME": "com.cowhub.cowhub"
         }
     },
     "dependent_plugins": {}
