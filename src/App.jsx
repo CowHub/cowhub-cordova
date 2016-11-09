@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
 
 import {

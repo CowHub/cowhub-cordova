@@ -1,15 +1,30 @@
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+// Redux store
+import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import createLogger from 'redux-logger';
+import logger from 'redux-logger';
 
-const logger = createLogger();
+import reducers from '../reducers/index';
+import {
+  fetchToken
+} from '../actions/index';
 
-const store = createStore(weatherApp,
-  window.devToolsExtension ? window.devToolsExtension() : f => f,
-  process.env.NODE_ENV === 'production'
-    ? applyMiddleware(thunk)
-    : applyMiddleware(thunk, logger)
-);
+const initialState = {};
+
+let middleware = (process.env.NODE_ENV !== 'production')
+    ? applyMiddleware(thunk, logger())
+    : applyMiddleware(thunk);
+
+const store = createStore(reducers, initialState, middleware);
+
+// Get token if one exists
+store.dispatch(fetchToken());
+
+if (module.hot) {
+  // Enable Webpack hot module replacement for reducers
+  module.hot.accept('../reducers', () => {
+    const nextReducers = require('../reducers/index');
+    store.replaceReducer(nextReducers);
+  });
+}
 
 export default store;
