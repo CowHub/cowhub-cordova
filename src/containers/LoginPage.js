@@ -67,12 +67,11 @@ class LoginPage extends React.Component {
                 {this.error()}
               </Row>
               <Row style={{'height': '5%'}}>
-                <Input ref="email" placeholder="Email" type="text" modifier="underbar" float/>
-
+                <Input ref="email" placeholder="Email" type="text" modifier="underbar" style={{width:'100%'}}/>
               </Row>
               <Row style={{'height': '5%'}}></Row>
               <Row style={{'height': '5%'}}>
-                <Input ref="password" placeholder="Password" type="password" modifier="underbar"/>
+                <Input ref="password" placeholder="Password" type="password" modifier="underbar" style={{width:'100%'}}/>
               </Row>
               <Row style={{'height': '20%'}}></Row>
               <Row style={{'height': '5%'}}>

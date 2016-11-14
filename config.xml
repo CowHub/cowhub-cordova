@@ -40,4 +40,5 @@
     </platform>
     <plugin name="cordova-plugin-whitelist" version="1" />
     <plugin name="cordova-plugin-statusbar" spec="~2.1.0" />
+    <preference name="orientation" value="portrait" />
 </widget>
