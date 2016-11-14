@@ -21,8 +21,8 @@ const composeEnhancer = (process.env.NODE_ENV !== 'production')
 
 const store = createStore(reducers, initialState, composeEnhancer(middleware));
 
-// // Get token if one exists
-// store.dispatch(fetchToken());
+// Get token if one exists
+store.dispatch(fetchToken());
 
 if (module.hot) {
   // Enable Webpack hot module replacement for reducers

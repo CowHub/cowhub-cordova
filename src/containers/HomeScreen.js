@@ -11,7 +11,7 @@ import {
     Col
 } from 'react-onsenui';
 
-import TopBar from './TopBar'
+import TopBar from '../components/TopBar'
 
 const HomeScreen = ({navigator}) => (
     <Page renderToolbar={() => <TopBar title='Home' navigator={navigator} />}>
