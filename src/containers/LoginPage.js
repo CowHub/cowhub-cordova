@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {connect} from 'react-redux';
 import {
     Page,
     Button,
@@ -13,32 +13,55 @@ import {
 
 import TopBar from '../components/TopBar'
 
-const LoginPage = ({navigator}) => (
-    <Page renderToolbar={() => <TopBar title='Login' navigator={navigator} />}>
-      <div style={styles.page_content}>
-        <Row style={{'height': '40%'}}>
-          <div className='center'>
-            <img src='img/logo.jpg' style={styles.logo_img}/>
-          </div>
-        </Row>
-        <Row style={{'height': '60%'}}>
-          <Row style={{'height': '30%'}}></Row>
-          <Row style={{'height': '5%'}}>
-            <Input placeholder="Email" type="text" modifier="underbar" float/>
+const mapStateToProps = (state) => {
+  return {
+    ...state.authentication
+  };
+};
 
-          </Row>
-          <Row style={{'height': '5%'}}></Row>
-          <Row style={{'height': '5%'}}>
-            <Input placeholder="Password" type="password" modifier="underbar"/>
-          </Row>
-          <Row style={{'height': '20%'}}></Row>
-          <Row style={{'height': '5%'}}>
-            <Button id='signIn' className='signIn' modifier="large">Sign In</Button>
-          </Row>
-        </Row>
-      </div>
-    </Page>
-);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleLogin: (p) => {
+      dispatch(loginUser(p))
+    },
+  };
+};
+
+
+class LoginPage extends React.Component {
+
+  render() {
+    return (
+        <Page renderToolbar={() => <TopBar title='Login' navigator={navigator} />}>
+          <div style={styles.page_content}>
+            <Row style={{'height': '40%'}}>
+              <div className='center'>
+                <img src='img/logo.jpg' style={styles.logo_img}/>
+              </div>
+            </Row>
+            <Row style={{'height': '60%'}}>
+              <Row style={{'height': '30%'}}></Row>
+              <Row style={{'height': '5%'}}>
+                <Input ref="email" placeholder="Email" type="text" modifier="underbar" float/>
+
+              </Row>
+              <Row style={{'height': '5%'}}></Row>
+              <Row style={{'height': '5%'}}>
+                <Input ref="password" placeholder="Password" type="password" modifier="underbar"/>
+              </Row>
+              <Row style={{'height': '20%'}}></Row>
+              <Row style={{'height': '5%'}}>
+                <Button id='signIn' onClick={() => {
+                handleLogin();
+              }} className='signIn' modifier="large">Sign In</Button>
+              </Row>
+            </Row>
+          </div>
+        </Page>
+    )
+  }
+}
+;
 
 const styles = {
   logo_img: {
@@ -54,4 +77,5 @@ const styles = {
   }
 };
 
-export default LoginPage;
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
