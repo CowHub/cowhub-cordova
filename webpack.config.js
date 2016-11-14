@@ -18,17 +18,35 @@ const common = {
   },
   module: {
     loaders: [
-      {
-        test: /\.css$/,
-        loaders: ['style', 'css?url=false'],
-        include: PATHS.src,
-      },
-      {
-        test: /\.jsx?$/,
-        loader: 'babel?cacheDirectory',
-        include: PATHS.src,
-      }
-    ]
+  {
+    test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+    loader: 'url-loader?limit=10000&minetype=application/font-woff'
+  },
+  { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+    loader: 'file-loader'
+  },
+  {
+    test: /\.json$/,
+    loader: 'json'
+  },
+  {
+    test: /\.(css|scss)$/,
+    loader: 'style!css!'
+  },
+  {
+    test: /\.styl$/,
+    loader: 'style!css!stylus?paths=node_modules'
+  },
+  {
+    test: /\.js$/,
+    loader: 'babel',
+    query: {
+      'presets': ['es2015', 'stage-2', 'react'],
+      'plugins': ['react-hot-loader/babel']
+    },
+    exclude: path.join(__dirname, 'node_modules')
+  }
+]
   }
 };
 
