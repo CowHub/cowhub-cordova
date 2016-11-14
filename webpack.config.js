@@ -18,36 +18,44 @@ const common = {
   },
   module: {
     loaders: [
-  {
-    test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-    loader: 'url-loader?limit=10000&minetype=application/font-woff'
+      {
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url-loader?limit=10000&minetype=application/font-woff'
+      },
+      {
+        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'file-loader'
+      },
+      {
+        test: /\.json$/,
+        loader: 'json'
+      },
+      {
+        test: /\.(css|scss)$/,
+        loader: 'style!css!'
+      },
+      {
+        test: /\.styl$/,
+        loader: 'style!css!stylus?paths=node_modules'
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel',
+        query: {
+          'presets': ['es2015', 'stage-2', 'react'],
+          'plugins': ['react-hot-loader/babel']
+        },
+        exclude: path.join(__dirname, 'node_modules')
+      }
+    ]
   },
-  { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-    loader: 'file-loader'
-  },
-  {
-    test: /\.json$/,
-    loader: 'json'
-  },
-  {
-    test: /\.(css|scss)$/,
-    loader: 'style!css!'
-  },
-  {
-    test: /\.styl$/,
-    loader: 'style!css!stylus?paths=node_modules'
-  },
-  {
-    test: /\.js$/,
-    loader: 'babel',
-    query: {
-      'presets': ['es2015', 'stage-2', 'react'],
-      'plugins': ['react-hot-loader/babel']
-    },
-    exclude: path.join(__dirname, 'node_modules')
-  }
-]
-  }
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        'API_ENDPOINT': JSON.stringify('//cloud-vm-46-166.doc.ic.ac.uk')
+      }
+    }),
+  ]
 };
 
 if (ENV === 'development') {

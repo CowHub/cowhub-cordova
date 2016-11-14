@@ -11,7 +11,8 @@ import {
     Col
 } from 'react-onsenui';
 
-import TopBar from '../components/TopBar'
+import TopBar from '../components/TopBar';
+import { loginUser } from '../actions/index';
 
 const mapStateToProps = (state) => {
   return {
@@ -30,17 +31,41 @@ const mapDispatchToProps = (dispatch) => {
 
 class LoginPage extends React.Component {
 
+  static propTypes = {
+    token: React.PropTypes.string,
+    handleLogin: React.PropTypes.func,
+  };
+
+  handleSubmit() {
+    this.props.handleLogin({
+      email: this.refs.email.value,
+      password: this.refs.password.value
+    });
+  }
+
+  error() {
+    return this.props.error?
+        <div>
+          <h2> Error :( </h2>
+          <p> {this.props.error.responseText}</p>
+        </div>
+        :
+        null;
+  }
+
   render() {
     return (
         <Page renderToolbar={() => <TopBar title='Login' navigator={navigator} />}>
           <div style={styles.page_content}>
-            <Row style={{'height': '40%'}}>
+            <Row style={{'height': '20%'}}>
               <div className='center'>
                 <img src='img/logo.jpg' style={styles.logo_img}/>
               </div>
             </Row>
-            <Row style={{'height': '60%'}}>
-              <Row style={{'height': '30%'}}></Row>
+            <Row style={{'height': '80%'}}>
+              <Row style={{'height': '30%'}}>
+                {this.error()}
+              </Row>
               <Row style={{'height': '5%'}}>
                 <Input ref="email" placeholder="Email" type="text" modifier="underbar" float/>
 
@@ -52,7 +77,7 @@ class LoginPage extends React.Component {
               <Row style={{'height': '20%'}}></Row>
               <Row style={{'height': '5%'}}>
                 <Button id='signIn' onClick={() => {
-                handleLogin();
+                this.handleSubmit();
               }} className='signIn' modifier="large">Sign In</Button>
               </Row>
             </Row>
