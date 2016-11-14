@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import { notification } from 'onsenui';
 import {
     Page,
     Button,
@@ -12,18 +13,30 @@ import {
 } from 'react-onsenui';
 
 import TopBar from '../components/TopBar';
-import { loginUser } from '../actions/index';
+import {
+    loginUser,
+    enterEmail,
+    enterPassword,
+    submitPressed
+} from '../actions/index';
 
 const mapStateToProps = (state) => {
   return {
-    ...state.authentication
+    ...state
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleLogin: (p) => {
-      dispatch(loginUser(p))
+    handleEmail: (email) => {
+      dispatch(enterEmail(email));
+    },
+    handlePassword: (password) => {
+      dispatch(enterPassword(password))
+    },
+    handleLogin: (params) => {
+      dispatch(loginUser(params));
+      dispatch(submitPressed());
     },
   };
 };
@@ -33,27 +46,29 @@ class LoginPage extends React.Component {
 
   static propTypes = {
     token: React.PropTypes.string,
-    handleLogin: React.PropTypes.func,
+    email: React.PropTypes.string,
+    password: React.PropTypes.string
   };
 
-  handleSubmit() {
+  submit() {
     this.props.handleLogin({
-      email: this.refs.email.value,
-      password: this.refs.password.value
-    });
+      email: this.props.login.email,
+      password: this.props.login.password
+    })
   }
 
+
   error() {
-    return this.props.error?
+    return this.props.authentication.error?
         <div>
           <h2> Error :( </h2>
-          <p> {this.props.error.responseText}</p>
+          <p> {this.props.authentication.error.responseJSON.errors[0]}</p>
         </div>
         :
         null;
   }
 
-  render() {
+  renderPage()  {
     return (
         <Page renderToolbar={() => <TopBar title='Login' navigator={navigator} />}>
           <div style={styles.page_content}>
@@ -67,25 +82,37 @@ class LoginPage extends React.Component {
                 {this.error()}
               </Row>
               <Row style={{'height': '5%'}}>
-                <Input ref="email" placeholder="Email" type="text" modifier="underbar" style={{width:'100%'}}/>
+                <Input ref="email" placeholder="Email" type="text" modifier="underbar" onChange={(event) => {
+                this.props.handleEmail(event.target.value)
+                }} style={{width:'100%'}}/>
               </Row>
               <Row style={{'height': '5%'}}></Row>
               <Row style={{'height': '5%'}}>
-                <Input ref="password" placeholder="Password" type="password" modifier="underbar" style={{width:'100%'}}/>
+                <Input ref="password" placeholder="Password" type="password" modifier="underbar" onChange={(event) =>
+                this.props.handlePassword(event.target.value)} style={{width:'100%'}}/>
               </Row>
               <Row style={{'height': '20%'}}></Row>
               <Row style={{'height': '5%'}}>
-                <Button id='signIn' onClick={() => {
-                this.handleSubmit();
-              }} className='signIn' modifier="large">Sign In</Button>
+                <Button id='signIn' onClick={
+                () => this.submit() } className='signIn' modifier="large">Sign In</Button>
               </Row>
             </Row>
           </div>
         </Page>
     )
   }
+
+
+  checkRedirect() {
+    return this.props.authentication.token? null : this.renderPage();
+  }
+
+  render() {
+    return this.checkRedirect()
+  }
+
 }
-;
+
 
 const styles = {
   logo_img: {
