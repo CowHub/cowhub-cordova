@@ -9,17 +9,12 @@ import {
     Input,
     ToolbarButton,
     Row,
-    Col
+    Col,
+    Fab
 
 } from 'react-onsenui';
 
 import TopBar from '../components/TopBar';
-import {
-    loginUser,
-    enterEmail,
-    enterPassword,
-    submitPressed
-} from '../actions/index';
 
 const mapStateToProps = (state) => {
   return {
@@ -32,7 +27,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 
-class HomeScreen extends React.Component {
+class CreateCattlePage extends React.Component {
 
   static propTypes = {
     token: React.PropTypes.string,
@@ -44,16 +39,15 @@ class HomeScreen extends React.Component {
 
   render()  {
     return (
-        <Page renderToolbar={() => <TopBar title='Home' navigator={this.props.navigator} />}>
+        <Page renderToolbar={() => <TopBar title='Create Cattle' navigator={this.props.navigator} backButton="true" />}>
           <div style={styles.page_content}>
             <Row style={{'height': '20%'}}>
-              <div className='center'>
-                <img src='img/logo.jpg' style={styles.logo_img}/>
-              </div>
+              <h2>Create Cattle</h2>
             </Row>
             <Row style={{'height': '80%'}}>
             </Row>
           </div>
+
         </Page>
     )
   }
@@ -61,7 +55,7 @@ class HomeScreen extends React.Component {
   // redirectUser()  {
   //   return (
   //       <Page>
-  //       <HomeScreen />
+  //       <MyHerdPage />
   //         </Page>
   //   );
   // }
@@ -93,4 +87,4 @@ const styles = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateCattlePage);

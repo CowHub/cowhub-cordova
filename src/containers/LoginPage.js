@@ -19,7 +19,7 @@ import {
     enterPassword,
     submitPressed
 } from '../actions/index';
-import HomeScreen from './HomeScreen'
+import MyHerdPage from './MyHerdPage'
 
 const mapStateToProps = (state) => {
   return {
@@ -61,7 +61,7 @@ class LoginPage extends React.Component {
 
   handleAuthenticated(props) {
     if (props.authentication.token) {
-      props.navigator.pushPage({comp: HomeScreen,key:'HOME_SCREEN'});
+      props.navigator.pushPage({comp: MyHerdPage,key:'MY_HERD_PAGE',navigator:this.props.navigator});
     }
   }
 
@@ -116,23 +116,6 @@ class LoginPage extends React.Component {
         </Page>
     )
   }
-
-  // redirectUser()  {
-  //   return (
-  //       <Page>
-  //       <HomeScreen />
-  //         </Page>
-  //   );
-  // }
-  //
-  //
-  // checkRedirect() {
-  //   return this.props.authentication.token? this.redirectUser() : this.renderPage();
-  // }
-  //
-  // render() {
-  //   return this.checkRedirect()
-  // }
 
 }
 
