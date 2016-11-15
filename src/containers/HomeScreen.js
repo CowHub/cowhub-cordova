@@ -1,5 +1,6 @@
 import React from 'react';
-
+import {connect} from 'react-redux';
+import { notification } from 'onsenui';
 import {
     Page,
     Button,
@@ -11,22 +12,70 @@ import {
     Col
 } from 'react-onsenui';
 
-import TopBar from '../components/TopBar'
+import TopBar from '../components/TopBar';
+import {
+    loginUser,
+    enterEmail,
+    enterPassword,
+    submitPressed
+} from '../actions/index';
 
-const HomeScreen = ({navigator}) => (
-    <Page renderToolbar={() => <TopBar title='Home' navigator={navigator} />}>
-      <div style={styles.page_content}>
-        <Row style={{'height': '40%'}}>
-          <div className='center'>
-            <img src='img/logo.jpg' style={styles.logo_img}/>
+const mapStateToProps = (state) => {
+  return {
+    ...state
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {}
+};
+
+
+class HomeScreen extends React.Component {
+
+  static propTypes = {
+    token: React.PropTypes.string,
+    email: React.PropTypes.string,
+    password: React.PropTypes.string
+  };
+
+
+
+  render()  {
+    return (
+        <Page renderToolbar={() => <TopBar title='Home' navigator={this.props.navigator} />}>
+          <div style={styles.page_content}>
+            <Row style={{'height': '20%'}}>
+              <div className='center'>
+                <img src='img/logo.jpg' style={styles.logo_img}/>
+              </div>
+            </Row>
+            <Row style={{'height': '80%'}}>
+            </Row>
           </div>
-        </Row>
-        <Row style={{'height': '60%'}}>
-          <h2>Home</h2>
-        </Row>
-      </div>
-    </Page>
-);
+        </Page>
+    )
+  }
+
+  // redirectUser()  {
+  //   return (
+  //       <Page>
+  //       <HomeScreen />
+  //         </Page>
+  //   );
+  // }
+  //
+  //
+  // checkRedirect() {
+  //   return this.props.authentication.token? this.redirectUser() : this.renderPage();
+  // }
+  //
+  // render() {
+  //   return this.checkRedirect()
+  // }
+
+}
+
 
 const styles = {
   logo_img: {
@@ -42,4 +91,5 @@ const styles = {
   }
 };
 
-export default HomeScreen;
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

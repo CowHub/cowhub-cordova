@@ -19,6 +19,7 @@ import {
     enterPassword,
     submitPressed
 } from '../actions/index';
+import HomeScreen from './HomeScreen'
 
 const mapStateToProps = (state) => {
   return {
@@ -50,6 +51,20 @@ class LoginPage extends React.Component {
     password: React.PropTypes.string
   };
 
+  componentWillMount() {
+    this.handleAuthenticated(this.props);
+  }
+
+  componentWillReceiveProps(props) {
+    this.handleAuthenticated(props);
+  }
+
+  handleAuthenticated(props) {
+    if (props.authentication.token) {
+      props.navigator.pushPage({comp: HomeScreen,key:'HOME_SCREEN'});
+    }
+  }
+
   submit() {
     this.props.handleLogin({
       email: this.props.login.email,
@@ -68,9 +83,9 @@ class LoginPage extends React.Component {
         null;
   }
 
-  renderPage()  {
+  render()  {
     return (
-        <Page renderToolbar={() => <TopBar title='Login' navigator={navigator} />}>
+        <Page renderToolbar={() => <TopBar title='Login' navigator={this.props.navigator} />}>
           <div style={styles.page_content}>
             <Row style={{'height': '20%'}}>
               <div className='center'>
@@ -102,14 +117,22 @@ class LoginPage extends React.Component {
     )
   }
 
-
-  checkRedirect() {
-    return this.props.authentication.token? null : this.renderPage();
-  }
-
-  render() {
-    return this.checkRedirect()
-  }
+  // redirectUser()  {
+  //   return (
+  //       <Page>
+  //       <HomeScreen />
+  //         </Page>
+  //   );
+  // }
+  //
+  //
+  // checkRedirect() {
+  //   return this.props.authentication.token? this.redirectUser() : this.renderPage();
+  // }
+  //
+  // render() {
+  //   return this.checkRedirect()
+  // }
 
 }
 
