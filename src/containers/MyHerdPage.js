@@ -21,7 +21,7 @@ import TopBar from '../components/TopBar';
 import CreateCattlePage from './CreateCattlePage'
 import IdentifyCattlePage from './IdentifyCattlePage'
 import CattleList from '../components/cattle/CattleList'
-import EditCattlePage from './EditCattlePage'
+import EditCattlePage from'./EditCattlePage'
 
 import {
     fetchCattle
@@ -59,7 +59,13 @@ class MyHerdPage extends React.Component {
   };
 
   componentWillMount() {
+
+    this.handleEditing(this.props);
     this.props.fetchCattle();
+  }
+
+  componentWillReceiveProps(props) {
+    this.handleEditing(props);
   }
 
   handleNewClick() {
@@ -70,6 +76,15 @@ class MyHerdPage extends React.Component {
   handleCameraClick() {
     this.props.navigator.pushPage({component: IdentifyCattlePage,key:'IDENTIFY_CATTLE_PAGE',title: 'IDENTIFY_CATTLE_PAGE'
       ,navigator:this.navigator})
+  }
+
+  handleEditing(props) {
+    if(props.isEditing) {
+      props.navigator.pushPage({
+        component: EditCattlePage, key: 'EDIT_CATTLE_PAGE', title: 'EDIT_CATTLE_PAGE'
+        , navigator: this.props.navigator
+      })
+    }
   }
 
 
@@ -115,12 +130,9 @@ class MyHerdPage extends React.Component {
       </PullHook>
 
       <div style={styles.page_content}>
+        {this.renderLoadingSpiral()}
         <CattleList navigator={this.props.navigator}/>
       </div>
-
-      <Modal isOpen={this.props.isEditing}>
-        <EditCattlePage/>
-      </Modal>
 
       <Fab
           onClick={() => this.handleNewClick()}

@@ -122,6 +122,7 @@ export function handleRegisterCattleError(state, error) {
 export function handleUpdateCattlePending(state) {
   return {
     ...state,
+    fetching: true,
   };
 }
 
@@ -133,6 +134,7 @@ export function handleUpdateCattleSuccess(state, cattleUpdated) {
   return {
     ...state,
     cattle,
+    fetching: false,
   };
 }
 
@@ -140,6 +142,7 @@ export function handleUpdateCattleError(state, error) {
   return {
     ...state,
     error,
+    fetching: false,
   };
 }
 
