@@ -19,6 +19,7 @@ import {
 
 import CattleEditTopBar from '../components/cattle/CattleEditTopBar';
 import {endEditCattle,updateCattle} from'../actions/cattle'
+import MyHerdPage from './MyHerdPage'
 const mapStateToProps = (state) => {
   return {
     ...state.cattle.cattle[state.cattle.cattlePos],
@@ -80,8 +81,10 @@ class EditCattlePage extends React.Component {
   }
 
   checkEditing(props)  {
-    if (!props.isEditing && !props.isError)  {
-      props.navigator.popPage();
+    if (!props.isEditing)  {
+      props.navigator.resetPage({
+        component: MyHerdPage, key: 'MY_HERD_PAGE', title: 'MY_HERD_PAGE'
+        , navigator: this.props.navigator})
     }
   }
 
@@ -97,7 +100,7 @@ class EditCattlePage extends React.Component {
 
   endEditing= ()  =>  {
     this.props.handleEndEdit();
-    
+
   }
 
   updateData= ()  =>  {
@@ -125,7 +128,7 @@ class EditCattlePage extends React.Component {
     return (
         <Page
             renderToolbar={() =>
-              <CattleEditTopBar title='EditTopBar' navigator={this.props.navigator}
+              <CattleEditTopBar title='Edit Cattle' navigator={this.props.navigator}
               backFunction={this.endEditing} editFunction={this.updateData} />}>
 
           <div style={styles.image_container}></div>

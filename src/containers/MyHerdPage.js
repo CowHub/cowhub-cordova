@@ -80,7 +80,7 @@ class MyHerdPage extends React.Component {
 
   handleEditing(props) {
     if(props.isEditing) {
-      props.navigator.pushPage({
+      props.navigator.resetPage({
         component: EditCattlePage, key: 'EDIT_CATTLE_PAGE', title: 'EDIT_CATTLE_PAGE'
         , navigator: this.props.navigator
       })
