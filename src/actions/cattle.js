@@ -167,7 +167,25 @@ export function deleteCattleSuccess(id) {
 
 export function deleteCattleError(error) {
   return {
-    type: DELETE_CATLEE_ERROR,
+    type: DELETE_CATTLE_ERROR,
     error,
   };
+}
+
+// Cattle edit
+export let EDITING_CATTLE_ENABLED = 'EDITING_CATTLE_ENABLED';
+export let EDITING_CATTLE_DISABLED = 'EDITING_CATTLE_DISABLED';
+
+export function editCattle(id)  {
+  return{
+    type: EDITING_CATTLE_ENABLED,
+    id,
+  }
+}
+
+export function endEditCattle(id)  {
+  return{
+    type: EDITING_CATTLE_DISABLED,
+    id,
+  }
 }

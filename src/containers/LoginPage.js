@@ -61,7 +61,7 @@ class LoginPage extends React.Component {
 
   handleAuthenticated(props) {
     if (props.authentication.token) {
-      props.navigator.pushPage({comp: MyHerdPage,key:'MY_HERD_PAGE',navigator:this.props.navigator});
+      props.navigator.pushPage({component: MyHerdPage,key:'MY_HERD_PAGE',navigator:this.props.navigator});
     }
   }
 

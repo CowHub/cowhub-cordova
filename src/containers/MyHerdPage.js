@@ -12,14 +12,16 @@ import {
     Col,
     Fab,
     PullHook,
-    ProgressCircular
+    ProgressCircular,
+    Modal
 
 } from 'react-onsenui';
 
 import TopBar from '../components/TopBar';
 import CreateCattlePage from './CreateCattlePage'
 import IdentifyCattlePage from './IdentifyCattlePage'
-import CattleListItem from '../components/cattle/CattleListItem.js'
+import CattleList from '../components/cattle/CattleList'
+import EditCattlePage from './EditCattlePage'
 
 import {
     fetchCattle
@@ -29,6 +31,7 @@ const mapStateToProps = (state) => {
   return {
     cattleSize: state.cattle.cattle.length,
     isFetching: state.cattle.fetching,
+    isEditing: state.cattle.editing
   };
 };
 
@@ -60,32 +63,15 @@ class MyHerdPage extends React.Component {
   }
 
   handleNewClick() {
-    this.props.navigator.pushPage({comp: CreateCattlePage,key:'CREATE_CATTLE_PAGE'})
+    this.props.navigator.pushPage({component: CreateCattlePage,key:'CREATE_CATTLE_PAGE',title:'CREATE_CATTLE_PAGE'
+      ,navigator:this.navigator})
   }
 
   handleCameraClick() {
-    this.props.navigator.pushPage({comp: IdentifyCattlePage,key:'IDENTIFY_CATTLE_PAGE'})
+    this.props.navigator.pushPage({component: IdentifyCattlePage,key:'IDENTIFY_CATTLE_PAGE',title: 'IDENTIFY_CATTLE_PAGE'
+      ,navigator:this.navigator})
   }
 
-  renderCattle() {
-    let cattle = [];
-    if (this.props.cattleSize > 0) {
-      let counter = 0;
-      while (counter < this.props.cattleSize) {
-        cattle.push(<CattleListItem  key={ counter } id={ counter } />);
-        counter += 1;
-      }
-    }
-    return cattle;
-  }
-
-  renderLoading() {
-    return (
-        <Page renderToolbar={() => <TopBar title='My Herd' navigator={this.props.navigator} />}>
-          <h2>Loading</h2>
-
-    </Page>)
-  }
 
 
   handleChange(e) {
@@ -129,8 +115,12 @@ class MyHerdPage extends React.Component {
       </PullHook>
 
       <div style={styles.page_content}>
-        {this.renderCattle()}
+        <CattleList navigator={this.props.navigator}/>
       </div>
+
+      <Modal isOpen={this.props.isEditing}>
+        <EditCattlePage/>
+      </Modal>
 
       <Fab
           onClick={() => this.handleNewClick()}

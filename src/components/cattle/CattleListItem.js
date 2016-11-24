@@ -14,6 +14,7 @@ import {
 
 } from 'react-onsenui';
 
+import {editCattle} from'../../actions/cattle'
 const mapStateToProps = (state, ownProps) => {
   return {
     ...state.cattle.cattle[ownProps.id],
@@ -22,7 +23,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-  }
+    handleEdit: (id) => {
+      dispatch(editCattle(id));
+    }
+  };
 };
 
 
@@ -51,6 +55,10 @@ class CattleListItem extends React.Component {
     }
   };
 
+  editCow() {
+    this.props.handleEdit(this.props.id);
+  }
+
   render() {
     const {
         country_code,
@@ -62,7 +70,7 @@ class CattleListItem extends React.Component {
     } = this.props.cattle;
 
     return (
-        <ListItem style={styles.listItemContainer} modifier="chevron" >
+        <ListItem style={styles.listItemContainer} modifier="tappable chevron" onClick={() =>this.editCow()}  >
           <Row>
             <Col width="95px">
               <img src="img/icon.png" style={styles.thumbnail} ></img>
@@ -79,7 +87,7 @@ class CattleListItem extends React.Component {
                 </div>
                   <div style={styles.desc}>
                 Individual Number : {individual_number}
-                  
+
               </div>
             </Col>
             <Col width="40px"></Col>
@@ -108,6 +116,6 @@ const styles ={
           lineHeight: '1.2',
           fontSize: '13px'
         }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CattleListItem);
