@@ -17,7 +17,8 @@ import {
     loginUser,
     enterEmail,
     enterPassword,
-    submitPressed
+    submitPressed,
+    loadMyHerdPage
 } from '../actions/index';
 import MyHerdPage from './MyHerdPage'
 
@@ -39,6 +40,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(loginUser(params));
       dispatch(submitPressed());
     },
+    handleMyHerdPageLoad: (params) => {
+      dispatch(loadMyHerdPage());
+    }
   };
 };
 
@@ -61,7 +65,12 @@ class LoginPage extends React.Component {
 
   handleAuthenticated(props) {
     if (props.authentication.token) {
-      props.navigator.resetPage({component: MyHerdPage,key:'MY_HERD_PAGE',navigator:this.props.navigator});
+      // props.navigator.resetPage({component: MyHerdPage,key:'MY_HERD_PAGE',navigator:this.props.navigator});
+      // Check if page hasn't changed
+      if ('MY_HERD_PAGE' != props.navigation.renderedPage) {
+        this.props.handleMyHerdPageLoad();
+      }
+
     }
   }
 

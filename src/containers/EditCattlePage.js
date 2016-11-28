@@ -18,8 +18,11 @@ import {
 } from 'react-onsenui';
 
 import CattleEditTopBar from '../components/cattle/CattleEditTopBar';
-import {endEditCattle,updateCattle} from'../actions/cattle'
-import MyHerdPage from './MyHerdPage'
+import {
+    endEditCattle,
+    updateCattle,
+    backToMyHerdPage,
+    } from'../actions/index'
 const mapStateToProps = (state) => {
   return {
     ...state.cattle.cattle[state.cattle.cattlePos],
@@ -36,6 +39,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     handleCattleUpdate: (props) => {
       dispatch(updateCattle(props.cattle.id, props.cattle));
+    },
+    loadMyHerdPage: ()  =>  {
+      dispatch(backToMyHerdPage())
     }
   }
 };
@@ -82,9 +88,7 @@ class EditCattlePage extends React.Component {
 
   checkEditing(props)  {
     if (!props.isEditing)  {
-      props.navigator.resetPage({
-        component: MyHerdPage, key: 'MY_HERD_PAGE', title: 'MY_HERD_PAGE'
-        , navigator: this.props.navigator})
+      props.loadMyHerdPage();
     }
   }
 

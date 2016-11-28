@@ -24,8 +24,12 @@ import CattleList from '../components/cattle/CattleList'
 import EditCattlePage from'./EditCattlePage'
 
 import {
-    fetchCattle
-} from '../actions/cattle';
+    fetchCattle,
+    loadCreateCattlePage,
+    loadEditCattlePage,
+    loadIdentifyCattlePage
+} from '../actions/index';
+
 
 const mapStateToProps = (state) => {
   return {
@@ -38,6 +42,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchCattle: () => { dispatch(fetchCattle()); },
+    createCattle:() => { dispatch(loadCreateCattlePage())},
+    editCattle:() => { dispatch(loadEditCattlePage())},
+    identifyCattle:() => { dispatch(loadIdentifyCattlePage())}
   }
 };
 
@@ -69,21 +76,16 @@ class MyHerdPage extends React.Component {
   }
 
   handleNewClick() {
-    this.props.navigator.pushPage({component: CreateCattlePage,key:'CREATE_CATTLE_PAGE',title:'CREATE_CATTLE_PAGE'
-      ,navigator:this.navigator})
+    this.props.createCattle();
   }
 
   handleCameraClick() {
-    this.props.navigator.pushPage({component: IdentifyCattlePage,key:'IDENTIFY_CATTLE_PAGE',title: 'IDENTIFY_CATTLE_PAGE'
-      ,navigator:this.navigator})
+    this.props.identifyCattle();
   }
 
   handleEditing(props) {
     if(props.isEditing) {
-      props.navigator.resetPage({
-        component: EditCattlePage, key: 'EDIT_CATTLE_PAGE', title: 'EDIT_CATTLE_PAGE'
-        , navigator: this.props.navigator
-      })
+      props.editCattle();
     }
   }
 
