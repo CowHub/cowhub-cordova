@@ -17,7 +17,7 @@ import {
 import CattleEditTopBar from '../components/cattle/CattleEditTopBar'
 
 import {
-    backToMyHerdPage,
+    loadMyHerdPage,
 } from'../actions/index'
 
 const mapStateToProps = (state) => {
@@ -29,7 +29,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loadMyHerdPage: ()  =>  {
-      dispatch(backToMyHerdPage())
+      dispatch(loadMyHerdPage())
     }
   }
 };

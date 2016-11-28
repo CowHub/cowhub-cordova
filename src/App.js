@@ -76,7 +76,7 @@ class App extends React.Component{
           props.handlePageRendered('EDIT_CATTLE_PAGE');
           return;
         case'IDENTIFY_CATTLE_PAGE':
-          this.refs.navigator.pushPage(pages.IdentifyCattlePage);
+          this.refs.navigator.resetPage(pages.IdentifyCattlePage);
           props.handlePageRendered('IDENTIFY_CATTLE_PAGE');
           return;
         default:
