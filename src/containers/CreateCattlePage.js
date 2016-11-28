@@ -10,7 +10,10 @@ import {
     ToolbarButton,
     Row,
     Col,
-    Fab
+    Fab,
+    List,
+    ListItem,
+    ProgressCircular
 
 } from 'react-onsenui';
 
@@ -18,11 +21,14 @@ import CattleEditTopBar from '../components/cattle/CattleEditTopBar'
 
 import {
     backToMyHerdPage,
+    registerCattle
     } from'../actions/index'
 
 const mapStateToProps = (state) => {
   return {
-    ...state
+    isEditing: state.cattle.editing,
+    isError: state.cattle.error,
+    isFetching: state.cattle.fetching,
   };
 };
 
@@ -30,6 +36,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     loadMyHerdPage: ()  =>  {
       dispatch(backToMyHerdPage())
+    },
+    register: (props)  =>  {
+      dispatch(registerCattle(props.cattle))
     }
   }
 };
@@ -38,27 +47,113 @@ const mapDispatchToProps = (dispatch) => {
 class CreateCattlePage extends React.Component {
 
   static propTypes = {
-    token: React.PropTypes.string,
-    email: React.PropTypes.string,
-    password: React.PropTypes.string
+    cattle: React.PropTypes.shape({
+      breed: React.PropTypes.string,
+      check_digit: React.PropTypes.number.isRequired,
+      country_code: React.PropTypes.string.isRequired,
+      dob: React.PropTypes.string,
+      gender: React.PropTypes.string,
+      herdmark: React.PropTypes.string.isRequired,
+      id: React.PropTypes.number.isRequired,
+      individual_number: React.PropTypes.number.isRequired,
+      name: React.PropTypes.string,
+    }).isRequired,
+  };
+  static defaultProps = {
+    cattle: {
+      id: '',
+      check_digit: '',
+      country_code: '',
+      herdmark: '',
+      individual_number: '',
+    }
   };
 
-  backFunction = () =>  {
+  componentWillMount() {
+    // Check for Errors
+    this.handleError(this.props);
+  }
+
+  componentWillReceiveProps(props) {
+    // Check for Errors
+    this.handleError(props);
+  }
+
+
+
+  handleError(props) {
+    if (props.isError)  {
+      if (!props.isFetching && props.isError.responseJSON)  {
+        return notification.alert('Error: ' + this.props.isError.responseJSON.errors[0]);
+      }
+    }
+    return;
+  }
+
+  renderLoadingSpiral() {
+    return (this.props.isFetching? <ProgressCircular indeterminate />:null);
+  }
+
+  backFunction = () => {
     this.props.loadMyHerdPage();
   };
 
-  render()  {
-    return (
-        <Page renderToolbar={() => <CattleEditTopBar title='Create Cattle' backFunction={this.backFunction} />}>
-          <div style={styles.page_content}>
-            <Row style={{'height': '20%'}}>
-              <h2>Create Cattle</h2>
-            </Row>
-            <Row style={{'height': '80%'}}>
-            </Row>
-          </div>
+  updateData= ()  =>  {
+    this.props.register(this.props);
+  }
 
+  updateHerdMark(val) {
+    this.props.cattle.herdmark = val;
+  }
+
+  updateCountryCode(val)  {
+    this.props.cattle.country_code = val;
+  }
+
+  updateCheckDigit(val) {
+    this.props.cattle.check_digit = val;
+  }
+
+  updateIdNumber(val) {
+    this.props.cattle.individual_number = val;
+  }
+
+
+  render() {
+    return (
+        <Page
+            renderToolbar={() =>
+              <CattleEditTopBar title='Create Cattle' navigator={this.props.navigator}
+              backFunction={this.backFunction} editFunction={this.updateData} />}>
+
+          <div style={styles.image_container}></div>
+          {this.renderLoadingSpiral()}
+          <List modifier="inset">
+
+            <ListItem>
+              <Input type="tel" placeholder="Herdmark" minlength="6" maxlength="6" value={this.props.cattle.herdmark}
+                     onChange={(event) => this.updateHerdMark(event.target.value)} style={styles.textInput}/>
+            </ListItem>
+            <ListItem>
+              <Input type="text" placeholder="Country Code" value={this.props.cattle.country_code}
+                     onChange={(event) => this.updateCountryCode(event.target.value)}
+                     style={styles.textInput}/>
+            </ListItem>
+            <ListItem>
+              <Input type="tel" placeholder="Check Digit" min="0" max="7" maxlength="1"
+                     onChange={(event) => this.updateCheckDigit(event.target.value)}
+                     value={this.props.cattle.check_digit}
+                     style={styles.textInput}/>
+            </ListItem>
+            <ListItem>
+              <Input type="tel" placeholder="Individual Number" value={this.props.cattle.individual_number}
+                     onChange={(event) => this.updateIdNumber(event.target.value)}
+                     style={styles.textInput}/>
+            </ListItem>
+          </List>
         </Page>
+
+
     )
   }
 
@@ -76,8 +171,32 @@ const styles = {
     textAlign: 'center',
     width: '80%',
     margin: '0 auto 0',
-    height: '90%'
+    height: '90%',
+    marginTop: '25%',
+  },
+  card_wrapper: {
+    lineHeight: 1,
+    height: '62px',
+    paddding: '10px'
+  },
+  image_container: {
+    backgroundColor: 'white',
+    backgroundImage: 'url(img/icon.png)',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    color: 'white',
+    height: '250px'
+  },
+  textInput: {
+    marginTop: '4px',
+    width: '100%'
+  },
+  formInput: {
+    fontWeight: '500',
+    fontSize: '17px',
+    marginBottom: '4px'
   }
+
 };
 
 
