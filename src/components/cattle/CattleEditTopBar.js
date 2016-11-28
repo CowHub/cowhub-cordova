@@ -32,23 +32,24 @@ class CattleEditTopBar extends React.Component {
   };
   static defaultProps = {
     backFunction: null,
-    editFunction:null
+    editFunction: null
   };
 
 
-  render()  {
-    return(<Toolbar>
-      <div className='left'>
-        <BackButton onClick={() =>
-        {
-        if(this.props.backFunction)  {this.props.backFunction()}}}>Back</BackButton>
-      </div>
+  render() {
+    return (<Toolbar>
+      {this.props.backFunction ?
+          <div className='left'>
+            <BackButton onClick={() =>this.props.backFunction()}>Back</BackButton>
+          </div> : null
+      }
       <div className='center'>{this.props.title}</div>
-      <div className='right'>
-        <ToolbarButton>
-          <Icon icon='edit' onClick={() => {
-          if(this.props.editFunction)  {this.props.editFunction()}}}></Icon>
-        </ToolbarButton></div>
+      {this.props.editFunction ?
+          <div className='right'>
+            <ToolbarButton>
+              <Icon icon='edit' onClick={() => this.props.editFunction()}></Icon>
+            </ToolbarButton>
+          </div> : null}
     </Toolbar>)
   }
 }

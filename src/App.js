@@ -34,7 +34,7 @@ class App extends React.Component{
     this.navigator = React.createElement(
         Navigator,
         {
-          initialRoute: {component: LoginPage, props: {key: 'LOGIN_PAGE',hasBackButton:false}},
+          initialRoute: {component: LoginPage, props: {key: 'LOGIN_PAGE'}},
           renderPage: this.renderPage,
           ref: 'navigator'
         },

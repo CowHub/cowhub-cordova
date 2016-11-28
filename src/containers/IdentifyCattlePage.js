@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import { notification } from 'onsenui';
+import {notification} from 'onsenui';
 import {
     Page,
     Button,
@@ -14,7 +14,11 @@ import {
 
 } from 'react-onsenui';
 
-import TopBar from '../components/TopBar';
+import CattleEditTopBar from '../components/cattle/CattleEditTopBar'
+
+import {
+    backToMyHerdPage,
+} from'../actions/index'
 
 const mapStateToProps = (state) => {
   return {
@@ -23,7 +27,11 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {}
+  return {
+    loadMyHerdPage: ()  =>  {
+      dispatch(backToMyHerdPage())
+    }
+  }
 };
 
 
@@ -35,11 +43,14 @@ class IdentifyCattlePage extends React.Component {
     password: React.PropTypes.string
   };
 
+  backFunction = () => {
+    this.props.loadMyHerdPage();
+  };
 
 
-  render()  {
+  render() {
     return (
-        <Page renderToolbar={() => <TopBar title='Identify Cattle' navigator={this.props.navigator} backButton="true" />}>
+        <Page renderToolbar={() => <CattleEditTopBar title='Identify Cattle' backFunction={this.backFunction} />}>
           <div style={styles.page_content}>
             <Row style={{'height': '20%'}}>
               <h2>Identify Cattle</h2>
@@ -52,22 +63,6 @@ class IdentifyCattlePage extends React.Component {
     )
   }
 
-  // redirectUser()  {
-  //   return (
-  //       <Page>
-  //       <MyHerdPage />
-  //         </Page>
-  //   );
-  // }
-  //
-  //
-  // checkRedirect() {
-  //   return this.props.authentication.token? this.redirectUser() : this.renderPage();
-  // }
-  //
-  // render() {
-  //   return this.checkRedirect()
-  // }
 
 }
 

@@ -12,7 +12,7 @@ import {
     Col
 } from 'react-onsenui';
 
-import TopBar from '../components/TopBar';
+import CattleEditTopBar from '../components/cattle/CattleEditTopBar'
 import {
     loginUser,
     enterEmail,
@@ -20,8 +20,6 @@ import {
     submitPressed,
     loadMyHerdPage
 } from '../actions/index';
-import MyHerdPage from './MyHerdPage'
-
 const mapStateToProps = (state) => {
   return {
     ...state
@@ -94,7 +92,7 @@ class LoginPage extends React.Component {
 
   render()  {
     return (
-        <Page renderToolbar={() => <TopBar title='Login' navigator={this.props.navigator} />}>
+        <Page renderToolbar={() => <CattleEditTopBar title='Login'  />}>
           <div style={styles.page_content}>
             <Row style={{'height': '20%'}}>
               <div className='center'>

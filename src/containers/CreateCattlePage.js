@@ -14,7 +14,11 @@ import {
 
 } from 'react-onsenui';
 
-import TopBar from '../components/TopBar';
+import CattleEditTopBar from '../components/cattle/CattleEditTopBar'
+
+import {
+    backToMyHerdPage,
+    } from'../actions/index'
 
 const mapStateToProps = (state) => {
   return {
@@ -23,7 +27,11 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {}
+  return {
+    loadMyHerdPage: ()  =>  {
+      dispatch(backToMyHerdPage())
+    }
+  }
 };
 
 
@@ -35,11 +43,13 @@ class CreateCattlePage extends React.Component {
     password: React.PropTypes.string
   };
 
-
+  backFunction = () =>  {
+    this.props.loadMyHerdPage();
+  };
 
   render()  {
     return (
-        <Page renderToolbar={() => <TopBar title='Create Cattle' navigator={this.props.navigator} backButton="true" />}>
+        <Page renderToolbar={() => <CattleEditTopBar title='Create Cattle' backFunction={this.backFunction} />}>
           <div style={styles.page_content}>
             <Row style={{'height': '20%'}}>
               <h2>Create Cattle</h2>
@@ -52,22 +62,6 @@ class CreateCattlePage extends React.Component {
     )
   }
 
-  // redirectUser()  {
-  //   return (
-  //       <Page>
-  //       <MyHerdPage />
-  //         </Page>
-  //   );
-  // }
-  //
-  //
-  // checkRedirect() {
-  //   return this.props.authentication.token? this.redirectUser() : this.renderPage();
-  // }
-  //
-  // render() {
-  //   return this.checkRedirect()
-  // }
 
 }
 
