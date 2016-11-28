@@ -32,7 +32,8 @@ class CattleEditTopBar extends React.Component {
   };
   static defaultProps = {
     backFunction: null,
-    editFunction: null
+    editFunction: null,
+    deleteFunction: null
   };
 
 
@@ -44,12 +45,19 @@ class CattleEditTopBar extends React.Component {
           </div> : null
       }
       <div className='center'>{this.props.title}</div>
-      {this.props.editFunction ?
-          <div className='right'>
+
+      <div className='right'>
+        {this.props.deleteFunction ?
+            <ToolbarButton>
+              <Icon icon='trash' onClick={() => this.props.deleteFunction()}></Icon>
+            </ToolbarButton>
+            : null}
+        {this.props.editFunction ?
             <ToolbarButton>
               <Icon icon='edit' onClick={() => this.props.editFunction()}></Icon>
             </ToolbarButton>
-          </div> : null}
+            : null}
+      </div>
     </Toolbar>)
   }
 }

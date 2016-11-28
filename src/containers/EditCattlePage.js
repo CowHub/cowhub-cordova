@@ -21,6 +21,7 @@ import CattleEditTopBar from '../components/cattle/CattleEditTopBar';
 import {
     endEditCattle,
     updateCattle,
+    deleteCattle,
     backToMyHerdPage,
     } from'../actions/index'
 const mapStateToProps = (state) => {
@@ -39,6 +40,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     handleCattleUpdate: (props) => {
       dispatch(updateCattle(props.cattle.id, props.cattle));
+    },
+    handleCattleDelete: (id) => {
+      dispatch(deleteCattle(id))
     },
     loadMyHerdPage: ()  =>  {
       dispatch(backToMyHerdPage())
@@ -111,6 +115,17 @@ class EditCattlePage extends React.Component {
     this.props.handleCattleUpdate(this.props);
   }
 
+  deleteCattleHelper= ()  =>  {
+    this.props.handleCattleDelete(this.props.cattle.id)
+  }
+
+  deleteCattle= ()  =>  {
+    notification.confirm({
+      message: 'Are you sure you want to delete this cattle?',
+      callback: this.deleteCattleHelper
+    });
+  }
+
   updateHerdMark(val) {
     this.props.cattle.herdmark = val;
   }
@@ -133,7 +148,7 @@ class EditCattlePage extends React.Component {
         <Page
             renderToolbar={() =>
               <CattleEditTopBar title='Edit Cattle' navigator={this.props.navigator}
-              backFunction={this.endEditing} editFunction={this.updateData} />}>
+              backFunction={this.endEditing} editFunction={this.updateData} deleteFunction={this.deleteCattle}/>}>
 
           <div style={styles.image_container}></div>
           {this.renderLoadingSpiral()}
