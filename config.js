@@ -7,8 +7,8 @@ const et = require('elementtree');
 
 const ENV = require('./env');
 const src = {
-  android: (ENV === 'development' ? 'http://10.0.2.2:3000/' : '') + 'index.html',
-  ios: (ENV === 'development' ? 'http://localhost:3000/' : '') + 'index.html',
+  android: (ENV === 'development' ? 'http://129.31.232.58:4000/' : '') + 'index.html',
+  ios: (ENV === 'development' ? 'http://129.31.232.58:4000/' : '') + 'index.html',
 };
 const config = path.resolve('./config.xml');
 

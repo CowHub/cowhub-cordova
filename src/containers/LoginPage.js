@@ -84,7 +84,8 @@ class LoginPage extends React.Component {
     return this.props.authentication.error?
         <div>
           <h2> Error :( </h2>
-          <p> {this.props.authentication.error.responseJSON.errors[0]}</p>
+          <p> {this.props.authentication.error.responseJSON?
+              this.props.authentication.error.responseJSON.errors[0] : null}</p>
         </div>
         :
         null;

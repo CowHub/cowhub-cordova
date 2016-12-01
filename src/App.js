@@ -31,15 +31,15 @@ class App extends React.Component{
 
   constructor() {
     super();
-    this.navigator = React.createElement(
-        Navigator,
-        {
-          initialRoute: {component: LoginPage, props: {key: 'LOGIN_PAGE'}},
-          renderPage: this.renderPage,
-          ref: 'navigator'
-        },
-        null
-    )
+    // this.navigator = React.createElement(
+    //     Navigator,
+    //     {
+    //       initialRoute: {component: LoginPage, props: {key: 'LOGIN_PAGE'}},
+    //       renderPage: this.renderPage,
+    //       ref: 'navigator'
+    //     },
+    //     null
+    // )
   }
 
 
@@ -93,7 +93,15 @@ class App extends React.Component{
   }
 
   render() {
-
+    this.navigator = React.createElement(
+        Navigator,
+        {
+          initialRoute: {component: LoginPage, props: {key: 'LOGIN_PAGE'}},
+          renderPage: this.renderPage,
+          ref: 'navigator'
+        },
+        null
+    );
     return this.navigator
   }
 }

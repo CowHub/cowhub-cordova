@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {notification} from 'onsenui';
+import ons from 'onsenui';
 import {
     Page,
     Button,
@@ -47,18 +48,37 @@ class IdentifyCattlePage extends React.Component {
     this.props.loadMyHerdPage();
   };
 
+  returnCordova() {
+    ezar.initializeVideoOverlay(
+        function(){ezar.getBackCamera().start()}
+    )
+    return null;
+  }
+
+  returnBrowser() {
+    return (
+      <div style={styles.page_content}>
+        <h2> This will only work when running on a device</h2>
+
+      </div>
+    )
+  }
+
+  startCamera() {
+    if (ons.platform.isWebView()) {
+      return this.returnCordova();
+    } else {
+      return this.returnBrowser();
+    }
+  }
+
+
+
 
   render() {
     return (
-        <Page renderToolbar={() => <CattleEditTopBar title='Identify Cattle' backFunction={this.backFunction} />}>
-          <div style={styles.page_content}>
-            <Row style={{'height': '20%'}}>
-              <h2>Identify Cattle</h2>
-            </Row>
-            <Row style={{'height': '80%'}}>
-            </Row>
-          </div>
-
+        <Page modifier="transparent" contentStyle={styles.page_transparent} renderToolbar={() => <CattleEditTopBar title='Identify Cattle' backFunction={this.backFunction} />}>
+          {this.startCamera()}
         </Page>
     )
   }
@@ -78,6 +98,34 @@ const styles = {
     width: '80%',
     margin: '0 auto 0',
     height: '90%'
+  },
+  capture: {
+    position:'fixed',
+    bottom: '0px',
+    width:  '200px',
+    margin: '0 auto',
+    left: '0',
+    right: '0',
+  },
+  overlay: {
+    height: '100%',
+    width: '100%',
+    objectFit: 'contain',
+  },
+  cameraText: {
+    position: 'fixed',
+    top:  '30%',
+    margin: '0 auto',
+    left: '0',
+    right:  '0',
+    textAlign: 'center',
+  },
+  page_transparent: {
+    pageTransparent: {
+      page__background: {
+        backgroundColor: 'transparent'
+      }
+    }
   }
 };
 

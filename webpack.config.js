@@ -53,11 +53,18 @@ const common = {
     new webpack.DefinePlugin({
       '__DEV__': false,
       'process.env': {
-        'API_ENDPOINT': JSON.stringify('//cloud-vm-46-166.doc.ic.ac.uk'),
+        // 'API_ENDPOINT': JSON.stringify('//cloud-vm-46-166.doc.ic.ac.uk'),
+        'API_ENDPOINT': JSON.stringify('http://129.31.232.58:8080'),
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-  ]
+  ],
+  resolve: {
+    alias: {
+      'react': path.join(__dirname, 'node_modules', 'react')
+    },
+    extensions: ['', '.js']
+  },
 };
 
 if (ENV === 'development') {
@@ -86,7 +93,7 @@ if (ENV === 'development') {
         '__DEV__': true,
 
         'process.env': {
-          'API_ENDPOINT': JSON.stringify('//localhost:8080'),
+          'API_ENDPOINT': JSON.stringify('//129.31.232.58:8080'),
           'NODE_ENV': JSON.stringify('development')
 
         }

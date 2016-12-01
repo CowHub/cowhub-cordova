@@ -167,9 +167,9 @@ class MyHerdPage extends React.Component {
 
 const styles = {
   logo_img: {
-    'marginTop': '10%',
-    'maxWidth': '100%',
-    'maxHeight': '100%'
+    marginTop: '10%',
+    maxWidth: '100%',
+    maxHeight: '100%'
   },
   page_content: {
     textAlign: 'center',
