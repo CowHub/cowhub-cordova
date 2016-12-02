@@ -64,6 +64,7 @@ class EditCattlePage extends React.Component {
       id: React.PropTypes.number.isRequired,
       individual_number: React.PropTypes.number.isRequired,
       name: React.PropTypes.string,
+      images: React.PropTypes.arrayOf(React.PropTypes.string),
     }).isRequired,
   };
   static defaultProps = {
@@ -79,6 +80,7 @@ class EditCattlePage extends React.Component {
   componentWillMount() {
     // See if we are still editing
     this.checkEditing(this.props);
+    this.setBackground(this.props);
 
     // Check for Errors
     this.handleError(this.props);
@@ -88,6 +90,11 @@ class EditCattlePage extends React.Component {
     this.checkEditing(props);
     // Check for Errors
     this.handleError(props);
+    this.setBackground(props)
+  }
+
+  setBackground(props) {
+    styles.image_container.backgroundImage = 'url('+props.cattle.images[0]+')'
   }
 
   checkEditing(props)  {

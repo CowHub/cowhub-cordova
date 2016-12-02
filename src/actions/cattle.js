@@ -17,6 +17,9 @@ export function fetchCattle() {
       method: 'GET'
     }).then((response) => {
       dispatch(fetchCattleSuccess(response.cattle));
+      for (let cattle of response.cattle) {
+        dispatch(fetchCattleImage(cattle.id))
+      }
     }).catch((error) => {
       dispatch(fetchCattleError(error));
     })
@@ -104,6 +107,9 @@ export function updateCattle(id, params) {
       data: params,
     }).then((response) => {
       dispatch(updateCattleSuccess(response.cattle));
+      for (let cattle of response.cattle) {
+        dispatch(fetchCattleImage(cattle.id))
+      }
     }).catch((error) => {
       dispatch(updateCattleError(error));
     })
@@ -189,3 +195,47 @@ export function endEditCattle(id)  {
     id,
   }
 }
+
+// Cattle fetch image
+export let FETCH_CATTLE_IMAGE_PENDING = 'FETCH_CATTLE_IMAGE_PENDING';
+export let FETCH_CATTLE_IMAGE_SUCCESS = 'FETCH_CATTLE_IMAGE_SUCCESS';
+export let FETCH_CATTLE_IMAGE_ERROR = 'FETCH_CATTLE_IMAGE_ERROR';
+
+export function fetchCattleImage(id) {
+  let token = store.getState().authentication.token;
+  return (dispatch) => {
+    dispatch(fetchCattleImagePending(id));
+    $.ajax(`${process.env.API_ENDPOINT}/cattle/${id}/images`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+      method: 'GET'
+    }).then((response) => {
+      dispatch(fetchCattleImageSuccess(id, response.images));
+    }).catch((error) => {
+      dispatch(fetchCattleImageError(error));
+    })
+  };
+};
+
+export function fetchCattleImagePending(id) {
+  return {
+    type: FETCH_CATTLE_IMAGE_PENDING,
+    id
+  };
+};
+
+export function fetchCattleImageSuccess(id, images) {
+  return {
+    type: FETCH_CATTLE_IMAGE_SUCCESS,
+    id,
+    images,
+  };
+};
+
+export function fetchCattleImageError(error) {
+  return {
+    type: FETCH_CATTLE_IMAGE_ERROR,
+    error,
+  };
+};

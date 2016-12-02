@@ -43,6 +43,7 @@ class CattleEditItem extends React.Component {
       id: React.PropTypes.number.isRequired,
       individual_number: React.PropTypes.number.isRequired,
       name: React.PropTypes.string,
+      images: React.PropTypes.arrayOf(React.PropTypes.string),
     }).isRequired
   };
   static defaultProps = {
@@ -67,6 +68,7 @@ class CattleEditItem extends React.Component {
         id,
         individual_number,
         name,
+        images,
     } = this.props.cattle;
 
     return (

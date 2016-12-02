@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import ons from 'onsenui';
 import {
     Navigator
 } from 'react-onsenui';
@@ -8,6 +8,7 @@ import {
 import LoginPage from './containers/LoginPage';
 import MyHerdPage from './containers/MyHerdPage';
 import CreateCattlePage from './containers/CreateCattlePage';
+import CreateCattlePhotoPage from './containers/CreateCattlePhotoPage';
 import EditCattlePage from './containers/EditCattlePage';
 import IdentifyCattlePage from './containers/IdentifyCattlePage';
 import VerifyImagePage from './containers/VerifyImagePage';
@@ -69,12 +70,18 @@ class App extends React.Component{
           this.refs.navigator.pushPage(pages.CreateCattlePage);
           props.handlePageRendered('CREATE_CATTLE_PAGE');
           return;
+        case'CREATE_CATTLE_PHOTO_PAGE':
+          this.refs.navigator.resetPage(pages.CreateCattlePhotoPage);
+          props.handlePageRendered('CREATE_CATTLE_PHOTO_PAGE');
+          return;
         case'EDIT_CATTLE_PAGE':
           this.refs.navigator.pushPage(pages.EditCattlePage);
           props.handlePageRendered('EDIT_CATTLE_PAGE');
           return;
         case'IDENTIFY_CATTLE_PAGE':
-          props.handleActivateCamera();
+          if (ons.platform.isWebView()) {
+            props.handleActivateCamera();
+          }
           this.refs.navigator.resetPage(pages.IdentifyCattlePage);
           props.handlePageRendered('IDENTIFY_CATTLE_PAGE');
           return;
@@ -126,6 +133,12 @@ const pages = {
     component: CreateCattlePage,
     props: {
       key: 'CREATE_CATTLE_PAGE'
+    }
+  },
+  CreateCattlePhotoPage: {
+    component: CreateCattlePhotoPage,
+    props: {
+      key: 'CREATE_CATTLE_PHOTO_PAGE'
     }
   },
   EditCattlePage: {

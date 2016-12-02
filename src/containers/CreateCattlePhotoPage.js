@@ -46,7 +46,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 
-class IdentifyCattlePage extends React.Component {
+class CreateCattlePhotoPage extends React.Component {
 
   static propTypes = {
     token: React.PropTypes.string,
@@ -60,10 +60,14 @@ class IdentifyCattlePage extends React.Component {
     }
     this.props.loadMyHerdPage();
   };
+
+  addImage()  {
+    
+  }
   
   onCapture = () => {
-    this.props.loadVerifyImagePage();
     this.props.handleDeactivateCamera();
+
   };
   
 
@@ -97,7 +101,7 @@ class IdentifyCattlePage extends React.Component {
   render() {
     return (
         <Page modifier="transparent"
-              renderToolbar={() => <CattleEditTopBar title='Identify Cattle' backFunction={this.backFunction} />}>
+              renderToolbar={() => <CattleEditTopBar title='Take Photo' backFunction={this.backFunction} />}>
           {this.startCamera()}
         </Page>
     )
@@ -132,4 +136,4 @@ const styles = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(IdentifyCattlePage);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateCattlePhotoPage);

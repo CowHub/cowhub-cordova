@@ -12,7 +12,10 @@ import {
   DELETE_CATTLE_SUCCESS,
   DELETE_CATTLE_ERROR,
   EDITING_CATTLE_ENABLED ,
-  EDITING_CATTLE_DISABLED
+  EDITING_CATTLE_DISABLED,
+  FETCH_CATTLE_IMAGE_PENDING,
+  FETCH_CATTLE_IMAGE_SUCCESS,
+  FETCH_CATTLE_IMAGE_ERROR,
 } from '../actions/cattle';
 
 const initialState = {
@@ -21,7 +24,8 @@ const initialState = {
   fetching: false,
   fetched: false,
   editing: false,
-  cattlePos: null
+  cattlePos: null,
+  imageFetching: false
 };
 
 const cattle = (state = initialState, action) => {
@@ -54,6 +58,12 @@ const cattle = (state = initialState, action) => {
       return handleEditing(state, action.id);
     case EDITING_CATTLE_DISABLED:
       return handleEndEditing(state, action.id);
+    case FETCH_CATTLE_IMAGE_PENDING:
+      return handleFetchCattleImagePending(state,action.id);
+    case FETCH_CATTLE_IMAGE_SUCCESS:
+      return handleFetchCattleImageSuccess(state, action.id, action.images);
+    case FETCH_CATTLE_IMAGE_ERROR:
+      return handleFetchCattleImageError(state, action.error);
     default:
       return state;
   }
@@ -185,5 +195,32 @@ export function handleEndEditing(state,id) {
     cattlePos:null
   };
 }
+
+export function handleFetchCattleImagePending(state) {
+  return {
+    ...state,
+    imageFetching: true
+  };
+};
+
+export function handleFetchCattleImageSuccess(state, id, images) {
+  let cattle = state.cattle;
+  let index = cattle.findIndex( (c) => { return c.cattle.id === id } );
+  cattle[index].cattle.images = images.map((i) => { return i.image_uri });
+  cattle.unshift( cattle.pop() );
+  return {
+    ...state,
+    cattle,
+    imageFetching: false
+  }
+}
+
+export function handleFetchCattleImageError(state, error) {
+  return {
+    ...state,
+    error,
+    imageFetching: false
+  };
+};
 
 export default cattle;

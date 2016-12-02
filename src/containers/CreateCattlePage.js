@@ -21,7 +21,8 @@ import CattleEditTopBar from '../components/cattle/CattleEditTopBar'
 
 import {
     backToMyHerdPage,
-    registerCattle
+    registerCattle,
+    loadCreateCattlePhotoPage
     } from'../actions/index'
 
 const mapStateToProps = (state) => {
@@ -36,6 +37,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     loadMyHerdPage: ()  =>  {
       dispatch(backToMyHerdPage())
+    },
+    loadCreateCattlePhotoPage: ()  =>  {
+      dispatch(loadCreateCattlePhotoPage())
     },
     register: (props)  =>  {
       dispatch(registerCattle(props.cattle))
@@ -118,6 +122,9 @@ class CreateCattlePage extends React.Component {
     this.props.cattle.individual_number = val;
   }
 
+  handleCameraClick() {
+    this.props.loadCreateCattlePhotoPage()
+  }
 
   render() {
     return (
@@ -126,7 +133,14 @@ class CreateCattlePage extends React.Component {
               <CattleEditTopBar title='Create Cattle' navigator={this.props.navigator}
               backFunction={this.backFunction} editFunction={this.updateData} />}>
 
-          <div style={styles.image_container}></div>
+          <div style={styles.image_container}>
+            <div style={{textAlign: 'center',marginTop: '50px'}}>
+            <Fab
+                onClick={() =>this.handleCameraClick()} >
+              <Icon icon='md-camera' />
+            </Fab>
+              </div>
+          </div>
           {this.renderLoadingSpiral()}
           <List modifier="inset">
 
@@ -181,10 +195,9 @@ const styles = {
   },
   image_container: {
     backgroundColor: 'white',
-    backgroundImage: 'url(img/icon.png)',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    color: 'white',
+    color: 'black',
     height: '250px'
   },
   textInput: {

@@ -18,13 +18,10 @@ import {
 } from 'react-onsenui';
 
 import TopBar from '../components/TopBar';
-import CreateCattlePage from './CreateCattlePage'
-import IdentifyCattlePage from './IdentifyCattlePage'
-import CattleList from '../components/cattle/CattleList'
-import EditCattlePage from'./EditCattlePage'
-
+import CattleList from '../components/cattle/CattleList';
 import {
     fetchCattle,
+    fetchCattleImage,
     loadCreateCattlePage,
     loadEditCattlePage,
     loadIdentifyCattlePage
@@ -41,7 +38,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchCattle: () => { dispatch(fetchCattle()); },
+    fetchCattle: () => {
+      dispatch(fetchCattle());
+    },
     createCattle:() => { dispatch(loadCreateCattlePage())},
     editCattle:() => { dispatch(loadEditCattlePage())},
     identifyCattle:() => { dispatch(loadIdentifyCattlePage())}

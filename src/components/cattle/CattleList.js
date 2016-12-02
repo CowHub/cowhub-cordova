@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import CattleListItem from './CattleListItem'
 
+
 const mapStateToProps = (state) => {
   return {
     cattleSize: state.cattle.cattle.length,
