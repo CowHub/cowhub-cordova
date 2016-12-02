@@ -16,9 +16,13 @@ import {
 } from 'react-onsenui';
 
 import CattleEditTopBar from '../components/cattle/CattleEditTopBar'
+import Camera from '../components/Camera'
 
 import {
     loadMyHerdPage,
+    loadVerifyImagePage,
+    deactivateCamera,
+    
 } from'../actions/index'
 
 const mapStateToProps = (state) => {
@@ -31,6 +35,12 @@ const mapDispatchToProps = (dispatch) => {
   return {
     loadMyHerdPage: ()  =>  {
       dispatch(loadMyHerdPage())
+    },
+    loadVerifyImagePage:  ()  =>  {
+      dispatch(loadVerifyImagePage())
+    },
+    handleDeactivateCamera: ()  =>  {
+      dispatch(deactivateCamera())
     }
   }
 };
@@ -44,15 +54,24 @@ class IdentifyCattlePage extends React.Component {
     password: React.PropTypes.string
   };
 
-  backFunction = () => {
+  backFunction = () =>  {
+    if (ons.platform.isWebView()) {
+      
+    }
     this.props.loadMyHerdPage();
   };
+  
+  onCapture = () => {
+    this.props.loadVerifyImagePage();
+    this.props.handleDeactivateCamera();
+  };
+  
 
   returnCordova() {
-    ezar.initializeVideoOverlay(
-        function(){ezar.getBackCamera().start()}
-    )
-    return null;
+    
+    return (
+        <Camera onCaptureFunction={this.onCapture}/>
+    );
   }
 
   returnBrowser() {
@@ -77,7 +96,8 @@ class IdentifyCattlePage extends React.Component {
 
   render() {
     return (
-        <Page modifier="transparent" contentStyle={styles.page_transparent} renderToolbar={() => <CattleEditTopBar title='Identify Cattle' backFunction={this.backFunction} />}>
+        <Page modifier="transparent"
+              renderToolbar={() => <CattleEditTopBar title='Identify Cattle' backFunction={this.backFunction} />}>
           {this.startCamera()}
         </Page>
     )
@@ -88,17 +108,6 @@ class IdentifyCattlePage extends React.Component {
 
 
 const styles = {
-  logo_img: {
-    'marginTop': '10%',
-    'maxWidth': '100%',
-    'maxHeight': '100%'
-  },
-  page_content: {
-    textAlign: 'center',
-    width: '80%',
-    margin: '0 auto 0',
-    height: '90%'
-  },
   capture: {
     position:'fixed',
     bottom: '0px',
@@ -119,13 +128,6 @@ const styles = {
     left: '0',
     right:  '0',
     textAlign: 'center',
-  },
-  page_transparent: {
-    pageTransparent: {
-      page__background: {
-        backgroundColor: 'transparent'
-      }
-    }
   }
 };
 

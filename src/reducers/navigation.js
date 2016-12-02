@@ -5,6 +5,7 @@ import {
     CREATE_CATTLE_PAGE_LOAD,
     EDIT_CATTLE_PAGE_LOAD,
     IDENTIFY_CATTLE_PAGE_LOAD,
+    VERIFY_IMAGE_PAGE_LOAD,
     PAGE_RENDERED
 } from '../actions/navigation'
 
@@ -31,6 +32,8 @@ const page = (state = initialState, action) => {
       return handleEditCattlePageLoad(state);
     case IDENTIFY_CATTLE_PAGE_LOAD:
       return handleIdentifyCattlePageLoad(state);
+    case VERIFY_IMAGE_PAGE_LOAD:
+      return handleVerifyImagePageLoad(state);
     case PAGE_RENDERED:
       return handlePageRendered(state,action.pageName);
     default:
@@ -78,6 +81,13 @@ const handleIdentifyCattlePageLoad = (state)  => {
   return {
     ...state,
     requestedPage: 'IDENTIFY_CATTLE_PAGE'
+  };
+};
+
+const handleVerifyImagePageLoad = (state)  => {
+  return {
+    ...state,
+    requestedPage: 'VERIFY_IMAGE_PAGE'
   };
 };
 

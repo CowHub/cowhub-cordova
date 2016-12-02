@@ -10,8 +10,12 @@ import MyHerdPage from './containers/MyHerdPage';
 import CreateCattlePage from './containers/CreateCattlePage';
 import EditCattlePage from './containers/EditCattlePage';
 import IdentifyCattlePage from './containers/IdentifyCattlePage';
+import VerifyImagePage from './containers/VerifyImagePage';
 
-import {announcePageRendered} from './actions/index'
+import {
+    announcePageRendered,
+    activateCamera
+} from './actions/index'
 
 const mapStateToProps = (state) => {
   return {
@@ -23,6 +27,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handlePageRendered: (pageName) => {
       dispatch(announcePageRendered(pageName));
+    },
+    handleActivateCamera: ()  =>  {
+      dispatch(activateCamera())
     }
   };
 };
@@ -31,15 +38,6 @@ class App extends React.Component{
 
   constructor() {
     super();
-    // this.navigator = React.createElement(
-    //     Navigator,
-    //     {
-    //       initialRoute: {component: LoginPage, props: {key: 'LOGIN_PAGE'}},
-    //       renderPage: this.renderPage,
-    //       ref: 'navigator'
-    //     },
-    //     null
-    // )
   }
 
 
@@ -76,8 +74,13 @@ class App extends React.Component{
           props.handlePageRendered('EDIT_CATTLE_PAGE');
           return;
         case'IDENTIFY_CATTLE_PAGE':
+          props.handleActivateCamera();
           this.refs.navigator.resetPage(pages.IdentifyCattlePage);
           props.handlePageRendered('IDENTIFY_CATTLE_PAGE');
+          return;
+        case'VERIFY_IMAGE_PAGE':
+          this.refs.navigator.pushPage(pages.VerifyImagePage);
+          props.handlePageRendered('VERIFY_IMAGE_PAGE');
           return;
         default:
           return;
@@ -135,6 +138,12 @@ const pages = {
     component: IdentifyCattlePage,
     props: {
       key: 'IDENTIFY_CATTLE_PAGE'
+    }
+  },
+  VerifyImagePage: {
+    component: VerifyImagePage,
+    props: {
+      key: 'VERIFY_IMAGE_PAGE'
     }
   },
 };

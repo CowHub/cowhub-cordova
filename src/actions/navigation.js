@@ -8,6 +8,7 @@ export let BACK_TO_MY_HERD_PAGE = 'BACK_TO_MY_HERD_PAGE';
 export let CREATE_CATTLE_PAGE_LOAD = 'CREATE_CATTLE_PAGE_LOAD';
 export let EDIT_CATTLE_PAGE_LOAD = 'EDIT_CATTLE_PAGE_LOAD';
 export let IDENTIFY_CATTLE_PAGE_LOAD = 'IDENTIFY_CATTLE_PAGE_LOAD';
+export let VERIFY_IMAGE_PAGE_LOAD = 'VERIFY_IMAGE_PAGE_LOAD';
 export let PAGE_RENDERED = 'PAGE_RENDERED';
 
 
@@ -55,6 +56,14 @@ export function loadEditCattlePage(){
 export function loadIdentifyCattlePage(){
   return {
     type: IDENTIFY_CATTLE_PAGE_LOAD,
+  }
+}
+
+// Verify Image Page
+
+export function loadVerifyImagePage(){
+  return {
+    type: VERIFY_IMAGE_PAGE_LOAD,
   }
 }
 
