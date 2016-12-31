@@ -40,3 +40,6 @@ plugins
 
 # Swapfiles
 .swp
+
+# Generated config
+config.xml
