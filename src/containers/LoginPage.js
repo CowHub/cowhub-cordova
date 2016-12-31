@@ -15,6 +15,7 @@ import {
 import CattleEditTopBar from '../components/cattle/CattleEditTopBar'
 import {
     loginUser,
+    loginErrorSeen,
     enterEmail,
     enterPassword,
     submitPressed,
@@ -40,6 +41,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     handleMyHerdPageLoad: (params) => {
       dispatch(loadMyHerdPage());
+    },
+    handleErrorSeen:  (params)  =>  {
+      dispatch(loginErrorSeen());
     }
   };
 };
@@ -82,11 +86,11 @@ class LoginPage extends React.Component {
 
   error() {
     return this.props.authentication.error?
-        <div>
-          <h2> Error :( </h2>
-          <p> {this.props.authentication.error.responseJSON?
-              this.props.authentication.error.responseJSON.errors[0] : null}</p>
-        </div>
+        notification.alert({
+          message: 'Error: '+ this.props.authentication.error.responseJSON?
+              this.props.authentication.error.responseJSON.errors[0] : null,
+          callback: this.props.handleErrorSeen()
+        })
         :
         null;
   }
@@ -105,13 +109,15 @@ class LoginPage extends React.Component {
                 {this.error()}
               </Row>
               <Row style={{'height': '5%'}}>
-                <Input ref="email" placeholder="Email" type="text" modifier="underbar" onChange={(event) => {
+                <Input ref="email" placeholder="Email" type="text" modifier="underbar" value={this.props.login.email}
+                       onChange={(event) => {
                 this.props.handleEmail(event.target.value)
                 }} style={{width:'100%'}}/>
               </Row>
               <Row style={{'height': '5%'}}></Row>
               <Row style={{'height': '5%'}}>
-                <Input ref="password" placeholder="Password" type="password" modifier="underbar" onChange={(event) =>
+                <Input ref="password" placeholder="Password" type="password" value={this.props.login.password}
+                       modifier="underbar" onChange={(event) =>
                 this.props.handlePassword(event.target.value)} style={{width:'100%'}}/>
               </Row>
               <Row style={{'height': '20%'}}></Row>

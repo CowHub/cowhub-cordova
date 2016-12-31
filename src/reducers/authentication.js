@@ -11,6 +11,7 @@ import {
   LOGOUT_USER_PENDING,
   LOGOUT_USER_SUCCESS,
   LOGOUT_USER_ERROR,
+  ERROR_SEEN,
 } from '../actions/authentication'
 
 const initialState = {
@@ -44,6 +45,8 @@ const authentication = (state = initialState, action) => {
       return handleLogoutUserSuccess(state);
     case LOGOUT_USER_ERROR:
       return handleLogoutUserError(state, action.error);
+    case ERROR_SEEN:
+      return handleErrorSeen(state);
     default:
       return state;
   }
@@ -122,6 +125,13 @@ const handleLogoutUserError = (state, error) => {
     ...state,
     error
   };
+}
+
+const handleErrorSeen = (state) =>  {
+  return {
+      ...state,
+      error: null,
+  }
 }
 
 export default authentication;

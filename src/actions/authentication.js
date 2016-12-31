@@ -153,3 +153,12 @@ export function logoutUserError(error) {
     error,
   }
 }
+
+// Handle error popups
+export let ERROR_SEEN = 'ERROR_SEEN';
+
+export function loginErrorSeen() {
+  return {
+    type: ERROR_SEEN,
+  }
+}
