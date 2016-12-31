@@ -3,7 +3,8 @@ import {
     DEACTIVATE_CAMERA,
     CAPTURE_IMAGE,
     STORE_IMAGE,
-    ERROR_IMAGE
+    ERROR_IMAGE,
+    CAMERA_ERROR_SEEN
 } from '../actions/camera'
 
 const initialState = {
@@ -26,6 +27,8 @@ const camera = (state = initialState, action) => {
       return handleStoreImage(state,action.base64Image);
     case ERROR_IMAGE:
       return handleErrorImage(state);
+    case CAMERA_ERROR_SEEN:
+      return handleErrorSeen(state);
     default:
       return state;
   }
@@ -65,6 +68,13 @@ const handleErrorImage = (state)  => {
     ...state,
     error: true
   };
+};
+
+const handleErrorSeen = (state) =>  {
+  return {
+    ...state,
+    error: null,
+  }
 };
 
 

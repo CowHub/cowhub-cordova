@@ -16,6 +16,7 @@ import {
   FETCH_CATTLE_IMAGE_PENDING,
   FETCH_CATTLE_IMAGE_SUCCESS,
   FETCH_CATTLE_IMAGE_ERROR,
+  CATTLE_ERROR_SEEN
 } from '../actions/cattle';
 
 const initialState = {
@@ -64,6 +65,8 @@ const cattle = (state = initialState, action) => {
       return handleFetchCattleImageSuccess(state, action.id, action.images);
     case FETCH_CATTLE_IMAGE_ERROR:
       return handleFetchCattleImageError(state, action.error);
+    case CATTLE_ERROR_SEEN:
+      return handleErrorSeen(state);
     default:
       return state;
   }
@@ -222,5 +225,12 @@ export function handleFetchCattleImageError(state, error) {
     imageFetching: false
   };
 };
+
+const handleErrorSeen = (state) =>  {
+  return {
+    ...state,
+    error: null,
+  }
+}
 
 export default cattle;

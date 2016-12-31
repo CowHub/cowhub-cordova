@@ -239,3 +239,12 @@ export function fetchCattleImageError(error) {
     error,
   };
 };
+
+// Handle error popups
+export let CATTLE_ERROR_SEEN = 'CATTLE_ERROR_SEEN';
+
+export function cattleErrorSeen() {
+  return {
+    type: CATTLE_ERROR_SEEN,
+  }
+}

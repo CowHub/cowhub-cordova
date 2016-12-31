@@ -155,10 +155,10 @@ export function logoutUserError(error) {
 }
 
 // Handle error popups
-export let ERROR_SEEN = 'ERROR_SEEN';
+export let LOGIN_ERROR_SEEN = 'LOGIN_ERROR_SEEN';
 
 export function loginErrorSeen() {
   return {
-    type: ERROR_SEEN,
+    type: LOGIN_ERROR_SEEN,
   }
 }
