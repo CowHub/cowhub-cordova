@@ -1,0 +1,8 @@
+# Ignore webpack output
+
+*.eot
+*.ttf
+*.woff
+*.woff2
+*.svg
+bundle.js
