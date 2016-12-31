@@ -23,6 +23,7 @@ import {
     updateCattle,
     deleteCattle,
     backToMyHerdPage,
+    cattleErrorSeen
     } from'../actions/index'
 const mapStateToProps = (state) => {
   return {
@@ -46,6 +47,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     loadMyHerdPage: ()  =>  {
       dispatch(backToMyHerdPage())
+    },
+    handleErrorSeen:  (params)  =>  {
+      dispatch(cattleErrorSeen());
     }
   }
 };
@@ -104,9 +108,13 @@ class EditCattlePage extends React.Component {
   }
 
   handleError(props) {
-    return props.isError ?
-        notification.alert('Error: ' + this.props.isError)
-        : null
+    return props.isError?
+        notification.alert({
+          message: 'Error: ' + props.isError,
+          callback: props.handleErrorSeen()
+        })
+        :
+        null;
   }
 
   renderLoadingSpiral() {
