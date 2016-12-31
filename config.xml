@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.elitesellingcrew.cowhub" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>Cowhub</name>
+    <description>
+    A Cow related application.
+  </description>
+    <author email="ts3413@ic.ac.uk" href="https://tom-szyszko.com">
+    Thomas Szyszko
+  </author>
+    <preference name="permissions" value="none" />
+    <preference name="orientation" value="default" />
+    <preference name="target-device" value="universal" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="detect-data-types" value="true" />
+    <preference name="android-minSdkVersion" value="14" />
+    <preference name="android-installLocation" value="auto" />
+    <platform name="android">
+        <icon density="mdpi" src="res/icon/android/mipmap-mdpi/ic_launcher.png" />
+        <icon density="hdpi" src="res/icon/android/mipmap-hdpi/ic_launcher.png" />
+        <icon density="xhdpi" src="res/icon/android/mipmap-xhdpi/ic_launcher.png" />
+        <icon density="xxhdpi" src="res/icon/android/mipmap-xxhdpi/ic_launcher.png" />
+        <icon density="xxxhdpi" src="res/icon/android/mipmap-xxxhdpi/ic_launcher.png" />
+    </platform>
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <content src="index.html" />
+        <allow-intent href="market:*" />
+    </platform>
+    <platform name="ios">
+        <content src="index.html" />
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+        <allow-navigation href="http://*/*" />
+    </platform>
+    <plugin name="cordova-plugin-whitelist" version="1" />
+    <plugin name="cordova-plugin-statusbar" spec="~2.1.0" />
+    <preference name="orientation" value="portrait" />
+</widget>
