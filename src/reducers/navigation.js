@@ -10,6 +10,22 @@ import {
     PAGE_RENDERED
 } from '../actions/navigation'
 
+import {
+    LOAD_TOKEN,
+    STORE_TOKEN,
+    REMOVE_TOKEN,
+    LOGIN_USER_PENDING,
+    LOGIN_USER_SUCCESS,
+    LOGIN_USER_ERROR,
+    REGISTER_USER_PENDING,
+    REGISTER_USER_SUCCESS,
+    REGISTER_USER_ERROR,
+    LOGOUT_USER_PENDING,
+    LOGOUT_USER_SUCCESS,
+    LOGOUT_USER_ERROR,
+    LOGIN_ERROR_SEEN,
+} from '../actions/authentication'
+
 const initialState = {
   requestedPage: 'LOGIN_PAGE',
   renderedPage: 'LOGIN_PAGE',
@@ -39,6 +55,10 @@ const page = (state = initialState, action) => {
       return handleVerifyImagePageLoad(state);
     case PAGE_RENDERED:
       return handlePageRendered(state,action.pageName);
+    case LOGIN_USER_SUCCESS:
+      return handleMyHerdPageLoad(state);
+    case LOGOUT_USER_SUCCESS:
+      return handleLoginPageLoad(state);
     default:
       return state;
   }
@@ -47,14 +67,16 @@ const page = (state = initialState, action) => {
 const handleLoginPageLoad = (state)  => {
   return {
     ...state,
-    requestedPage: 'LOGIN_PAGE'
+    requestedPage: 'LOGIN_PAGE',
+    back: false
   };
 };
 
 const handleMyHerdPageLoad = (state)  => {
   return {
     ...state,
-    requestedPage: 'MY_HERD_PAGE'
+    requestedPage: 'MY_HERD_PAGE',
+    back: false
   };
 };
 
@@ -69,14 +91,16 @@ const handleBackToMyHerdPageLoad = (state)  => {
 const handleCreateCattlePageLoad = (state)  => {
   return {
     ...state,
-    requestedPage: 'CREATE_CATTLE_PAGE'
+    requestedPage: 'CREATE_CATTLE_PAGE',
+    back: false
   };
 };
 
 const handleCreateCattlePhotoPageLoad = (state)  => {
   return {
     ...state,
-    requestedPage: 'CREATE_CATTLE_PHOTO_PAGE'
+    requestedPage: 'CREATE_CATTLE_PHOTO_PAGE',
+    back: false
   };
 };
 
@@ -84,21 +108,24 @@ const handleCreateCattlePhotoPageLoad = (state)  => {
 const handleEditCattlePageLoad = (state)  => {
   return {
     ...state,
-    requestedPage: 'EDIT_CATTLE_PAGE'
+    requestedPage: 'EDIT_CATTLE_PAGE',
+    back: false
   };
 };
 
 const handleIdentifyCattlePageLoad = (state)  => {
   return {
     ...state,
-    requestedPage: 'IDENTIFY_CATTLE_PAGE'
+    requestedPage: 'IDENTIFY_CATTLE_PAGE',
+    back: false
   };
 };
 
 const handleVerifyImagePageLoad = (state)  => {
   return {
     ...state,
-    requestedPage: 'VERIFY_IMAGE_PAGE'
+    requestedPage: 'VERIFY_IMAGE_PAGE',
+    back: false
   };
 };
 

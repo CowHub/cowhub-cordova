@@ -14,6 +14,8 @@ import {
   LOGIN_ERROR_SEEN,
 } from '../actions/authentication'
 
+
+
 const initialState = {
   token: null,
   fetching: false,
@@ -99,6 +101,7 @@ const handleLoginRegisterUserPending = (state) => {
 }
 
 const handleLoginRegisterUserSuccess = (state) => {
+  
   return {
     ...state,
     fetching: false,
