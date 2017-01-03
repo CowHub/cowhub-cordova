@@ -226,11 +226,11 @@ export function handleFetchCattleImageError(state, error) {
   };
 };
 
-const handleErrorSeen = (state) =>  {
+export function handleErrorSeen(state) {
   return {
     ...state,
     error: null,
   }
-}
+};
 
 export default cattle;
