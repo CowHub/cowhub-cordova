@@ -33,9 +33,6 @@ const mapDispatchToProps = (dispatch) => {
     handleEdit: (id) => {
       dispatch(editCattle(id));
     },
-    handleGetImages: (id) => {
-      dispatch(fetchCattleImage(id));
-    }
   };
 };
 
@@ -66,13 +63,6 @@ class CattleListItem extends React.Component {
       images: ["img/img.png"],
     }
   };
-
-  componentDidMount() {
-    //this.props.handleGetImages(this.props.cattle.id);
-  }
-
-
-
 
   editCow() {
     this.props.handleEdit(this.props.id);
