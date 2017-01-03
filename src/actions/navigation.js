@@ -26,6 +26,12 @@ export function cattleEditingRedirect() {
   }
 }
 
+export function cattlePostEditingRedirect() {
+  return(dispatch)  =>  {
+    dispatch(backToMyHerdPage());
+  }
+}
+
 // Login Page
 
 export function loadLoginPage(){

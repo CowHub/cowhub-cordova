@@ -79,12 +79,12 @@ class CattleListItem extends React.Component {
         name,
         images
     } = this.props.cattle;
-
+    // {this.props.isImageFetching? <ProgressCircular indeterminate/>:<img src={images[0]} style={styles.thumbnail}/>}
     return (
         <ListItem style={styles.listItemContainer} modifier="tappable chevron" onClick={() =>this.editCow()}>
           <Row>
             <Col width="95px">
-              {this.props.isImageFetching? <ProgressCircular indeterminate/>:<img src={images[0]} style={styles.thumbnail}/>}
+              <ProgressCircular indeterminate/>
             </Col>
             <Col>
               <div style={styles.name}>

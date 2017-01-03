@@ -1,6 +1,9 @@
 import $ from 'jquery';
 import store from '../store/store';
-import {cattleEditingRedirect} from './navigation';
+import {
+    cattleEditingRedirect,
+    cattlePostEditingRedirect
+} from './navigation';
 
 // Cattle fetch
 export let FETCH_CATTLE_PENDING = 'FETCH_CATTLE_PENDING';
@@ -107,6 +110,7 @@ export function updateCattle(id, params) {
       },
       data: params,
     }).then((response) => {
+      dispatch(cattlePostEditingRedirect());
       dispatch(updateCattleSuccess(response.cattle));
       for (let cattle of response.cattle) {
         dispatch(fetchCattleImage(cattle.id))
@@ -152,6 +156,7 @@ export function deleteCattle(id) {
         'Authorization': `Bearer ${token}`,
       },
     }).then((response) => {
+      dispatch(cattlePostEditingRedirect());
       dispatch(deleteCattleSuccess(id));
     }).catch((error) => {
       dispatch(deleteCattleError(error));
@@ -198,6 +203,13 @@ export function enableEditingCattle(id) {
 }
 
 export function endEditCattle(id)  {
+  return (dispatch) =>  {
+    dispatch(cattlePostEditingRedirect());
+    dispatch(disableEditingCattle());
+  }
+}
+
+export function disableEditingCattle(id) {
   return{
     type: EDITING_CATTLE_DISABLED,
     id,
