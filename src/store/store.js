@@ -4,11 +4,6 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
 import reducers from '../reducers/index';
-import {
-  fetchToken,
-  removeToken,
-} from '../actions/index';
-
 const initialState = {};
 
 let middleware = (process.env.NODE_ENV !== 'production')
@@ -21,8 +16,7 @@ const composeEnhancer = (process.env.NODE_ENV !== 'production')
 
 const store = createStore(reducers, initialState, composeEnhancer(middleware));
 
-// Get token if one exists
-// store.dispatch(fetchToken());
+
 
 if (module.hot) {
   // Enable Webpack hot module replacement for reducers
@@ -32,5 +26,4 @@ if (module.hot) {
     console.clear()
   });
 }
-
 export default store;

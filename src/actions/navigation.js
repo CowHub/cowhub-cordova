@@ -12,7 +12,13 @@ export let IDENTIFY_CATTLE_PAGE_LOAD = 'IDENTIFY_CATTLE_PAGE_LOAD';
 export let VERIFY_IMAGE_PAGE_LOAD = 'VERIFY_IMAGE_PAGE_LOAD';
 export let PAGE_RENDERED = 'PAGE_RENDERED';
 
+// Redirects
 
+export function authenticatedRedirect() {
+  return(dispatch) => {
+    dispatch(loadMyHerdPage());
+  }
+}
 
 // Login Page
 

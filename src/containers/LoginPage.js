@@ -19,7 +19,8 @@ import {
     enterEmail,
     enterPassword,
     submitPressed,
-    loadMyHerdPage
+    loadMyHerdPage,
+    initialTokenCheck
 } from '../actions/index';
 const mapStateToProps = (state) => {
   return {
@@ -44,6 +45,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     handleErrorSeen:  (params)  =>  {
       dispatch(loginErrorSeen());
+    },
+    handleFetchToken: () => {
+      dispatch(initialTokenCheck());
     }
   };
 };
@@ -56,8 +60,14 @@ class LoginPage extends React.Component {
     email: React.PropTypes.string,
     password: React.PropTypes.string
   };
-  
 
+  componentDidMount() {
+    this.handleAuthenticated(this.props);
+  }
+
+  handleAuthenticated(props) {
+    if (!props.authentication.fetching) props.handleFetchToken();
+  }
 
   submit() {
     this.props.handleLogin({

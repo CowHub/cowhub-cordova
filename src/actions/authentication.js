@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import store from '../store/store';
+import {authenticatedRedirect} from './navigation'
 
 // Token management
 export let LOAD_TOKEN = 'LOAD_TOKEN';
@@ -160,5 +161,83 @@ export let LOGIN_ERROR_SEEN = 'LOGIN_ERROR_SEEN';
 export function loginErrorSeen() {
   return {
     type: LOGIN_ERROR_SEEN,
+  }
+}
+
+// Verify token
+export let VERIFY_TOKEN_PENDING = 'VERIFY_TOKEN_PENDING';
+export let VERIFY_TOKEN_SUCCESS = 'VERIFY_TOKEN_SUCCESS';
+export let VERIFY_TOKEN_EXPIRED = 'VERIFY_TOKEN_EXPIRED';
+export let VERIFY_TOKEN_ERROR = 'VERIFY_TOKEN_ERROR';
+
+export function verifyToken() {
+  return (dispatch) => {
+    let token = store.getState().authentication.token;
+    dispatch(verifyTokenPending());
+    return $.ajax(`${process.env.API_ENDPOINT}/user/validate`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      method: 'POST',
+    }).then((response) => {
+      dispatch(verifyTokenSuccess());
+    }).catch((error) => {
+      if (error.status === 401) {
+        dispatch(tokenExpired());
+      } else {
+        dispatch(verifyTokenError(error));
+      }
+    })
+  }
+}
+
+export function verifyTokenPending() {
+  return {
+    type: VERIFY_TOKEN_PENDING,
+  }
+}
+
+export function verifyTokenSuccess() {
+  return {
+    type: VERIFY_TOKEN_SUCCESS,
+  }
+}
+
+export function tokenExpired()  {
+  return (dispatch) =>  {
+    dispatch(removeToken());
+    dispatch(verifyTokenExpired());
+  }
+}
+
+export function verifyTokenExpired()  {
+  return {
+    type: VERIFY_TOKEN_EXPIRED,
+  }
+}
+
+export function verifyTokenError(error) {
+  return {
+    type: VERIFY_TOKEN_ERROR,
+    error,
+  }
+}
+
+export function initialTokenCheck() {
+  return (dispatch,getState)  =>  {
+    dispatch(fetchToken());
+      // Check if we have a token
+      if (getState().authentication.token)  {
+        // Verify token
+        dispatch(verifyToken()).then(() => {
+          // Check if valid
+          if(getState().authentication.fetched) {
+            // Redirect to main app page
+            return dispatch(authenticatedRedirect());
+          }
+          return null;
+        });
+      }
+      return null;
   }
 }
