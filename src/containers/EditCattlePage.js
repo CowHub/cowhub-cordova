@@ -92,7 +92,7 @@ class EditCattlePage extends React.Component {
   }
 
   setBackground(props) {
-    styles.image_container.backgroundImage = 'url('+props.cattle.images[0]+')'
+    // styles.image_container.backgroundImage = 'url('+props.cattle.images[0]+')'
   }
 
 
