@@ -20,6 +20,12 @@ export function authenticatedRedirect() {
   }
 }
 
+export function cattleEditingRedirect() {
+  return(dispatch)  =>  {
+    dispatch(loadEditCattlePage());
+  }
+}
+
 // Login Page
 
 export function loadLoginPage(){

@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import store from '../store/store';
+import {cattleEditingRedirect} from './navigation';
 
 // Cattle fetch
 export let FETCH_CATTLE_PENDING = 'FETCH_CATTLE_PENDING';
@@ -183,6 +184,13 @@ export let EDITING_CATTLE_ENABLED = 'EDITING_CATTLE_ENABLED';
 export let EDITING_CATTLE_DISABLED = 'EDITING_CATTLE_DISABLED';
 
 export function editCattle(id)  {
+  return(dispatch) => {
+    dispatch(enableEditingCattle(id));
+    dispatch(cattleEditingRedirect());
+  }
+}
+
+export function enableEditingCattle(id) {
   return{
     type: EDITING_CATTLE_ENABLED,
     id,

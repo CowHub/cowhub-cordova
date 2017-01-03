@@ -17,8 +17,7 @@ import {
 } from 'react-onsenui';
 
 import {
-    editCattle,
-    fetchCattleImage
+    editCattle
 } from'../../actions/cattle'
 
 const mapStateToProps = (state, ownProps) => {

@@ -90,9 +90,9 @@ class MyHerdPage extends React.Component {
   }
 
   handleEditing(props) {
-    if(props.isEditing) {
-      props.editCattle();
-    }
+    // if(props.isEditing) {
+    //   props.editCattle();
+    // }
   }
 
 

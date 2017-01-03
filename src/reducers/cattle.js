@@ -58,7 +58,7 @@ const cattle = (state = initialState, action) => {
     case EDITING_CATTLE_ENABLED:
       return handleEditing(state, action.id);
     case EDITING_CATTLE_DISABLED:
-      return handleEndEditing(state, action.id);
+      return handleEndEditing(state);
     case FETCH_CATTLE_IMAGE_PENDING:
       return handleFetchCattleImagePending(state,action.id);
     case FETCH_CATTLE_IMAGE_SUCCESS:
@@ -191,7 +191,7 @@ export function handleEditing(state,id) {
   };
 }
 
-export function handleEndEditing(state,id) {
+export function handleEndEditing(state) {
   return {
     ...state,
     editing: false,
