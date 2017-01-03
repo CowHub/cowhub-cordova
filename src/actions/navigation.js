@@ -20,6 +20,18 @@ export function authenticatedRedirect() {
   }
 }
 
+export function cattleEditingRedirect() {
+  return(dispatch)  =>  {
+    dispatch(loadEditCattlePage());
+  }
+}
+
+export function cattlePostEditingRedirect() {
+  return(dispatch)  =>  {
+    dispatch(backToMyHerdPage());
+  }
+}
+
 // Login Page
 
 export function loadLoginPage(){

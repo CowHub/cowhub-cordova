@@ -72,13 +72,10 @@ class MyHerdPage extends React.Component {
   };
 
   componentWillMount() {
-
-    this.handleEditing(this.props);
     this.props.fetchCattle();
   }
 
   componentWillReceiveProps(props) {
-    this.handleEditing(props);
   }
 
   handleNewClick() {
@@ -88,13 +85,6 @@ class MyHerdPage extends React.Component {
   handleCameraClick() {
     this.props.identifyCattle();
   }
-
-  handleEditing(props) {
-    if(props.isEditing) {
-      props.editCattle();
-    }
-  }
-
 
 
   handleChange(e) {

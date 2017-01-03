@@ -20,7 +20,7 @@ import {
 import CattleEditTopBar from '../components/cattle/CattleEditTopBar'
 
 import {
-    backToMyHerdPage,
+    cattleErrorSeen,
     registerCattle,
     loadCreateCattlePhotoPage
     } from'../actions/index'
@@ -35,14 +35,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadMyHerdPage: ()  =>  {
-      dispatch(backToMyHerdPage())
-    },
     loadCreateCattlePhotoPage: ()  =>  {
       dispatch(loadCreateCattlePhotoPage())
     },
     register: (props)  =>  {
       dispatch(registerCattle(props.cattle))
+    },
+    handleErrorSeen:  (params)  =>  {
+      dispatch(cattleErrorSeen());
     }
   }
 };
@@ -83,16 +83,16 @@ class CreateCattlePage extends React.Component {
     this.handleError(props);
   }
 
-
-
   handleError(props) {
-    if (props.isError)  {
-      if (!props.isFetching && props.isError.responseJSON)  {
-        return notification.alert('Error: ' + this.props.isError.responseJSON.errors[0]);
-      }
-    }
-    return;
+    return props.isError?
+        notification.alert({
+          message: 'Error: ' + (props.isError.responseJSON? props.isError.responseJSON.errors[0] : props.isError.responseText),
+          callback: props.handleErrorSeen
+        })
+        :
+        null;
   }
+
 
   renderLoadingSpiral() {
     return (this.props.isFetching? <ProgressCircular indeterminate />:null);

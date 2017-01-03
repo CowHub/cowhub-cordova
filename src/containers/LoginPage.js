@@ -82,7 +82,7 @@ class LoginPage extends React.Component {
         notification.alert({
           message: 'Error: '+ this.props.authentication.error.responseJSON?
               this.props.authentication.error.responseJSON.errors[0] : null,
-          callback: this.props.handleErrorSeen()
+          callback: this.props.handleErrorSeen
         })
         :
         null;

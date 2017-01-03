@@ -45,9 +45,6 @@ const mapDispatchToProps = (dispatch) => {
     handleCattleDelete: (id) => {
       dispatch(deleteCattle(id))
     },
-    loadMyHerdPage: ()  =>  {
-      dispatch(backToMyHerdPage())
-    },
     handleErrorSeen:  (params)  =>  {
       dispatch(cattleErrorSeen());
     }
@@ -82,8 +79,6 @@ class EditCattlePage extends React.Component {
   };
 
   componentWillMount() {
-    // See if we are still editing
-    this.checkEditing(this.props);
     this.setBackground(this.props);
 
     // Check for Errors
@@ -91,27 +86,22 @@ class EditCattlePage extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    this.checkEditing(props);
     // Check for Errors
     this.handleError(props);
     this.setBackground(props)
   }
 
   setBackground(props) {
-    styles.image_container.backgroundImage = 'url('+props.cattle.images[0]+')'
+    // styles.image_container.backgroundImage = 'url('+props.cattle.images[0]+')'
   }
 
-  checkEditing(props)  {
-    if (!props.isEditing)  {
-      props.loadMyHerdPage();
-    }
-  }
+
 
   handleError(props) {
     return props.isError?
         notification.alert({
           message: 'Error: ' + props.isError,
-          callback: props.handleErrorSeen()
+          callback: props.handleErrorSeen
         })
         :
         null;

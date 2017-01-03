@@ -17,8 +17,7 @@ import {
 } from 'react-onsenui';
 
 import {
-    editCattle,
-    fetchCattleImage
+    editCattle
 } from'../../actions/cattle'
 
 const mapStateToProps = (state, ownProps) => {
@@ -33,9 +32,6 @@ const mapDispatchToProps = (dispatch) => {
     handleEdit: (id) => {
       dispatch(editCattle(id));
     },
-    handleGetImages: (id) => {
-      dispatch(fetchCattleImage(id));
-    }
   };
 };
 
@@ -67,13 +63,6 @@ class CattleListItem extends React.Component {
     }
   };
 
-  componentDidMount() {
-    //this.props.handleGetImages(this.props.cattle.id);
-  }
-
-
-
-
   editCow() {
     this.props.handleEdit(this.props.id);
   }
@@ -90,12 +79,12 @@ class CattleListItem extends React.Component {
         name,
         images
     } = this.props.cattle;
-
+    // {this.props.isImageFetching? <ProgressCircular indeterminate/>:<img src={images[0]} style={styles.thumbnail}/>}
     return (
         <ListItem style={styles.listItemContainer} modifier="tappable chevron" onClick={() =>this.editCow()}>
           <Row>
             <Col width="95px">
-              {this.props.isImageFetching? <ProgressCircular indeterminate/>:<img src={images[0]} style={styles.thumbnail}/>}
+              <ProgressCircular indeterminate/>
             </Col>
             <Col>
               <div style={styles.name}>
