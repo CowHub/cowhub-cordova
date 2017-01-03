@@ -15,10 +15,12 @@ import {
 import CattleEditTopBar from '../components/cattle/CattleEditTopBar'
 import {
     loginUser,
+    loginErrorSeen,
     enterEmail,
     enterPassword,
     submitPressed,
-    loadMyHerdPage
+    loadMyHerdPage,
+    initialTokenCheck
 } from '../actions/index';
 const mapStateToProps = (state) => {
   return {
@@ -40,6 +42,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     handleMyHerdPageLoad: (params) => {
       dispatch(loadMyHerdPage());
+    },
+    handleErrorSeen:  (params)  =>  {
+      dispatch(loginErrorSeen());
+    },
+    handleFetchToken: () => {
+      dispatch(initialTokenCheck());
     }
   };
 };
@@ -53,23 +61,12 @@ class LoginPage extends React.Component {
     password: React.PropTypes.string
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.handleAuthenticated(this.props);
   }
 
-  componentWillReceiveProps(props) {
-    this.handleAuthenticated(props);
-  }
-
   handleAuthenticated(props) {
-    if (props.authentication.token) {
-      // props.navigator.resetPage({component: MyHerdPage,key:'MY_HERD_PAGE',navigator:this.props.navigator});
-      // Check if page hasn't changed
-      if ('MY_HERD_PAGE' != props.navigation.renderedPage) {
-        this.props.handleMyHerdPageLoad();
-      }
-
-    }
+    if (!props.authentication.fetching) props.handleFetchToken();
   }
 
   submit() {
@@ -82,11 +79,11 @@ class LoginPage extends React.Component {
 
   error() {
     return this.props.authentication.error?
-        <div>
-          <h2> Error :( </h2>
-          <p> {this.props.authentication.error.responseJSON?
-              this.props.authentication.error.responseJSON.errors[0] : null}</p>
-        </div>
+        notification.alert({
+          message: 'Error: '+ this.props.authentication.error.responseJSON?
+              this.props.authentication.error.responseJSON.errors[0] : null,
+          callback: this.props.handleErrorSeen()
+        })
         :
         null;
   }
@@ -105,13 +102,15 @@ class LoginPage extends React.Component {
                 {this.error()}
               </Row>
               <Row style={{'height': '5%'}}>
-                <Input ref="email" placeholder="Email" type="text" modifier="underbar" onChange={(event) => {
+                <Input ref="email" placeholder="Email" type="text" modifier="underbar" value={this.props.login.email}
+                       onChange={(event) => {
                 this.props.handleEmail(event.target.value)
                 }} style={{width:'100%'}}/>
               </Row>
               <Row style={{'height': '5%'}}></Row>
               <Row style={{'height': '5%'}}>
-                <Input ref="password" placeholder="Password" type="password" modifier="underbar" onChange={(event) =>
+                <Input ref="password" placeholder="Password" type="password" value={this.props.login.password}
+                       modifier="underbar" onChange={(event) =>
                 this.props.handlePassword(event.target.value)} style={{width:'100%'}}/>
               </Row>
               <Row style={{'height': '20%'}}></Row>

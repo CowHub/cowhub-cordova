@@ -13,7 +13,8 @@ import {
     Fab,
     PullHook,
     ProgressCircular,
-    Modal
+    Modal,
+    Popover
 
 } from 'react-onsenui';
 
@@ -24,7 +25,9 @@ import {
     fetchCattleImage,
     loadCreateCattlePage,
     loadEditCattlePage,
-    loadIdentifyCattlePage
+    loadIdentifyCattlePage,
+    logoutUser,
+    loadLoginPage
 } from '../actions/index';
 
 
@@ -43,7 +46,11 @@ const mapDispatchToProps = (dispatch) => {
     },
     createCattle:() => { dispatch(loadCreateCattlePage())},
     editCattle:() => { dispatch(loadEditCattlePage())},
-    identifyCattle:() => { dispatch(loadIdentifyCattlePage())}
+    identifyCattle:() => { dispatch(loadIdentifyCattlePage())},
+    handleLogout:() => {
+      dispatch(logoutUser());
+      dispatch(loadLoginPage());
+    }
   }
 };
 
@@ -101,6 +108,12 @@ class MyHerdPage extends React.Component {
     setTimeout(done, 1000);
   }
 
+  handleLogout = () =>  {
+    this.props.handleLogout();
+  };
+
+
+
   get content() {
     switch (this.state.state) {
       case 'initial':
@@ -117,11 +130,9 @@ class MyHerdPage extends React.Component {
   }
 
   renderPage()  {
-
-
     return (
 
-    <Page renderToolbar={() => <TopBar title='My Herd' navigator={this.props.navigator} />}>
+    <Page renderToolbar={() => <TopBar title='My Herd' optionsMenu={true} logoutFunction={this.handleLogout} />}>
       <PullHook
           onChange={this.handleChange.bind(this)}
           onLoad={this.handleLoad.bind(this)}

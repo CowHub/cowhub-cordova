@@ -3,11 +3,12 @@ const path = require('path');
 const webpack = require('webpack');
 
 const ENV = require('./env');
+const URLS = require('./urls');
+
 const PATHS = {
   src: path.join(__dirname, 'src'),
   build: path.join(__dirname, 'www'),
 };
-
 process.env.BABEL_ENV = ENV;
 
 const common = {
@@ -54,7 +55,7 @@ const common = {
       '__DEV__': false,
       'process.env': {
         // 'API_ENDPOINT': JSON.stringify('//cloud-vm-46-166.doc.ic.ac.uk'),
-        'API_ENDPOINT': JSON.stringify('http://129.31.232.58:8080'),
+        'API_ENDPOINT': JSON.stringify('http://' + URLS.BUILD_API),
         'NODE_ENV': JSON.stringify('production')
       }
     }),
@@ -93,7 +94,7 @@ if (ENV === 'development') {
         '__DEV__': true,
 
         'process.env': {
-          'API_ENDPOINT': JSON.stringify('//129.31.232.58:8080'),
+          'API_ENDPOINT': JSON.stringify('http://' + URLS.DEV_API),
           'NODE_ENV': JSON.stringify('development')
 
         }

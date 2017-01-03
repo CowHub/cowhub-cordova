@@ -71,3 +71,12 @@ export function errorImage() {
     type: ERROR_IMAGE
   }
 }
+
+// Handle error popups
+export let CAMERA_ERROR_SEEN = 'CAMERA_ERROR_SEEN';
+
+export function cameraErrorSeen() {
+  return {
+    type: CAMERA_ERROR_SEEN,
+  }
+}

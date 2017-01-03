@@ -11,7 +11,14 @@ import {
   LOGOUT_USER_PENDING,
   LOGOUT_USER_SUCCESS,
   LOGOUT_USER_ERROR,
+  LOGIN_ERROR_SEEN,
+  VERIFY_TOKEN_PENDING,
+  VERIFY_TOKEN_SUCCESS,
+  VERIFY_TOKEN_EXPIRED,
+  VERIFY_TOKEN_ERROR,
 } from '../actions/authentication'
+
+
 
 const initialState = {
   token: null,
@@ -31,19 +38,25 @@ const authentication = (state = initialState, action) => {
       return handleRemoveToken(state);
     case LOGIN_USER_PENDING:
     case REGISTER_USER_PENDING:
+    case VERIFY_TOKEN_PENDING:
       return handleLoginRegisterUserPending(state);
     case LOGIN_USER_SUCCESS:
     case REGISTER_USER_SUCCESS:
+    case VERIFY_TOKEN_SUCCESS:
       return handleLoginRegisterUserSuccess(state);
     case LOGIN_USER_ERROR:
     case REGISTER_USER_ERROR:
+    case VERIFY_TOKEN_ERROR:
       return handleLoginRegisterUserError(state, action.error);
     case LOGOUT_USER_PENDING:
-      return state;
+      return handleLoginRegisterUserPending(state,action.error);
     case LOGOUT_USER_SUCCESS:
+    case VERIFY_TOKEN_EXPIRED:
       return handleLogoutUserSuccess(state);
     case LOGOUT_USER_ERROR:
       return handleLogoutUserError(state, action.error);
+    case LOGIN_ERROR_SEEN:
+      return handleErrorSeen(state);
     default:
       return state;
   }
@@ -96,6 +109,7 @@ const handleLoginRegisterUserPending = (state) => {
 }
 
 const handleLoginRegisterUserSuccess = (state) => {
+  
   return {
     ...state,
     fetching: false,
@@ -113,15 +127,25 @@ const handleLoginRegisterUserError = (state, error) => {
 
 const handleLogoutUserSuccess = (state) => {
   return {
-    ...state
+    ...state,
+    fetching: false,
+
   };
 }
 
 const handleLogoutUserError = (state, error) => {
   return {
     ...state,
-    error
+    error,
+    fetching: false,
   };
+}
+
+const handleErrorSeen = (state) =>  {
+  return {
+      ...state,
+      error: null,
+  }
 }
 
 export default authentication;
