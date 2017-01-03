@@ -66,6 +66,7 @@ export function registerCattle(params) {
       },
       data: params,
     }).then((response) => {
+      dispatch(cattlePostEditingRedirect());
       dispatch(registerCattleSuccess(response.cattle));
     }).catch((error) => {
       dispatch(registerCattleError(error));
