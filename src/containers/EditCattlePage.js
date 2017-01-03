@@ -101,7 +101,7 @@ class EditCattlePage extends React.Component {
     return props.isError?
         notification.alert({
           message: 'Error: ' + props.isError,
-          callback: props.handleErrorSeen()
+          callback: props.handleErrorSeen
         })
         :
         null;
