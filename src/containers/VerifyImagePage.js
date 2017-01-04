@@ -17,8 +17,8 @@ import {
 import CattleEditTopBar from '../components/cattle/CattleEditTopBar'
 
 import {
-    loadMyHerdPage,
-    
+    backFromVerify,
+    imageConfirmed,
 } from'../actions/index'
 
 const mapStateToProps = (state) => {
@@ -29,8 +29,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadMyHerdPage: ()  =>  {
-      dispatch(loadMyHerdPage())
+    handleBack: ()  =>  {
+      dispatch(backFromVerify());
+    },
+    handleVerified: ()  =>  {
+      dispatch(imageConfirmed());
     }
   }
 };
@@ -44,18 +47,30 @@ class VerifyImagePage extends React.Component {
     password: React.PropTypes.string
   };
 
-  backFunction = () =>  {
-    this.props.loadMyHerdPage();
-  };
+  handleBackClick() {
+    this.props.handleBack();
+  }
 
+  handleVerifyClick()  {
+    this.props.handleVerified();
+  }
 
 
 
   render() {
     return (
-        <Page modifier="transparent"
-              renderToolbar={() => <CattleEditTopBar title='Verify Cattle' backFunction={this.backFunction} />}>
+        <Page>
           <img style={styles.reviewImage} src={this.props.camera.image}/>
+          <Fab
+              onClick={() => this.handleBackClick()}
+              position='bottom left'>
+            <Icon icon='md-arrow-left' />
+          </Fab>
+          <Fab
+              onClick={() =>this.handleVerifyClick()}
+              position='bottom right'>
+            <Icon icon='md-check' />
+          </Fab>
         </Page>
     )
   }

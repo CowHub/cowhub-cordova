@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ons from 'onsenui';
 import {
     Navigator
 } from 'react-onsenui';
@@ -28,9 +27,6 @@ const mapDispatchToProps = (dispatch) => {
     handlePageRendered: (pageName) => {
       dispatch(announcePageRendered(pageName));
     },
-    handleActivateCamera: ()  =>  {
-      dispatch(activateCamera())
-    }
   };
 };
 
@@ -74,9 +70,8 @@ class App extends React.Component{
           props.handlePageRendered('EDIT_CATTLE_PAGE');
           return;
         case'CAMERA_CAPTURE_PAGE':
-          if (ons.platform.isWebView()) {
-            props.handleActivateCamera();
-          }
+          props.navigation.back ?
+              this.refs.navigator.popPage() :
           this.refs.navigator.resetPage(pages.CameraCapturePage);
           props.handlePageRendered('CAMERA_CAPTURE_PAGE');
           return;

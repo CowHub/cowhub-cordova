@@ -4,6 +4,7 @@ import {
     BACK_TO_MY_HERD_PAGE,
     CREATE_CATTLE_PAGE_LOAD,
     CREATE_CAMERA_CAPTURE_PAGE_LOAD,
+    BACK_TO_CAMERA_CAPTURE_PAGE,
     EDIT_CATTLE_PAGE_LOAD,
     VERIFY_IMAGE_PAGE_LOAD,
     PAGE_RENDERED
@@ -46,6 +47,8 @@ const page = (state = initialState, action) => {
       return handleCreateCattlePageLoad(state);
     case CREATE_CAMERA_CAPTURE_PAGE_LOAD:
       return handleCameraCapture(state);
+    case BACK_TO_CAMERA_CAPTURE_PAGE:
+      return handleBackToCameraCapture(state);
     case EDIT_CATTLE_PAGE_LOAD:
       return handleEditCattlePageLoad(state);
     case VERIFY_IMAGE_PAGE_LOAD:
@@ -98,6 +101,14 @@ const handleCameraCapture = (state)  => {
     ...state,
     requestedPage: 'CAMERA_CAPTURE_PAGE',
     back: false
+  };
+};
+
+const handleBackToCameraCapture = (state)  => {
+  return {
+    ...state,
+    requestedPage: 'CAMERA_CAPTURE_PAGE',
+    back: true
   };
 };
 

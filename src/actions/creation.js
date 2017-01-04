@@ -1,23 +1,31 @@
 import $ from 'jquery';
 import store from '../store/store';
-// Import Navigation
-import {cameraStartRedirect} from './navigation';
+// Import Camera
+import {startCameraCapture} from './camera';
+
+// Import navigation
+import {createCattleRedirect} from './navigation';
 
 // States of creation
 export let CREATE_CATTLE_CAMERA_INIT = 'CREATE_CATTLE_CAMERA_INIT';
-export let CREATE_CATTLE_CAMERA_CAPTURE = 'CREATE_CATTLE_CAMERA_CAPTURE';
 export let CREATE_CATTLE_ENTER_DETAILS = 'CREATE_CATTLE_ENTER_DETAILS';
 export let CREATE_CATTLE_CREATE_SUCCESS = 'CREATE_CATTLE_CREATE_SUCCESS';
 export let CREATE_CATTLE_CREATE_FAIL = 'CREATE_CATTLE_CREATE_FAIL';
 export let CREATE_CATTLE_CANCEL = 'CREATE_CATTLE_CANCEL';
 
-
+// Callback from Camera
+export function creationOnImageVerified() {
+  return (dispatch) =>  {
+    dispatch(createCattleEnterDetails());
+    dispatch(createCattleRedirect());
+  }
+}
 
 
 export function startCreateCattle() {
   return (dispatch) =>  {
     dispatch(createCattleCameraInit());
-    dispatch(cameraStartRedirect());
+    dispatch(startCameraCapture());
   }
 };
 
@@ -27,11 +35,6 @@ export function createCattleCameraInit()  {
   }
 };
 
-export function createCattleCameraCapture()  {
-  return {
-    type: CREATE_CATTLE_CAMERA_CAPTURE
-  }
-};
 
 export function createCattleEnterDetails()  {
   return {

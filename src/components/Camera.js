@@ -8,7 +8,8 @@ import {
 } from 'react-onsenui';
 
 import {
-    takePhoto
+    takePhoto,
+    backFromCamera
 } from'../actions/index'
 
 const mapStateToProps = (state) => {
@@ -22,32 +23,39 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleTakePhoto: ()  =>  {
       dispatch(takePhoto())
+    },
+    handleBack: ()  =>  {
+      dispatch(backFromCamera());
     }
   }
 };
 
 class Camera extends React.Component {
 
-  static propTypes = {
-    onCaptureFunction: React.PropTypes.func.isRequired
-  };
 
-  handleClick() {
+  handleCameraClick() {
     this.props.handleTakePhoto();
-    this.props.onCaptureFunction();
+  }
+
+  handleCloseClick()  {
+    this.props.handleBack();
   }
 
   render() {
 
     return (
-        <div>
-          <img style={styles.overlay} src="img/outline.png"/>
+        <div style={styles.overlay}>
           <div style={styles.cameraText}>
             <h2>Please line up animal with guide</h2>
           </div>
           <Fab
-              onClick={() =>this.handleClick()}
-              position='bottom center'>
+              onClick={() => this.handleCloseClick()}
+              position='bottom left'>
+            <Icon icon='md-close-circle' />
+          </Fab>
+          <Fab
+              onClick={() =>this.handleCameraClick()}
+              position='bottom right'>
             <Icon icon='md-camera' />
           </Fab>
         </div>
@@ -65,12 +73,12 @@ const styles = {
     right: '0',
   },
   overlay: {
+    backgroundImage: 'url("img/outline.png")',
     height: '100%',
     width: '100%',
     objectFit: 'contain',
   },
   cameraText: {
-    position: 'fixed',
     top:  '30%',
     margin: '0 auto',
     left: '0',

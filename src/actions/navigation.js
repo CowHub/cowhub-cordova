@@ -7,6 +7,7 @@ export let MY_HERD_PAGE_LOAD = 'MY_HERD_PAGE_LOAD';
 export let BACK_TO_MY_HERD_PAGE = 'BACK_TO_MY_HERD_PAGE';
 export let CREATE_CATTLE_PAGE_LOAD = 'CREATE_CATTLE_PAGE_LOAD';
 export let CREATE_CAMERA_CAPTURE_PAGE_LOAD = 'CREATE_CAMERA_CAPTURE_PAGE_LOAD';
+export let BACK_TO_CAMERA_CAPTURE_PAGE = 'BACK_TO_CAMERA_CAPTURE_PAGE';
 export let EDIT_CATTLE_PAGE_LOAD = 'EDIT_CATTLE_PAGE_LOAD';
 export let VERIFY_IMAGE_PAGE_LOAD = 'VERIFY_IMAGE_PAGE_LOAD';
 export let PAGE_RENDERED = 'PAGE_RENDERED';
@@ -36,6 +37,31 @@ export function cameraStartRedirect() {
     dispatch(loadCameraCapturePage());
   }
 }
+
+export function cameraEndRedirect() {
+  return(dispatch)  =>  {
+    dispatch(loadMyHerdPage());
+  }
+}
+
+export function cameraVerifyImageRedirect() {
+  return(dispatch)  =>  {
+    dispatch(loadVerifyImagePage());
+  }
+}
+
+export function backToCameraRedirect()  {
+  return(dispatch)  =>  {
+    dispatch(backToCameraCapturePage());
+  }
+}
+
+export function createCattleRedirect()  {
+  return(dispatch)  =>  {
+    dispatch(loadCreateCattlePage());
+  }
+}
+
 
 // Login Page
 
@@ -72,6 +98,14 @@ export function loadCreateCattlePage(){
 export function loadCameraCapturePage(){
   return {
     type: CREATE_CAMERA_CAPTURE_PAGE_LOAD,
+  }
+}
+
+// Create Camera Photo
+
+export function backToCameraCapturePage(){
+  return {
+    type: BACK_TO_CAMERA_CAPTURE_PAGE,
   }
 }
 

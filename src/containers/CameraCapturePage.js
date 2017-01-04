@@ -19,8 +19,7 @@ import CattleEditTopBar from '../components/cattle/CattleEditTopBar'
 import Camera from '../components/Camera'
 
 import {
-    deactivateCamera,
-    
+    backFromCamera
 } from'../actions/index'
 
 const mapStateToProps = (state) => {
@@ -31,8 +30,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleDeactivateCamera: ()  =>  {
-      dispatch(deactivateCamera())
+    handleBack: ()  =>  {
+      dispatch(backFromCamera());
     }
   }
 };
@@ -43,10 +42,7 @@ const mapDispatchToProps = (dispatch) => {
 class CameraCapturePage extends React.Component {
 
   backFunction = () =>  {
-    if (ons.platform.isWebView()) {
-      this.props.handleDeactivateCamera();
-    }
-    this.props.loadMyHerdPage();
+    this.props.handleBack();
   };
 
   returnCordova() {
@@ -76,9 +72,9 @@ class CameraCapturePage extends React.Component {
 
 
   render() {
+    // renderToolbar={() => <CattleEditTopBar title='Capture Image' backFunction={this.backFunction} />}
     return (
-        <Page modifier="transparent"
-              renderToolbar={() => <CattleEditTopBar title='Capture Image' backFunction={this.backFunction} />}>
+        <Page modifier="transparent">
           {this.startCamera()}
         </Page>
     )
