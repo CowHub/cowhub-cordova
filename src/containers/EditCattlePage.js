@@ -88,7 +88,7 @@ class EditCattlePage extends React.Component {
   componentWillReceiveProps(props) {
     // Check for Errors
     this.handleError(props);
-    this.setBackground(props)
+    this.setBackground(props);
   }
 
   getImage()  {
@@ -208,8 +208,6 @@ const styles = {
     backgroundImage: 'img/icon.png',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    color: 'white',
-    height: '250px'
   },
   textInput: {
     marginTop: '4px',
