@@ -25,7 +25,7 @@ import {
     fetchCattleImage,
     loadCreateCattlePage,
     loadEditCattlePage,
-    loadIdentifyCattlePage,
+    loadCameraCapturePage,
     logoutUser,
     loadLoginPage
 } from '../actions/index';
@@ -46,7 +46,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     createCattle:() => { dispatch(loadCreateCattlePage())},
     editCattle:() => { dispatch(loadEditCattlePage())},
-    identifyCattle:() => { dispatch(loadIdentifyCattlePage())},
+    identifyCattle:() => { dispatch(loadCameraCapturePage())},
     handleLogout:() => {
       dispatch(logoutUser());
       dispatch(loadLoginPage());

@@ -22,7 +22,7 @@ import CattleEditTopBar from '../components/cattle/CattleEditTopBar'
 import {
     cattleErrorSeen,
     registerCattle,
-    loadCreateCattlePhotoPage
+    loadCameraCapturePage
     } from'../actions/index'
 
 const mapStateToProps = (state) => {
@@ -36,7 +36,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loadCreateCattlePhotoPage: ()  =>  {
-      dispatch(loadCreateCattlePhotoPage())
+      dispatch(loadCameraCapturePage())
     },
     register: (props)  =>  {
       dispatch(registerCattle(props.cattle))
