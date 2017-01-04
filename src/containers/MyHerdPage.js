@@ -26,7 +26,8 @@ import {
     loadCameraCapturePage,
     logoutUser,
     loadLoginPage,
-    startCreateCattle
+    startCreateCattle,
+    cattleErrorSeen
 } from '../actions/index';
 
 
@@ -34,7 +35,8 @@ const mapStateToProps = (state) => {
   return {
     cattleSize: state.cattle.cattle.length,
     isFetching: state.cattle.fetching,
-    isEditing: state.cattle.editing
+    isEditing: state.cattle.editing,
+    isError: state.cattle.error,
   };
 };
 
@@ -49,6 +51,9 @@ const mapDispatchToProps = (dispatch) => {
     handleLogout:() => {
       dispatch(logoutUser());
       dispatch(loadLoginPage());
+    },
+    handleErrorSeen:  (params)  =>  {
+      dispatch(cattleErrorSeen());
     }
   }
 };
@@ -72,9 +77,13 @@ class MyHerdPage extends React.Component {
 
   componentWillMount() {
     this.props.fetchCattle();
+    // Check for Errors
+    this.handleError(this.props);
   }
 
   componentWillReceiveProps(props) {
+    // Check for Errors
+    this.handleError(props);
   }
 
   handleNewClick() {
@@ -100,6 +109,16 @@ class MyHerdPage extends React.Component {
   handleLogout = () =>  {
     this.props.handleLogout();
   };
+
+  handleError(props) {
+    return props.isError?
+        notification.alert({
+          message: 'Error: ' + (props.isError.responseJSON? props.isError.responseJSON.errors[0] : props.isError.responseText),
+          callback: props.handleErrorSeen
+        })
+        :
+        null;
+  }
 
 
 
