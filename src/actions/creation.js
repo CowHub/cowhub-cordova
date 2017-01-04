@@ -1,11 +1,6 @@
 import $ from 'jquery';
 import store from '../store/store';
 
-// Detail management
-export let EMAIL_MODIFIED = 'EMAIL_MODIFIED';
-export let PASSWORD_MODIFIED = 'PASSWORD_MODIFIED';
-export let SUBMIT_PRESSED = 'SUBMIT_PRESSED'
-
 // States of creation
 export let CREATE_CATTLE_CAMERA_INIT = 'CREATE_CATTLE_CAMERA_INIT';
 export let CREATE_CATTLE_CAMERA_CAPTURE = 'CREATE_CATTLE_CAMERA_CAPTURE';
@@ -16,3 +11,38 @@ export let CREATE_CATTLE_CANCEL = 'CREATE_CATTLE_CANCEL';
 
 
 
+export function createCattleCameraInit()  {
+  return {
+    type: CREATE_CATTLE_CAMERA_INIT
+  }
+};
+
+export function createCattleCameraCapture()  {
+  return {
+    type: CREATE_CATTLE_CAMERA_CAPTURE
+  }
+};
+
+export function createCattleEnterDetails()  {
+  return {
+    type: CREATE_CATTLE_ENTER_DETAILS
+  }
+};
+
+export function createCattleCreateSuccess()  {
+  return {
+    type: CREATE_CATTLE_CREATE_SUCCESS
+  }
+};
+
+export function createCattleCreateFail()  {
+  return {
+    type: CREATE_CATTLE_CREATE_FAIL
+  }
+};
+
+export function createCattleCancel()  {
+  return {
+    type: CREATE_CATTLE_CANCEL
+  }
+};

@@ -5,13 +5,15 @@ import cattle from './cattle';
 import login from './login';
 import navigation from './navigation'
 import camera from './camera'
+import creation from './creation'
 
 const reducers = combineReducers({
   authentication,
   cattle,
   login,
   navigation,
-  camera
+  camera,
+  creation,
 });
 
 export default reducers;
