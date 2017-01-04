@@ -3,9 +3,9 @@ import {
     MY_HERD_PAGE_LOAD,
     BACK_TO_MY_HERD_PAGE,
     CREATE_CATTLE_PAGE_LOAD,
-    CREATE_CATTLE_PHOTO_PAGE_LOAD,
+    CREATE_CAMERA_CAPTURE_PAGE_LOAD,
+    BACK_TO_CAMERA_CAPTURE_PAGE,
     EDIT_CATTLE_PAGE_LOAD,
-    IDENTIFY_CATTLE_PAGE_LOAD,
     VERIFY_IMAGE_PAGE_LOAD,
     PAGE_RENDERED
 } from '../actions/navigation'
@@ -45,12 +45,12 @@ const page = (state = initialState, action) => {
       return handleBackToMyHerdPageLoad(state);
     case CREATE_CATTLE_PAGE_LOAD:
       return handleCreateCattlePageLoad(state);
-    case CREATE_CATTLE_PHOTO_PAGE_LOAD:
-      return handleCreateCattlePhotoPageLoad(state);
+    case CREATE_CAMERA_CAPTURE_PAGE_LOAD:
+      return handleCameraCapture(state);
+    case BACK_TO_CAMERA_CAPTURE_PAGE:
+      return handleBackToCameraCapture(state);
     case EDIT_CATTLE_PAGE_LOAD:
       return handleEditCattlePageLoad(state);
-    case IDENTIFY_CATTLE_PAGE_LOAD:
-      return handleIdentifyCattlePageLoad(state);
     case VERIFY_IMAGE_PAGE_LOAD:
       return handleVerifyImagePageLoad(state);
     case PAGE_RENDERED:
@@ -96,11 +96,19 @@ const handleCreateCattlePageLoad = (state)  => {
   };
 };
 
-const handleCreateCattlePhotoPageLoad = (state)  => {
+const handleCameraCapture = (state)  => {
   return {
     ...state,
-    requestedPage: 'CREATE_CATTLE_PHOTO_PAGE',
+    requestedPage: 'CAMERA_CAPTURE_PAGE',
     back: false
+  };
+};
+
+const handleBackToCameraCapture = (state)  => {
+  return {
+    ...state,
+    requestedPage: 'CAMERA_CAPTURE_PAGE',
+    back: true
   };
 };
 
@@ -112,15 +120,6 @@ const handleEditCattlePageLoad = (state)  => {
     back: false
   };
 };
-
-const handleIdentifyCattlePageLoad = (state)  => {
-  return {
-    ...state,
-    requestedPage: 'IDENTIFY_CATTLE_PAGE',
-    back: false
-  };
-};
-
 const handleVerifyImagePageLoad = (state)  => {
   return {
     ...state,

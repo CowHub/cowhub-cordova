@@ -5,6 +5,8 @@ import {
     cattlePostEditingRedirect
 } from './navigation';
 
+import {createCattleSuccess} from './creation';
+
 // Cattle fetch
 export let FETCH_CATTLE_PENDING = 'FETCH_CATTLE_PENDING';
 export let FETCH_CATTLE_SUCCESS = 'FETCH_CATTLE_SUCCESS';
@@ -66,7 +68,7 @@ export function registerCattle(params) {
       },
       data: params,
     }).then((response) => {
-      dispatch(cattlePostEditingRedirect());
+      dispatch(createCattleSuccess());
       dispatch(registerCattleSuccess(response.cattle));
     }).catch((error) => {
       dispatch(registerCattleError(error));

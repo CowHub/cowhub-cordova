@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ons from 'onsenui';
 import {
     Navigator
 } from 'react-onsenui';
@@ -8,10 +7,9 @@ import {
 import LoginPage from './containers/LoginPage';
 import MyHerdPage from './containers/MyHerdPage';
 import CreateCattlePage from './containers/CreateCattlePage';
-import CreateCattlePhotoPage from './containers/CreateCattlePhotoPage';
 import EditCattlePage from './containers/EditCattlePage';
-import IdentifyCattlePage from './containers/IdentifyCattlePage';
 import VerifyImagePage from './containers/VerifyImagePage';
+import CameraCapturePage from './containers/CameraCapturePage';
 
 import {
     announcePageRendered,
@@ -29,9 +27,6 @@ const mapDispatchToProps = (dispatch) => {
     handlePageRendered: (pageName) => {
       dispatch(announcePageRendered(pageName));
     },
-    handleActivateCamera: ()  =>  {
-      dispatch(activateCamera())
-    }
   };
 };
 
@@ -70,20 +65,15 @@ class App extends React.Component{
           this.refs.navigator.pushPage(pages.CreateCattlePage);
           props.handlePageRendered('CREATE_CATTLE_PAGE');
           return;
-        case'CREATE_CATTLE_PHOTO_PAGE':
-          this.refs.navigator.resetPage(pages.CreateCattlePhotoPage);
-          props.handlePageRendered('CREATE_CATTLE_PHOTO_PAGE');
-          return;
         case'EDIT_CATTLE_PAGE':
           this.refs.navigator.pushPage(pages.EditCattlePage);
           props.handlePageRendered('EDIT_CATTLE_PAGE');
           return;
-        case'IDENTIFY_CATTLE_PAGE':
-          if (ons.platform.isWebView()) {
-            props.handleActivateCamera();
-          }
-          this.refs.navigator.resetPage(pages.IdentifyCattlePage);
-          props.handlePageRendered('IDENTIFY_CATTLE_PAGE');
+        case'CAMERA_CAPTURE_PAGE':
+          props.navigation.back ?
+              this.refs.navigator.popPage() :
+          this.refs.navigator.resetPage(pages.CameraCapturePage);
+          props.handlePageRendered('CAMERA_CAPTURE_PAGE');
           return;
         case'VERIFY_IMAGE_PAGE':
           this.refs.navigator.pushPage(pages.VerifyImagePage);
@@ -135,22 +125,16 @@ const pages = {
       key: 'CREATE_CATTLE_PAGE'
     }
   },
-  CreateCattlePhotoPage: {
-    component: CreateCattlePhotoPage,
+  CameraCapturePage: {
+    component: CameraCapturePage,
     props: {
-      key: 'CREATE_CATTLE_PHOTO_PAGE'
+      key: 'CAMERA_CAPTURE_PAGE'
     }
   },
   EditCattlePage: {
     component: EditCattlePage,
     props: {
       key: 'EDIT_CATTLE_PAGE'
-    }
-  },
-  IdentifyCattlePage: {
-    component: IdentifyCattlePage,
-    props: {
-      key: 'IDENTIFY_CATTLE_PAGE'
     }
   },
   VerifyImagePage: {

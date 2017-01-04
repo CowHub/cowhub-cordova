@@ -17,12 +17,14 @@ import {
 
 } from 'react-onsenui';
 
-import CattleEditTopBar from '../components/cattle/CattleEditTopBar'
+import CattleCreateTopBar from '../components/cattle/CattleCreateTopBar';
+import CattleEditForm from '../components/cattle/CattleEditForm';
 
 import {
     cattleErrorSeen,
     registerCattle,
-    loadCreateCattlePhotoPage
+    loadCameraCapturePage,
+    cancelCreate
     } from'../actions/index'
 
 const mapStateToProps = (state) => {
@@ -35,8 +37,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadCreateCattlePhotoPage: ()  =>  {
-      dispatch(loadCreateCattlePhotoPage())
+    handleCancel: ()  =>  {
+      dispatch(cancelCreate());
     },
     register: (props)  =>  {
       dispatch(registerCattle(props.cattle))
@@ -98,78 +100,62 @@ class CreateCattlePage extends React.Component {
     return (this.props.isFetching? <ProgressCircular indeterminate />:null);
   }
 
-  backFunction = () => {
-    this.props.loadMyHerdPage();
-  };
+  deleteCattleHelper= ()  =>  {
+    this.props.handleCancel();
+  }
 
-  updateData= ()  =>  {
+  deleteCattle= ()  =>  {
+    notification.confirm({
+      message: 'Are you sure you want to delete this cattle?',
+      callback: this.deleteCattleHelper
+    });
+  }
+
+  submitData= ()  =>  {
     this.props.register(this.props);
   }
 
-  updateHerdMark(val) {
+  updateHerdMark = (val) => {
     this.props.cattle.herdmark = val;
   }
 
-  updateCountryCode(val)  {
+  updateCountryCode = (val) =>  {
     this.props.cattle.country_code = val;
   }
 
-  updateCheckDigit(val) {
+  updateCheckDigit = (val) => {
     this.props.cattle.check_digit = val;
   }
 
-  updateIdNumber(val) {
+  updateIdNumber = (val) => {
     this.props.cattle.individual_number = val;
   }
 
-  handleCameraClick() {
-    this.props.loadCreateCattlePhotoPage()
-  }
+
+
 
   render() {
+    const funcs = {
+      updateHerdMark: this.updateHerdMark,
+      updateCountryCode: this.updateCountryCode,
+      updateCheckDigit: this.updateCheckDigit,
+      updateIdNumber: this.updateIdNumber,
+    }
     return (
         <Page
             renderToolbar={() =>
-              <CattleEditTopBar title='Create Cattle' navigator={this.props.navigator}
-              backFunction={this.backFunction} editFunction={this.updateData} />}>
+              <CattleCreateTopBar title='Enter Details'
+              deleteFunction={this.deleteCattle} submitFunction={this.submitData}/>}>
 
-          <div style={styles.image_container}>
-            <div style={{textAlign: 'center',marginTop: '50px'}}>
-            <Fab
-                onClick={() =>this.handleCameraClick()} >
-              <Icon icon='md-camera' />
-            </Fab>
-              </div>
-          </div>
+          <div style={styles.image_container}></div>
           {this.renderLoadingSpiral()}
-          <List modifier="inset">
-
-            <ListItem>
-              <Input type="tel" placeholder="Herdmark" minlength="6" maxlength="6" value={this.props.cattle.herdmark}
-                     onChange={(event) => this.updateHerdMark(event.target.value)} style={styles.textInput}/>
-            </ListItem>
-            <ListItem>
-              <Input type="text" placeholder="Country Code" value={this.props.cattle.country_code}
-                     onChange={(event) => this.updateCountryCode(event.target.value)}
-                     style={styles.textInput}/>
-            </ListItem>
-            <ListItem>
-              <Input type="tel" placeholder="Check Digit" min="0" max="7" maxlength="1"
-                     onChange={(event) => this.updateCheckDigit(event.target.value)}
-                     value={this.props.cattle.check_digit}
-                     style={styles.textInput}/>
-            </ListItem>
-            <ListItem>
-              <Input type="tel" placeholder="Individual Number" value={this.props.cattle.individual_number}
-                     onChange={(event) => this.updateIdNumber(event.target.value)}
-                     style={styles.textInput}/>
-            </ListItem>
-          </List>
+          <CattleEditForm cattle={this.props.cattle} updateFuncs={funcs} />
         </Page>
 
 
     )
   }
+
 
 
 }

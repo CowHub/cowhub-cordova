@@ -22,12 +22,11 @@ import TopBar from '../components/TopBar';
 import CattleList from '../components/cattle/CattleList';
 import {
     fetchCattle,
-    fetchCattleImage,
-    loadCreateCattlePage,
     loadEditCattlePage,
-    loadIdentifyCattlePage,
+    loadCameraCapturePage,
     logoutUser,
-    loadLoginPage
+    loadLoginPage,
+    startCreateCattle
 } from '../actions/index';
 
 
@@ -44,9 +43,9 @@ const mapDispatchToProps = (dispatch) => {
     fetchCattle: () => {
       dispatch(fetchCattle());
     },
-    createCattle:() => { dispatch(loadCreateCattlePage())},
+    createCattle:() => { dispatch(startCreateCattle())},
     editCattle:() => { dispatch(loadEditCattlePage())},
-    identifyCattle:() => { dispatch(loadIdentifyCattlePage())},
+    identifyCattle:() => { dispatch(loadCameraCapturePage())},
     handleLogout:() => {
       dispatch(logoutUser());
       dispatch(loadLoginPage());

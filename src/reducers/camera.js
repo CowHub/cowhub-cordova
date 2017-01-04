@@ -4,7 +4,9 @@ import {
     CAPTURE_IMAGE,
     STORE_IMAGE,
     ERROR_IMAGE,
-    CAMERA_ERROR_SEEN
+    CAMERA_ERROR_SEEN,
+    CAMERA_TRY_AGAIN,
+    IMAGE_VERIFIED
 } from '../actions/camera'
 
 const initialState = {
@@ -29,6 +31,10 @@ const camera = (state = initialState, action) => {
       return handleErrorImage(state);
     case CAMERA_ERROR_SEEN:
       return handleErrorSeen(state);
+    case CAMERA_TRY_AGAIN:
+      return handleTryAgain(state);
+    case IMAGE_VERIFIED:
+      return handleImageVerified(state,action.img);
     default:
       return state;
   }
@@ -63,6 +69,13 @@ const handleStoreImage = (state,base64Image)  => {
   };
 };
 
+const handleImageVerified = (state,img)  =>  {
+  return {
+    ...state,
+    image: null,
+  };
+};
+
 const handleErrorImage = (state)  => {
   return {
     ...state,
@@ -74,6 +87,13 @@ const handleErrorSeen = (state) =>  {
   return {
     ...state,
     error: null,
+  }
+};
+
+const handleTryAgain = (state) =>  {
+  return {
+    ...state,
+    image: null,
   }
 };
 
