@@ -91,8 +91,17 @@ class EditCattlePage extends React.Component {
     this.setBackground(props)
   }
 
+  getImage()  {
+    if (this.props.cattle.images) {
+      if (this.props.cattle.images[0]){
+        return this.props.cattle.images[0];
+      }
+    }
+    return null;
+  }
+
   setBackground(props) {
-    // styles.image_container.backgroundImage = 'url('+props.cattle.images[0]+')'
+    styles.image_container.backgroundImage = 'url('+this.getImage()+')'
   }
 
 
