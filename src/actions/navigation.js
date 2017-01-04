@@ -62,6 +62,12 @@ export function createCattleRedirect()  {
   }
 }
 
+export function endCreateCattleRedirect()  {
+  return(dispatch)  =>  {
+    dispatch(loadMyHerdPage());
+  }
+}
+
 
 // Login Page
 

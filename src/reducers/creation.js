@@ -1,13 +1,13 @@
 import {
   CREATE_CATTLE_CAMERA_INIT,
-  CREATE_CATTLE_CAMERA_CAPTURE,
   CREATE_CATTLE_ENTER_DETAILS,
-  CREATE_CATTLE_CREATE_SUCCESS,
-  CREATE_CATTLE_CREATE_FAIL,
+  CREATE_CATTLE_CREATE_SUBMIT,
   CREATE_CATTLE_CANCEL,
 } from '../actions/creation'
 // Import Camera states
 import {CANCEL_CAMERA, IMAGE_VERIFIED} from '../actions/camera'
+// Import Cattle submit fail
+import {REGISTER_CATTLE_ERROR,REGISTER_CATTLE_SUCCESS} from '../actions/cattle'
 
 const initialState = {
   creating: false,
@@ -24,10 +24,12 @@ const capture = (state = initialState, action) => {
       return handleCreateCameraCapture(state,action.img);
     case CREATE_CATTLE_ENTER_DETAILS:
       return handleCreateEnterDetails(state);
-    case CREATE_CATTLE_CREATE_SUCCESS:
+    case REGISTER_CATTLE_SUCCESS:
       return handleCreateSuccess(state);
-    case CREATE_CATTLE_CREATE_FAIL:
+    case REGISTER_CATTLE_ERROR:
       return handleCreateFail(state);
+    case CREATE_CATTLE_CREATE_SUBMIT:
+      return handleSubmit(state);
     case CREATE_CATTLE_CANCEL:
     case CANCEL_CAMERA:
       return handleCreateCancel(state);
@@ -63,6 +65,12 @@ const handleCreateSuccess = (state) => {
     creating: false,
     imageCaptured: false,
     complete: false,
+  };
+};
+
+const handleSubmit = (state) => {
+  return {
+    ...state,
   };
 };
 
