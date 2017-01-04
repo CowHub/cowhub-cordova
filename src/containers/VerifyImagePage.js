@@ -80,8 +80,8 @@ class VerifyImagePage extends React.Component {
 const styles = {
   reviewImage: {
     position: 'fixed',
-    height: '70%',
-    width: '70%',
+    height: '100%',
+    width: '100%',
     margin: '0 auto',
     left: '0',
     right: '0'

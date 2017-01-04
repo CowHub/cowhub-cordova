@@ -28,7 +28,7 @@ export let CAMERA_TRY_AGAIN = 'CAMERA_TRY_AGAIN';
 export function startCameraCapture()  {
   return (dispatch) =>  {
     if (ons.platform.isWebView()) {
-      props.handleActivateCamera();
+      dispatch(activateCamera());
     }
     dispatch(cameraStartRedirect());
   }
@@ -37,7 +37,7 @@ export function startCameraCapture()  {
 export function restartCameraCapture()  {
   return (dispatch) =>  {
     if (ons.platform.isWebView()) {
-      props.handleActivateCamera();
+      dispatch(activateCamera());
     }
     dispatch(backToCameraRedirect());
   }
