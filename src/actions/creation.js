@@ -1,5 +1,7 @@
 import $ from 'jquery';
 import store from '../store/store';
+// Import Navigation
+import {cameraStartRedirect} from './navigation';
 
 // States of creation
 export let CREATE_CATTLE_CAMERA_INIT = 'CREATE_CATTLE_CAMERA_INIT';
@@ -10,6 +12,14 @@ export let CREATE_CATTLE_CREATE_FAIL = 'CREATE_CATTLE_CREATE_FAIL';
 export let CREATE_CATTLE_CANCEL = 'CREATE_CATTLE_CANCEL';
 
 
+
+
+export function startCreateCattle() {
+  return (dispatch) =>  {
+    dispatch(createCattleCameraInit());
+    dispatch(cameraStartRedirect());
+  }
+};
 
 export function createCattleCameraInit()  {
   return {

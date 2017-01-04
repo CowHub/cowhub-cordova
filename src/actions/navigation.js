@@ -31,6 +31,12 @@ export function cattlePostEditingRedirect() {
   }
 }
 
+export function cameraStartRedirect() {
+  return(dispatch)  =>  {
+    dispatch(loadCameraCapturePage());
+  }
+}
+
 // Login Page
 
 export function loadLoginPage(){
