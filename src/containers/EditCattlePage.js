@@ -88,7 +88,7 @@ class EditCattlePage extends React.Component {
   componentWillReceiveProps(props) {
     // Check for Errors
     this.handleError(props);
-    this.setBackground(props)
+    this.setBackground(props);
   }
 
   getImage()  {

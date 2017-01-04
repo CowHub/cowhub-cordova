@@ -72,7 +72,6 @@ const handleStoreImage = (state,base64Image)  => {
 const handleImageVerified = (state,img)  =>  {
   return {
     ...state,
-    image: null,
   };
 };
 

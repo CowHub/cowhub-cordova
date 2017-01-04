@@ -29,6 +29,7 @@ import {
 
 const mapStateToProps = (state) => {
   return {
+      ...state,
     isEditing: state.cattle.editing,
     isError: state.cattle.error,
     isFetching: state.cattle.fetching,
@@ -41,7 +42,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(cancelCreate());
     },
     register: (props)  =>  {
-      dispatch(registerCattle(props.cattle))
+      dispatch(registerCattle(props.cattle,props.creation.image))
     },
     handleErrorSeen:  (params)  =>  {
       dispatch(cattleErrorSeen());
@@ -74,6 +75,7 @@ class CreateCattlePage extends React.Component {
       individual_number: '',
     }
   };
+
 
   componentWillMount() {
     // Check for Errors
@@ -147,7 +149,9 @@ class CreateCattlePage extends React.Component {
               <CattleCreateTopBar title='Enter Details'
               deleteFunction={this.deleteCattle} submitFunction={this.submitData}/>}>
 
-          <div style={styles.image_container}></div>
+          <div style={styles.image_container}>
+            <img style={styles.reviewImage} src={this.props.creation.image}/>
+          </div>
           {this.renderLoadingSpiral()}
           <CattleEditForm cattle={this.props.cattle} updateFuncs={funcs} />
         </Page>
@@ -181,8 +185,6 @@ const styles = {
   },
   image_container: {
     backgroundColor: 'white',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
     color: 'black',
     height: '250px'
   },
@@ -194,6 +196,14 @@ const styles = {
     fontWeight: '500',
     fontSize: '17px',
     marginBottom: '4px'
+  },
+  reviewImage: {
+    position: 'fixed',
+    width: '100%',
+    margin: '0 auto',
+    left: '0',
+    right: '0',
+    maxHeight: '250px'
   }
 
 };

@@ -32,8 +32,8 @@ const mapDispatchToProps = (dispatch) => {
     handleBack: ()  =>  {
       dispatch(backFromVerify());
     },
-    handleVerified: ()  =>  {
-      dispatch(imageConfirmed());
+    handleVerified: (img)  =>  {
+      dispatch(imageConfirmed(img));
     }
   }
 };
@@ -52,7 +52,7 @@ class VerifyImagePage extends React.Component {
   }
 
   handleVerifyClick()  {
-    this.props.handleVerified();
+    this.props.handleVerified(this.props.camera.image);
   }
 
 
@@ -80,8 +80,8 @@ class VerifyImagePage extends React.Component {
 const styles = {
   reviewImage: {
     position: 'fixed',
-    height: '70%',
-    width: '70%',
+    height: '100%',
+    width: '100%',
     margin: '0 auto',
     left: '0',
     right: '0'
