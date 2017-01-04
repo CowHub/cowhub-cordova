@@ -41,7 +41,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(cancelCreate());
     },
     register: (props)  =>  {
-      dispatch(registerCattle(props.cattle))
+      dispatch(registerCattle(props.cattle,props.creation.img))
     },
     handleErrorSeen:  (params)  =>  {
       dispatch(cattleErrorSeen());

@@ -57,7 +57,7 @@ export let REGISTER_CATTLE_PENDING = 'REGISTER_CATTLE_PENDING';
 export let REGISTER_CATTLE_SUCCESS = 'REGISTER_CATTLE_SUCCESS';
 export let REGISTER_CATTLE_ERROR = 'REGISTER_CATTLE_ERROR';
 
-export function registerCattle(params) {
+export function registerCattle(params,img) {
   let token = store.getState().authentication.token;
   return (dispatch) => {
     dispatch(registerCattlePending());
@@ -68,6 +68,7 @@ export function registerCattle(params) {
       },
       data: params,
     }).then((response) => {
+      dispatch(uploadCattleImage(response.cattle.id, img))
       dispatch(createCattleSuccess());
       dispatch(registerCattleSuccess(response.cattle));
     }).catch((error) => {
@@ -269,5 +270,49 @@ export let CATTLE_ERROR_SEEN = 'CATTLE_ERROR_SEEN';
 export function cattleErrorSeen() {
   return {
     type: CATTLE_ERROR_SEEN,
+  }
+}
+
+// Cattle image upload
+export const UPLOAD_CATTLE_IMAGE_PENDING = 'UPLOAD_CATTLE_IMAGE_PENDING'
+export const UPLOAD_CATTLE_IMAGE_SUCCESS = 'UPLOAD_CATTLE_IMAGE_SUCCESS'
+export const UPLOAD_CATTLE_IMAGE_ERROR = 'UPLOAD_CATTLE_IMAGE_ERROR'
+
+export const uploadCattleImage = (id, image) => {
+  let token = store.getState().authentication.token
+  return (dispatch) => {
+    dispatch(uploadCattleImagePending())
+    $.ajax(`${process.env.API_ENDPOINT}/cattle/${id}/images`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+      method: 'POST',
+      data: {
+        data: image
+      },
+    }).then((response) => {
+      dispatch(uploadCattleImageSuccess())
+    }).catch((error) => {
+      dispatch(uploadCattleImageError(error))
+    })
+  }
+}
+
+export const uploadCattleImagePending = () => {
+  return {
+    type: UPLOAD_CATTLE_IMAGE_PENDING,
+  }
+}
+
+export const uploadCattleImageSuccess = () => {
+  return {
+    type: UPLOAD_CATTLE_IMAGE_SUCCESS,
+  }
+}
+
+export const uploadCattleImageError = (error) => {
+  return {
+    type: UPLOAD_CATTLE_IMAGE_ERROR,
+    error,
   }
 }

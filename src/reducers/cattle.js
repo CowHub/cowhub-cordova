@@ -1,22 +1,25 @@
 import {
-  FETCH_CATTLE_PENDING,
-  FETCH_CATTLE_SUCCESS,
-  FETCH_CATTLE_ERROR,
-  REGISTER_CATTLE_PENDING,
-  REGISTER_CATTLE_SUCCESS,
-  REGISTER_CATTLE_ERROR,
-  UPDATE_CATTLE_PENDING,
-  UPDATE_CATTLE_SUCCESS,
-  UPDATE_CATTLE_ERROR,
-  DELETE_CATTLE_PENDING,
-  DELETE_CATTLE_SUCCESS,
-  DELETE_CATTLE_ERROR,
-  EDITING_CATTLE_ENABLED ,
-  EDITING_CATTLE_DISABLED,
-  FETCH_CATTLE_IMAGE_PENDING,
-  FETCH_CATTLE_IMAGE_SUCCESS,
-  FETCH_CATTLE_IMAGE_ERROR,
-  CATTLE_ERROR_SEEN
+    FETCH_CATTLE_PENDING,
+    FETCH_CATTLE_SUCCESS,
+    FETCH_CATTLE_ERROR,
+    REGISTER_CATTLE_PENDING,
+    REGISTER_CATTLE_SUCCESS,
+    REGISTER_CATTLE_ERROR,
+    UPDATE_CATTLE_PENDING,
+    UPDATE_CATTLE_SUCCESS,
+    UPDATE_CATTLE_ERROR,
+    DELETE_CATTLE_PENDING,
+    DELETE_CATTLE_SUCCESS,
+    DELETE_CATTLE_ERROR,
+    EDITING_CATTLE_ENABLED,
+    EDITING_CATTLE_DISABLED,
+    FETCH_CATTLE_IMAGE_PENDING,
+    FETCH_CATTLE_IMAGE_SUCCESS,
+    FETCH_CATTLE_IMAGE_ERROR,
+    CATTLE_ERROR_SEEN,
+    UPLOAD_CATTLE_IMAGE_PENDING,
+    UPLOAD_CATTLE_IMAGE_SUCCESS,
+    UPLOAD_CATTLE_IMAGE_ERROR,
 } from '../actions/cattle';
 
 const initialState = {
@@ -60,13 +63,19 @@ const cattle = (state = initialState, action) => {
     case EDITING_CATTLE_DISABLED:
       return handleEndEditing(state);
     case FETCH_CATTLE_IMAGE_PENDING:
-      return handleFetchCattleImagePending(state,action.id);
+      return handleFetchCattleImagePending(state, action.id);
     case FETCH_CATTLE_IMAGE_SUCCESS:
-      return handleFetchCattleImageSuccess(state, action.id, action.images);
+      return handleFetchCattleImageSuccess(state);
     case FETCH_CATTLE_IMAGE_ERROR:
       return handleFetchCattleImageError(state, action.error);
     case CATTLE_ERROR_SEEN:
       return handleErrorSeen(state);
+    case UPLOAD_CATTLE_IMAGE_PENDING:
+      return handleUploadCattleImagePending(state)
+    case UPLOAD_CATTLE_IMAGE_SUCCESS:
+      return handleUploadCattleImageSuccess(state, action.id, action.image)
+    case UPLOAD_CATTLE_IMAGE_ERROR:
+      return handleUploadCattleImageError(state, action.error)
     default:
       return state;
   }
@@ -90,7 +99,8 @@ export function handleFetchCattleSuccess(state, cattleRaw) {
   let cattle = [];
   for (let i in cattleRaw) {
     cattle.push(generateCattleObject(cattleRaw[i]));
-  };
+  }
+  ;
 
   return {
     ...state,
@@ -145,7 +155,9 @@ export function handleUpdateCattlePending(state) {
 export function handleUpdateCattleSuccess(state, cattleUpdated) {
   let id = cattleUpdated.id;
   let cattle = state.cattle
-  let index = cattle.findIndex( (c) => { return c.cattle.id === id } );
+  let index = cattle.findIndex((c) => {
+    return c.cattle.id === id
+  });
   cattle[index] = generateCattleObject(cattleUpdated)
   return {
     ...state,
@@ -169,7 +181,7 @@ export function handleDeleteCattlePending(state) {
 }
 
 export function handleDeleteCattleSuccess(state, id) {
-  let cattle = state.cattle.filter( (c) => c.cattle.id !== id);
+  let cattle = state.cattle.filter((c) => c.cattle.id !== id);
   return {
     ...state,
     cattle,
@@ -183,11 +195,11 @@ export function handleDeleteCattleError(state, error) {
   };
 }
 
-export function handleEditing(state,id) {
+export function handleEditing(state, id) {
   return {
     ...state,
     editing: true,
-    cattlePos:id
+    cattlePos: id
   };
 }
 
@@ -195,7 +207,7 @@ export function handleEndEditing(state) {
   return {
     ...state,
     editing: false,
-    cattlePos:null
+    cattlePos: null
   };
 }
 
@@ -220,10 +232,14 @@ export function handleFetchCattleImagePending(state) {
 
 export function handleFetchCattleImageSuccess(state, id, images) {
   let cattle = state.cattle
-  let index = cattle.findIndex( (c) => { return c.cattle.id === id } )
-  cattle[index].cattle.images = images.map((i) => { return i.image_uri })
+  let index = cattle.findIndex((c) => {
+    return c.cattle.id === id
+  })
+  cattle[index].cattle.images = images.map((i) => {
+    return i.image_uri
+  })
   cattle[index].index = cattle[index].index ? cattle[index].index : 0
-  cattle.unshift( cattle.pop() )
+  cattle.unshift(cattle.pop())
   return {
     ...state,
     cattle,
@@ -245,5 +261,24 @@ export function handleErrorSeen(state) {
     error: null,
   }
 };
+
+export function handleUploadCattleImagePending(state) {
+  return {
+    ...state,
+  }
+}
+
+export function handleUploadCattleImageSuccess(state) {
+  return {
+      ...state
+  }
+}
+
+export function handleUploadCattleImageError(state, error) {
+  return {
+    ...state,
+    error,
+  }
+}
 
 export default cattle;
