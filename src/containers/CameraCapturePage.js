@@ -19,8 +19,6 @@ import CattleEditTopBar from '../components/cattle/CattleEditTopBar'
 import Camera from '../components/Camera'
 
 import {
-    loadMyHerdPage,
-    loadVerifyImagePage,
     deactivateCamera,
     
 } from'../actions/index'
@@ -33,26 +31,16 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadMyHerdPage: ()  =>  {
-      dispatch(loadMyHerdPage())
-    },
-    loadVerifyImagePage:  ()  =>  {
-      dispatch(loadVerifyImagePage())
-    },
     handleDeactivateCamera: ()  =>  {
       dispatch(deactivateCamera())
     }
   }
 };
 
+// This is a wrapper for the Camera component - since if we are running in a browser the cordova module ezAR will
+// not load.
 
 class CameraCapturePage extends React.Component {
-
-  static propTypes = {
-    token: React.PropTypes.string,
-    email: React.PropTypes.string,
-    password: React.PropTypes.string
-  };
 
   backFunction = () =>  {
     if (ons.platform.isWebView()) {
@@ -60,15 +48,8 @@ class CameraCapturePage extends React.Component {
     }
     this.props.loadMyHerdPage();
   };
-  
-  onCapture = () => {
-    this.props.loadVerifyImagePage();
-    this.props.handleDeactivateCamera();
-  };
-  
 
   returnCordova() {
-    
     return (
         <Camera onCaptureFunction={this.onCapture}/>
     );
@@ -76,7 +57,7 @@ class CameraCapturePage extends React.Component {
 
   returnBrowser() {
     return (
-      <div style={styles.page_content}>
+      <div>
         <h2> This will only work when running on a device</h2>
 
       </div>
@@ -87,17 +68,17 @@ class CameraCapturePage extends React.Component {
     if (ons.platform.isWebView()) {
       return this.returnCordova();
     } else {
-      return this.returnBrowser();
+      //return this.returnBrowser();
+      // DEBUG!
+      return this.returnCordova();
     }
   }
-
-
 
 
   render() {
     return (
         <Page modifier="transparent"
-              renderToolbar={() => <CattleEditTopBar title='Identify Cattle' backFunction={this.backFunction} />}>
+              renderToolbar={() => <CattleEditTopBar title='Capture Image' backFunction={this.backFunction} />}>
           {this.startCamera()}
         </Page>
     )
@@ -105,31 +86,5 @@ class CameraCapturePage extends React.Component {
 
 
 }
-
-
-const styles = {
-  capture: {
-    position:'fixed',
-    bottom: '0px',
-    width:  '200px',
-    margin: '0 auto',
-    left: '0',
-    right: '0',
-  },
-  overlay: {
-    height: '100%',
-    width: '100%',
-    objectFit: 'contain',
-  },
-  cameraText: {
-    position: 'fixed',
-    top:  '30%',
-    margin: '0 auto',
-    left: '0',
-    right:  '0',
-    textAlign: 'center',
-  }
-};
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(CameraCapturePage);
