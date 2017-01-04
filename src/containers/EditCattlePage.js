@@ -208,6 +208,8 @@ const styles = {
     backgroundImage: 'img/icon.png',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
+    color: 'white',
+    height: '250px'
   },
   textInput: {
     marginTop: '4px',
