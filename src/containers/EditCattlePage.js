@@ -18,11 +18,11 @@ import {
 } from 'react-onsenui';
 
 import CattleEditTopBar from '../components/cattle/CattleEditTopBar';
+import CattleEditForm from '../components/cattle/CattleEditForm';
 import {
     endEditCattle,
     updateCattle,
     deleteCattle,
-    backToMyHerdPage,
     cattleErrorSeen
     } from'../actions/index'
 const mapStateToProps = (state) => {
@@ -140,24 +140,32 @@ class EditCattlePage extends React.Component {
     });
   }
 
-  updateHerdMark(val) {
+  updateHerdMark = (val) => {
     this.props.cattle.herdmark = val;
   }
 
-  updateCountryCode(val)  {
+  updateCountryCode = (val) =>  {
     this.props.cattle.country_code = val;
   }
 
-  updateCheckDigit(val) {
+  updateCheckDigit = (val) => {
     this.props.cattle.check_digit = val;
   }
 
-  updateIdNumber(val) {
+  updateIdNumber = (val) => {
     this.props.cattle.individual_number = val;
   }
 
 
+
+
   render() {
+    const funcs = {
+      updateHerdMark: this.updateHerdMark,
+      updateCountryCode: this.updateCountryCode,
+      updateCheckDigit: this.updateCheckDigit,
+      updateIdNumber: this.updateIdNumber,
+    }
     return (
         <Page
             renderToolbar={() =>
@@ -166,29 +174,7 @@ class EditCattlePage extends React.Component {
 
           <div style={styles.image_container}></div>
           {this.renderLoadingSpiral()}
-          <List modifier="inset">
-
-              <ListItem>
-                <Input type="tel" placeholder="Herdmark" minlength="6" maxlength="6" value={this.props.cattle.herdmark}
-                       onChange={(event) => this.updateHerdMark(event.target.value)} style={styles.textInput}/>
-              </ListItem>
-              <ListItem>
-                <Input type="text" placeholder="Country Code" value={this.props.cattle.country_code}
-                       onChange={(event) => this.updateCountryCode(event.target.value)}
-                       style={styles.textInput}/>
-              </ListItem>
-              <ListItem>
-                <Input type="tel" placeholder="Check Digit" min="0" max="7" maxlength="1"
-                       onChange={(event) => this.updateCheckDigit(event.target.value)}
-                       value={this.props.cattle.check_digit}
-                       style={styles.textInput}/>
-              </ListItem>
-              <ListItem>
-                <Input type="tel" placeholder="Individual Number" value={this.props.cattle.individual_number}
-                       onChange={(event) => this.updateIdNumber(event.target.value)}
-                       style={styles.textInput}/>
-              </ListItem>
-            </List>
+          <CattleEditForm cattle={this.props.cattle} updateFuncs={funcs} />
         </Page>
 
 
@@ -219,7 +205,7 @@ const styles = {
   },
   image_container: {
     backgroundColor: 'white',
-    backgroundImage: 'url(img/icon.png)',
+    backgroundImage: 'img/icon.png',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     color: 'white',
