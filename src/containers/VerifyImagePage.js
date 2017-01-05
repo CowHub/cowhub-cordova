@@ -55,8 +55,6 @@ class VerifyImagePage extends React.Component {
     this.props.handleVerified(this.props.camera.image);
   }
 
-
-
   render() {
     return (
         <Page>
@@ -74,9 +72,8 @@ class VerifyImagePage extends React.Component {
         </Page>
     )
   }
-
-
 }
+
 const styles = {
   reviewImage: {
     position: 'fixed',

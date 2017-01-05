@@ -2,3 +2,13 @@
 .page--transparent .page__background  {
     background-color: transparent;
 }
+
+@keyframes slidein {
+  from {
+    margin-top: -20px;
+  }
+
+  to {
+    margin-top: 100vh;
+  }
+}

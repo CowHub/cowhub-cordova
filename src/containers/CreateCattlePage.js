@@ -29,7 +29,14 @@ import {
 
 const mapStateToProps = (state) => {
   return {
-      ...state,
+    cattle: {
+      id: '',
+      check_digit: '',
+      country_code: '',
+      herdmark: '',
+      individual_number: '',
+    },
+    image: state.creation.image,
     isEditing: state.cattle.editing,
     isError: state.cattle.error,
     isFetching: state.cattle.fetching,
@@ -42,7 +49,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(cancelCreate());
     },
     register: (props)  =>  {
-      dispatch(registerCattle(props.cattle,props.creation.image))
+      dispatch(registerCattle(props.cattle,props.image))
     },
     handleErrorSeen:  (params)  =>  {
       dispatch(cattleErrorSeen());
@@ -66,16 +73,6 @@ class CreateCattlePage extends React.Component {
       name: React.PropTypes.string,
     }).isRequired,
   };
-  static defaultProps = {
-    cattle: {
-      id: '',
-      check_digit: '',
-      country_code: '',
-      herdmark: '',
-      individual_number: '',
-    }
-  };
-
 
   componentWillMount() {
     // Check for Errors
@@ -133,9 +130,6 @@ class CreateCattlePage extends React.Component {
     this.props.cattle.individual_number = val;
   }
 
-
-
-
   render() {
     const funcs = {
       updateHerdMark: this.updateHerdMark,
@@ -144,24 +138,19 @@ class CreateCattlePage extends React.Component {
       updateIdNumber: this.updateIdNumber,
     }
     return (
-        <Page
-            renderToolbar={() =>
-              <CattleCreateTopBar title='Enter Details'
-              deleteFunction={this.deleteCattle} submitFunction={this.submitData}/>}>
+      <Page
+          renderToolbar={() =>
+            <CattleCreateTopBar title='Enter Details'
+            deleteFunction={this.deleteCattle} submitFunction={this.submitData}/>}>
 
-          <div style={styles.image_container}>
-            <img style={styles.reviewImage} src={this.props.creation.image}/>
-          </div>
-          {this.renderLoadingSpiral()}
-          <CattleEditForm cattle={this.props.cattle} updateFuncs={funcs} />
-        </Page>
-
-
+        <div style={styles.image_container}>
+          <img style={styles.reviewImage} src={this.props.image}/>
+        </div>
+        {this.renderLoadingSpiral()}
+        <CattleEditForm cattle={this.props.cattle} updateFuncs={funcs} />
+      </Page>
     )
   }
-
-
-
 }
 
 

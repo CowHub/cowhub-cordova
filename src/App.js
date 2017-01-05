@@ -7,6 +7,8 @@ import {
 import LoginPage from './containers/LoginPage';
 import MyHerdPage from './containers/MyHerdPage';
 import CreateCattlePage from './containers/CreateCattlePage';
+import IdentifyCattleWaitingPage from './containers/IdentifyCattleWaitingPage';
+import IdentifyCattleSuccessPage from './containers/IdentifyCattleSuccessPage';
 import EditCattlePage from './containers/EditCattlePage';
 import VerifyImagePage from './containers/VerifyImagePage';
 import CameraCapturePage from './containers/CameraCapturePage';
@@ -36,15 +38,12 @@ class App extends React.Component{
     super();
   }
 
-
-
   componentWillMount() {
   }
 
   componentWillReceiveProps(props) {
     this.selectPage(props)
   }
-
 
   selectPage(props)  {
     // Get Page to be loaded
@@ -68,6 +67,14 @@ class App extends React.Component{
         case'EDIT_CATTLE_PAGE':
           this.refs.navigator.pushPage(pages.EditCattlePage);
           props.handlePageRendered('EDIT_CATTLE_PAGE');
+          return;
+        case'IDENTIFY_CATTLE_WAITING_PAGE':
+          this.refs.navigator.pushPage(pages.IdentifyCattleWaitingPage);
+          props.handlePageRendered('IDENTIFY_CATTLE_WAITING_PAGE');
+          return;
+        case'IDENTIFY_CATTLE_SUCCESS_PAGE':
+          this.refs.navigator.pushPage(pages.IdentifyCattleSuccessPage);
+          props.handlePageRendered('IDENTIFY_CATTLE_SUCCESS_PAGE');
           return;
         case'CAMERA_CAPTURE_PAGE':
           props.navigation.back ?
@@ -137,6 +144,18 @@ const pages = {
       key: 'EDIT_CATTLE_PAGE'
     }
   },
+  IdentifyCattleWaitingPage: {
+    component: IdentifyCattleWaitingPage,
+    props: {
+      key: 'IDENTIFY_CATTLE_WAITING_PAGE'
+    }
+  },
+  IdentifyCattleSuccessPage: {
+    component: IdentifyCattleSuccessPage,
+    props: {
+      key: 'IDENTIFY_CATTLE_SUCCESS_PAGE'
+    }
+  },
   VerifyImagePage: {
     component: VerifyImagePage,
     props: {
@@ -146,4 +165,3 @@ const pages = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-
