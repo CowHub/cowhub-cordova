@@ -67,9 +67,9 @@ class CattleListItem extends React.Component {
     this.props.handleEdit(this.props.id);
   }
 
-  getImage()  {
+  getImage() {
     if (this.props.cattle.images) {
-      if (this.props.cattle.images[0]){
+      if (this.props.cattle.images[0]) {
         return this.props.cattle.images[0].data;
       }
     }
@@ -92,8 +92,11 @@ class CattleListItem extends React.Component {
         <ListItem style={styles.listItemContainer} modifier="tappable chevron" onClick={() =>this.editCow()}>
           <Row>
             <Col width="95px">
-              {this.props.isImageFetching? <ProgressCircular indeterminate/>:
-                  <img src={this.getImage()} style={styles.thumbnail}/>}
+              {this.props.isImageFetching ? <ProgressCircular indeterminate/> :
+                  <div style={styles.thumbnail}>
+                    <img src={this.getImage()} style={styles.thumbnailImage}/>
+                  </div>
+              }
             </Col>
             <Col>
               <div style={styles.name}>
@@ -124,7 +127,11 @@ const styles = {
   thumbnail: {
     width: '80px',
     height: '80px',
-    borderRadius: '4px'
+    borderRadius: '4px',
+    overflow: 'hidden'
+  },
+  thumbnailImage: {
+    width: '100%'
   },
   name: {
     fontWeight: '500',
