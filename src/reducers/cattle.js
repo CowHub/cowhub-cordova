@@ -65,7 +65,7 @@ const cattle = (state = initialState, action) => {
     case FETCH_CATTLE_IMAGE_PENDING:
       return handleFetchCattleImagePending(state, action.id);
     case FETCH_CATTLE_IMAGE_SUCCESS:
-      return handleFetchCattleImageSuccess(state);
+      return handleFetchCattleImageSuccess(state, action.id, action.images);
     case FETCH_CATTLE_IMAGE_ERROR:
       return handleFetchCattleImageError(state, action.error);
     case CATTLE_ERROR_SEEN:
@@ -216,30 +216,13 @@ export function handleFetchCattleImagePending(state) {
     ...state,
     imageFetching: true
   };
-};
-
-// export function handleFetchCattleImageSuccess(state, id, images) {
-//   let cattle = state.cattle;
-//   let index = cattle.findIndex( (c) => { return c.cattle.id === id } );
-//   cattle[index].cattle.images = images.map((i) => { return i.image_uri });
-//   cattle.unshift( cattle.pop() );
-//   return {
-//     ...state,
-//     cattle,
-//     imageFetching: false
-//   }
-// }
+}
 
 export function handleFetchCattleImageSuccess(state, id, images) {
+  console.dir(state)
   let cattle = state.cattle
-  let index = cattle.findIndex((c) => {
-    return c.cattle.id === id
-  })
-  cattle[index].cattle.images = images.map((i) => {
-    return i.image_uri
-  })
-  cattle[index].index = cattle[index].index ? cattle[index].index : 0
-  cattle.unshift(cattle.pop())
+  const index = cattle.findIndex((c) => c.cattle.id === id);
+  cattle[index].cattle.images = images;
   return {
     ...state,
     cattle,
