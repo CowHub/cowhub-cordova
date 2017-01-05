@@ -6,6 +6,7 @@ import {
 } from './navigation';
 
 import {createCattleSuccess} from './creation';
+import {identifyCattleSuccess} from './identification';
 
 // Cattle fetch
 export let FETCH_CATTLE_PENDING = 'FETCH_CATTLE_PENDING';
@@ -260,6 +261,112 @@ export function fetchCattleImageSuccess(id, images) {
 export function fetchCattleImageError(error) {
   return {
     type: FETCH_CATTLE_IMAGE_ERROR,
+    error,
+  };
+};
+
+// Cattle identify
+export let REQUEST_MATCH_CATTLE_PENDING = 'REQUEST_MATCH_CATTLE_PENDING';
+export let REQUEST_MATCH_CATTLE_SUCCESS = 'REQUEST_MATCH_CATTLE_SUCCESS';
+export let REQUEST_MATCH_CATTLE_ERROR = 'REQUEST_MATCH_CATTLE_ERROR';
+
+export function requestMatchCattle(params) {
+  params = { data: 'VG9tIGxvdmVzIGNhdHRsZSE=' };
+  let token = store.getState().authentication.token;
+  return (dispatch) => {
+    dispatch(requestMatchCattlePending());
+    $.ajax(`${process.env.API_ENDPOINT}/cattle/match`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+      data: params,
+    }).then((response) => {
+      dispatch(matchCattle(response.match.id));
+      dispatch(requestMatchCattleSuccess(response.match.id));
+    }).catch((error) => {
+      dispatch(requestMatchCattleError(error));
+    })
+  };
+};
+
+export function requestMatchCattlePending() {
+  return {
+    type: REQUEST_MATCH_CATTLE_PENDING,
+  };
+};
+
+export function requestMatchCattleSuccess(id) {
+  return {
+    type: REQUEST_MATCH_CATTLE_SUCCESS,
+    match_id: id,
+  };
+};
+
+export function requestMatchCattleError(error) {
+  return {
+    type: REQUEST_MATCH_CATTLE_ERROR,
+    error,
+  };
+};
+
+export let MATCH_CATTLE_PENDING = 'MATCH_CATTLE_PENDING';
+export let MATCH_CATTLE_SUCCESS = 'MATCH_CATTLE_SUCCESS';
+export let MATCH_CATTLE_EXCEPTION = 'MATCH_CATTLE_EXCEPTION';
+export let MATCH_CATTLE_ERROR = 'MATCH_CATTLE_ERROR';
+
+export function matchCattle(id) {
+  let token = store.getState().authentication.token;
+  return (dispatch) => {
+    dispatch(matchCattlePending());
+    $.ajax(`${process.env.API_ENDPOINT}/cattle/match/${id}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    }).then((response) => {
+      if (response.cattle) {
+        dispatch(identifyCattleSuccess());
+        dispatch(matchCattleSuccess(response.cattle));
+      }
+      else if (response.pending)
+        setTimeout(() => {
+          if (store.getState().identification.identifying)
+            dispatch(matchCattle(id));
+        }, 2000);
+      else if (!response.found)
+        dispatch(matchCattleException('No match found'));
+      else if (response.lost)
+        dispatch(matchCattleException('Cattle information lost'));
+    }).catch((error) => {
+      dispatch(matchCattleError(error));
+    })
+  };
+};
+
+export function matchCattlePending() {
+  return {
+    type: MATCH_CATTLE_PENDING,
+  };
+};
+
+export function matchCattleSuccess(cattle) {
+  return {
+    type: MATCH_CATTLE_SUCCESS,
+    match: cattle,
+  };
+};
+
+export function matchCattleException(exception) {
+  return {
+    type: MATCH_CATTLE_EXCEPTION,
+    exception: exception
+  };
+};
+
+export function matchCattleError(error) {
+  return {
+    type: MATCH_CATTLE_ERROR,
     error,
   };
 };
