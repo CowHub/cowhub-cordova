@@ -94,7 +94,7 @@ class EditCattlePage extends React.Component {
   getImage()  {
     if (this.props.cattle.images) {
       if (this.props.cattle.images[0]){
-        return this.props.cattle.images[0];
+        return this.props.cattle.images[0].data;
       }
     }
     return null;
