@@ -172,7 +172,9 @@ class EditCattlePage extends React.Component {
               <CattleEditTopBar title='Edit Cattle' navigator={this.props.navigator}
               backFunction={this.endEditing} editFunction={this.updateData} deleteFunction={this.deleteCattle}/>}>
 
-          <div style={styles.image_container}></div>
+          <div style={styles.image_container}>
+            <img style={styles.reviewImage} src={this.getImage()}/>
+          </div>
           {this.renderLoadingSpiral()}
           <CattleEditForm cattle={this.props.cattle} updateFuncs={funcs} />
         </Page>
@@ -205,11 +207,16 @@ const styles = {
   },
   image_container: {
     backgroundColor: 'white',
-    backgroundImage: 'img/icon.png',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    color: 'white',
-    height: '250px'
+    color: 'black',
+    height: '250px',
+    overflow: 'hidden'
+  },
+  reviewImage: {
+    position: 'fixed',
+    height: '100vw',
+    margin: '0 auto',
+    left: '0',
+    right: '0',
   },
   textInput: {
     marginTop: '4px',
