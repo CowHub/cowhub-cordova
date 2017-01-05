@@ -12,7 +12,7 @@ import {
 
 // Import actions dependant on verified image
 import {creationOnImageVerified} from './creation';
-
+import {identificationOnImageVerified} from './identification';
 
 // Pages
 export let ACTIVATE_CAMERA = 'ACTIVATE_CAMERA';
@@ -23,7 +23,6 @@ export let ERROR_IMAGE = 'ERROR_IMAGE';
 export let CANCEL_CAMERA = 'CANCEL_CAMERA';
 export let IMAGE_VERIFIED = 'IMAGE_VERIFIED';
 export let CAMERA_TRY_AGAIN = 'CAMERA_TRY_AGAIN';
-
 
 export function startCameraCapture()  {
   return (dispatch) =>  {
@@ -42,7 +41,6 @@ export function restartCameraCapture()  {
     dispatch(backToCameraRedirect());
   }
 }
-
 
 export function activateCamera() {
   ezar.initializeVideoOverlay(
@@ -97,6 +95,7 @@ export function imageConfirmed(img)  {
   return (dispatch) =>  {
     dispatch(imageVerified(img));
     dispatch(creationOnImageVerified());
+    dispatch(identificationOnImageVerified(img));
   }
 }
 
