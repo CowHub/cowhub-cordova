@@ -3,6 +3,8 @@ import {
     MY_HERD_PAGE_LOAD,
     BACK_TO_MY_HERD_PAGE,
     CREATE_CATTLE_PAGE_LOAD,
+    IDENTIFY_CATTLE_WAITING_PAGE_LOAD,
+    IDENTIFY_CATTLE_SUCCESS_PAGE_LOAD,
     CREATE_CAMERA_CAPTURE_PAGE_LOAD,
     BACK_TO_CAMERA_CAPTURE_PAGE,
     EDIT_CATTLE_PAGE_LOAD,
@@ -45,6 +47,10 @@ const page = (state = initialState, action) => {
       return handleBackToMyHerdPageLoad(state);
     case CREATE_CATTLE_PAGE_LOAD:
       return handleCreateCattlePageLoad(state);
+    case IDENTIFY_CATTLE_WAITING_PAGE_LOAD:
+      return handleIdentifyCattleWaitingPageLoad(state);
+    case IDENTIFY_CATTLE_SUCCESS_PAGE_LOAD:
+      return handleIdentifyCattleSuccessPageLoad(state);
     case CREATE_CAMERA_CAPTURE_PAGE_LOAD:
       return handleCameraCapture(state);
     case BACK_TO_CAMERA_CAPTURE_PAGE:
@@ -92,6 +98,22 @@ const handleCreateCattlePageLoad = (state)  => {
   return {
     ...state,
     requestedPage: 'CREATE_CATTLE_PAGE',
+    back: false
+  };
+};
+
+const handleIdentifyCattleWaitingPageLoad = (state)  => {
+  return {
+    ...state,
+    requestedPage: 'IDENTIFY_CATTLE_WAITING_PAGE',
+    back: false
+  };
+};
+
+const handleIdentifyCattleSuccessPageLoad = (state)  => {
+  return {
+    ...state,
+    requestedPage: 'IDENTIFY_CATTLE_SUCCESS_PAGE',
     back: false
   };
 };
