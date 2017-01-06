@@ -122,37 +122,6 @@ class CreateCattlePage extends React.Component {
 }
 
 const styles = {
-  logo_img: {
-    'marginTop': '10%',
-    'maxWidth': '100%',
-    'maxHeight': '100%'
-  },
-  page_content: {
-    textAlign: 'center',
-    width: '80%',
-    margin: '0 auto 0',
-    height: '90%',
-    marginTop: '25%',
-  },
-  card_wrapper: {
-    lineHeight: 1,
-    height: '62px',
-    paddding: '10px'
-  },
-  image_container: {
-    backgroundColor: 'white',
-    color: 'black',
-    height: '250px'
-  },
-  textInput: {
-    marginTop: '4px',
-    width: '100%'
-  },
-  formInput: {
-    fontWeight: '500',
-    fontSize: '17px',
-    marginBottom: '4px'
-  },
   doneButton: {
     position: 'fixed',
     bottom: '0',
@@ -166,14 +135,6 @@ const styles = {
     height: '3vh',
     width: '100%'
   },
-  reviewImage: {
-    position: 'fixed',
-    width: '100%',
-    margin: '0 auto',
-    left: '0',
-    right: '0',
-    maxHeight: '250px'
-  }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateCattlePage);

@@ -1,32 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {notification} from 'onsenui';
-import {
-    Page,
-    Button,
-    Toolbar,
-    Icon,
-    Input,
-    ToolbarButton,
-    Row,
-    Col,
-    Fab,
-    List,
-    ListItem,
-    ProgressCircular,
-    AlertDialog,
-} from 'react-onsenui';
+import { Page, ProgressCircular } from 'react-onsenui';
 
 import CattleEditTopBar from '../components/cattle/CattleEditTopBar';
-import CattleEditForm from '../components/cattle/CattleEditForm';
+import CattleDetail from '../components/cattle/CattleDetail';
 import CustomPropTypes from '../utilities/CustomPropTypes'
 
-import {
-    endEditCattle,
-    updateCattle,
-    deleteCattle,
-    cattleErrorSeen
-} from'../actions/index'
+import { endEditCattle, updateCattle, deleteCattle, cattleErrorSeen } from'../actions'
+
 const mapStateToProps = (state) => {
   return {
     ...state.cattle.cattle[state.cattle.cattlePos],
@@ -38,21 +20,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleEndEdit: (pos) => {
-      dispatch(endEditCattle(pos));
-    },
-    handleCattleUpdate: (props) => {
-      dispatch(updateCattle(props.cattle.id, props.cattle));
-    },
-    handleCattleDelete: (id) => {
-      dispatch(deleteCattle(id))
-    },
-    handleErrorSeen: (params) => {
-      dispatch(cattleErrorSeen());
-    }
+    handleEndEdit: (pos) => { dispatch(endEditCattle(pos)) },
+    handleCattleUpdate: (props) => { dispatch(updateCattle(props.cattle.id, props.cattle)) },
+    handleCattleDelete: (id) => { dispatch(deleteCattle(id)) },
+    handleErrorSeen: (params) => { dispatch(cattleErrorSeen()) }
   }
 };
-
 
 class EditCattlePage extends React.Component {
 
@@ -70,163 +43,63 @@ class EditCattlePage extends React.Component {
   };
 
   componentWillMount() {
-    this.setBackground(this.props);
-
-    // Check for Errors
     this.handleError(this.props);
   }
 
   componentWillReceiveProps(props) {
-    // Check for Errors
     this.handleError(props);
-    this.setBackground(props);
   }
-
-  getImage() {
-    if (this.props.cattle.images) {
-      if (this.props.cattle.images[0]) {
-        return this.props.cattle.images[0].data;
-      }
-    }
-    return null;
-  }
-
-  setBackground(props) {
-    styles.image_container.backgroundImage = 'url(' + this.getImage() + ')'
-  }
-
 
   handleError(props) {
-    return props.isError ?
-        notification.alert({
-          message: 'Error: ' + props.isError,
-          callback: props.handleErrorSeen
-        })
-        :
-        null;
+    return props.isError
+      ? notification.alert({
+        title: 'Error',
+        message: props.isError.responseJSON ? props.isError.responseJSON.errors[0] : props.isError.responseText,
+        callback: props.handleErrorSeen
+      })
+      : null;
+  }
+
+  renderToolbar() {
+    return (
+      <CattleEditTopBar
+        title='Edit Cattle'
+        backFunction={ () => this.props.handleEndEdit() }
+        editFunction={ () => this.props.handleCattleUpdate(this.props) }
+        deleteFunction={ () => notification.confirm({
+            message: 'Are you sure you want to delete this cattle?',
+            callback: (res) => { if (res)
+              this.props.handleCattleDelete(this.props.cattle.id); }
+        })}
+      />
+    );
   }
 
   renderLoadingSpiral() {
-    return (this.props.isFetching ? <ProgressCircular indeterminate/> : null);
+    if (this.props.isFetching)
+      return <ProgressCircular indeterminate />;
   }
 
-  endEditing = () => {
-    this.props.handleEndEdit();
-
+  renderCattleDetail() {
+    let img = this.props.cattle.images;
+    let src = img ? (img[0] ? img[0].data : null) : null;
+    return (
+      <CattleDetail
+        cattle={ this.props.cattle }
+        image={ src }
+        handleChange={ (key, val) => this.props.cattle[key] = val }
+      />
+    );
   }
-
-  updateData = () => {
-    this.props.handleCattleUpdate(this.props);
-  }
-
-  deleteCattleHelper = () => {
-    this.props.handleCattleDelete(this.props.cattle.id)
-  }
-
-  deleteCattle = () => {
-    notification.confirm({
-      message: 'Are you sure you want to delete this cattle?',
-      callback: (idx) => {
-        switch (idx) {
-          case 0:
-            // cancel pressed
-            break;
-          case 1:
-            // yes pressed
-            this.deleteCattleHelper();
-            break;
-        }
-      }
-    });
-  }
-
-  updateHerdMark = (val) => {
-    this.props.cattle.herdmark = val;
-  }
-
-  updateCountryCode = (val) => {
-    this.props.cattle.country_code = val;
-  }
-
-  updateCheckDigit = (val) => {
-    this.props.cattle.check_digit = val;
-  }
-
-  updateIdNumber = (val) => {
-    this.props.cattle.individual_number = val;
-  }
-
 
   render() {
-    const funcs = {
-      updateHerdMark: this.updateHerdMark,
-      updateCountryCode: this.updateCountryCode,
-      updateCheckDigit: this.updateCheckDigit,
-      updateIdNumber: this.updateIdNumber,
-    }
     return (
-        <Page
-            renderToolbar={() =>
-              <CattleEditTopBar title='Edit Cattle' navigator={this.props.navigator}
-              backFunction={this.endEditing} editFunction={this.updateData} deleteFunction={this.deleteCattle}/>}>
-
-          <div style={styles.image_container}>
-            <img style={styles.reviewImage} src={this.getImage()}/>
-          </div>
-          {this.renderLoadingSpiral()}
-          <CattleEditForm cattle={this.props.cattle} updateFuncs={funcs}/>
-        </Page>
-
-
+      <Page renderToolbar={ () => this.renderToolbar() }>
+        { this.renderLoadingSpiral() }
+        { this.renderCattleDetail() }
+      </Page>
     )
   }
-
-
 }
-
-
-const styles = {
-  logo_img: {
-    'marginTop': '10%',
-    'maxWidth': '100%',
-    'maxHeight': '100%'
-  },
-  page_content: {
-    textAlign: 'center',
-    width: '80%',
-    margin: '0 auto 0',
-    height: '90%',
-    marginTop: '25%',
-  },
-  card_wrapper: {
-    lineHeight: 1,
-    height: '62px',
-    paddding: '10px'
-  },
-  image_container: {
-    backgroundColor: 'white',
-    color: 'black',
-    height: '250px',
-    overflow: 'hidden'
-  },
-  reviewImage: {
-    position: 'fixed',
-    height: '100vw',
-    margin: '0 auto',
-    left: '0',
-    right: '0',
-  },
-  textInput: {
-    marginTop: '4px',
-    width: '100%'
-  },
-  formInput: {
-    fontWeight: '500',
-    fontSize: '17px',
-    marginBottom: '4px'
-  }
-
-};
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditCattlePage);
