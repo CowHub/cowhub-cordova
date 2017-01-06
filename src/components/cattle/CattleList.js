@@ -1,29 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
-
-
+import CustomPropTypes from '../../utilities/CustomPropTypes'
 import CattleListItem from './CattleListItem'
 
-
-const mapStateToProps = (state) => {
-  return {
-    cattle: state.cattle.cattle,
-    isFetching: state.cattle.fetching,
-    isImageFetching: state.cattle.fetching,
-  };
-};
-
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleEdit: (id) => {
-      dispatch(editCattle(id));
-    },
-  }
-};
-
 class CattleList extends React.Component {
+  static propTypes = {
+    cattle: React.PropTypes.arrayOf(CustomPropTypes.cattle),
+    isFetching: React.PropTypes.bool,
+    isImageFetching: React.PropTypes.bool,
+    handleEdit: React.PropTypes.func
+  };
 
   renderCattle() {
     return this.props.cattle.map((o, i) => {
@@ -46,4 +32,4 @@ class CattleList extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CattleList);
+export default CattleList;

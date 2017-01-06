@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, ListItem } from 'react-onsenui';
+import { Row, Col, ListItem, ProgressCircular } from 'react-onsenui';
 import CustomPropTypes from '../../utilities/CustomPropTypes'
 
 class CattleListItem extends React.Component {
