@@ -24,6 +24,37 @@ export let CANCEL_CAMERA = 'CANCEL_CAMERA';
 export let IMAGE_VERIFIED = 'IMAGE_VERIFIED';
 export let CAMERA_TRY_AGAIN = 'CAMERA_TRY_AGAIN';
 
+export function cropImage(base64in) {
+  // create image
+  var image = new Image();
+  image.src = base64in;
+  image.onload = function() {
+    //width
+    let width = this.width;
+    let height = this.height;
+
+    // create an off-screen canvas
+    var canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = width;
+    var ctx = canvas.getContext('2d');
+    // draw cropped image
+    var sourceX = 0;
+    var sourceY = 0.2 * height;
+    var sourceWidth = width;
+    var sourceHeight = width;
+    var destWidth = sourceWidth;
+    var destHeight = sourceHeight;
+    var destX = 0;
+    var destY = 0;
+
+    // draw source image into the off-screen canvas:
+    ctx.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
+    // encode image to data-uri with base64 version of compressed image
+    console.log(canvas.toDataURL());
+  }
+}
+
 export function startCameraCapture()  {
   return (dispatch) =>  {
     if (ons.platform.isWebView()) {
@@ -104,6 +135,7 @@ export function snapshot()  {
     ezar.snapshot(
         (base64Image) => {
           dispatch(storeImage(base64Image));
+          cropImage(base64Image);
         },
         (error) =>  {
           dispatch(errorImage());
