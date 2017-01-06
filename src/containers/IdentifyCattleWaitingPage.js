@@ -1,13 +1,9 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {notification} from 'onsenui';
+import { connect } from 'react-redux';
+import { notification } from 'onsenui';
 import { Page, Icon, Fab } from 'react-onsenui';
 
-import CattleEditTopBar from '../components/cattle/CattleEditTopBar'
-
-import {
-  cancelIdentify
-} from'../actions'
+import { cancelIdentify } from '../actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -17,12 +13,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleEndIdentification: () => {
-      dispatch(cancelIdentify());
-    }
+    handleEndIdentification: () => { dispatch(cancelIdentify()) }
   }
 };
-
 
 class IdentifyCattleWaitingPage extends React.Component {
 
@@ -43,7 +36,6 @@ class IdentifyCattleWaitingPage extends React.Component {
       });
     }
     else if (props.exception) {
-      console.log('printing party', props.exception);
       return notification.alert({
         title: props.exception,
         message: ' ',
@@ -55,18 +47,15 @@ class IdentifyCattleWaitingPage extends React.Component {
   render() {
     return (
       <Page>
-        <img style={styles.image} src={this.props.image}/>
+        <img style={ styles.image } src={ this.props.image }/>
         <div style={styles.scanner}></div>
         <Fab
-            onClick={ () =>
-              notification.confirm({
-                message: 'Are you sure you want to cancel request',
-                callback: (answer) => {
-                  if (answer)
-                    this.props.handleEndIdentification();
-                }
-              })
-            }
+            onClick={ () => notification.confirm({
+              message: 'Are you sure you want to cancel request',
+              callback: (answer) => { if (answer)
+                this.props.handleEndIdentification();
+              }
+            })}
             position='bottom center'>
           <Icon icon='md-close-circle' />
         </Fab>
