@@ -1,22 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {notification} from 'onsenui';
-import {
-    Page,
-    Button,
-    Toolbar,
-    Icon,
-    Input,
-    ToolbarButton,
-    Row,
-    Col,
-    Fab,
-    PullHook,
-    ProgressCircular,
-    Modal,
-    Popover
-
-} from 'react-onsenui';
+import { Page, Icon, Fab, PullHook, ProgressCircular } from 'react-onsenui';
 
 import TopBar from '../components/TopBar';
 import CattleList from '../components/cattle/CattleList';
@@ -27,14 +12,15 @@ import {
     loadLoginPage,
     startCreateCattle,
     startIdentifyCattle,
-    cattleErrorSeen
+    cattleErrorSeen,
+    editCattle
 } from '../actions/index';
-
 
 const mapStateToProps = (state) => {
   return {
-    cattleSize: state.cattle.cattle.length,
+    cattle: state.cattle.cattle,
     isFetching: state.cattle.fetching,
+    isImageFetching: state.cattle.imageFetching,
     isEditing: state.cattle.editing,
     isError: state.cattle.error,
   };
@@ -42,84 +28,67 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchCattle: () => {
-      dispatch(fetchCattle());
-    },
+    fetchCattle: () => { dispatch(fetchCattle()) },
     createCattle:() => { dispatch(startCreateCattle()) },
-    editCattle:() => { dispatch(loadEditCattlePage()) },
-    identifyCattle:() => { dispatch(startIdentifyCattle()) },
+    editCattle: () => { dispatch(loadEditCattlePage()) },
+    identifyCattle: () => { dispatch(startIdentifyCattle()) },
+    handleEdit: (id) => { dispatch(editCattle(id)) },
     handleLogout:() => {
       dispatch(logoutUser());
       dispatch(loadLoginPage());
     },
-    handleErrorSeen: (params) => {
-      dispatch(cattleErrorSeen());
-    }
+    handleErrorSeen: (params) => { dispatch(cattleErrorSeen()) }
   }
 };
-
 
 class MyHerdPage extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      state: 'initial'
-    };
+    this.state = { state: 'initial' };
   }
-
-  static propTypes = {
-    token: React.PropTypes.string,
-    email: React.PropTypes.string,
-    password: React.PropTypes.string
-  };
 
   componentWillMount() {
     this.props.fetchCattle();
-    // Check for Errors
     this.handleError(this.props);
   }
 
   componentWillReceiveProps(props) {
-    // Check for Errors
     this.handleError(props);
   }
 
-  handleNewClick() {
-    this.props.createCattle();
-  }
-
-  handleCameraClick() {
-    this.props.identifyCattle();
-  }
-
-
-  handleChange(e) {
-    this.setState({
-      state: e.state
-    });
-  }
-
-  handleLoad(done) {
-    this.props.fetchCattle();
-    setTimeout(done, 1000);
-  }
-
-  handleLogout = () => {
-    this.props.handleLogout();
-  };
-
   handleError(props) {
-    return props.isError ?
-        notification.alert({
-          message: 'Error: ' + (props.isError.responseJSON ? props.isError.responseJSON.errors[0] : props.isError.responseText),
-          callback: props.handleErrorSeen
-        })
-        :
-        null;
+    return props.isError
+      ? notification.alert({
+        title: 'Error',
+        message: props.isError.responseJSON ? props.isError.responseJSON.errors[0] : props.isError.responseText,
+        callback: props.handleErrorSeen
+      })
+      : null;
   }
 
+  renderToolbar() {
+    return (
+      <TopBar title='My Herd' optionsMenu={true}
+        logoutFunction={ () => this.props.handleLogout() }
+      />
+    );
+  }
+
+  renderPullHook() {
+    return (
+      <PullHook
+          onChange={ (e) => this.setState({ state: e.state }) }
+          onLoad={ (done) => {
+            this.props.fetchCattle();
+            setTimeout(done, 1000);
+          }}
+          height={100}
+          thresholdHeight={150}>
+        { this.content }
+      </PullHook>
+    );
+  }
 
   get content() {
     switch (this.state.state) {
@@ -132,42 +101,53 @@ class MyHerdPage extends React.Component {
     }
   }
 
-  renderLoadingSpiral() {
-    return (this.props.isFetching ? <ProgressCircular indeterminate/> : null);
+  renderCattleList() {
+    return (
+      <div style={styles.page_content}>
+        { this.props.isFetching ? <ProgressCircular indeterminate/> : null }
+        <CattleList
+          cattle={ this.props.cattle }
+          isFetching={ this.props.isFetching }
+          isImageFetching={ this.props.isImageFetching }
+          handleEdit={ (id) => this.props.handleEdit(id) }
+        />
+      </div>
+    );
+  }
+
+  renderIdentifyButton() {
+    return (
+      <Fab
+        onClick={ () => this.props.identifyCattle() }
+        position='bottom left'
+      >
+        <Icon icon='md-camera'/>
+      </Fab>
+    );
+  }
+
+  renderCreateButton() {
+    return (
+      <Fab
+        onClick={ () => this.props.createCattle() }
+        position='bottom right'
+      >
+        <Icon icon='md-file-plus'/>
+      </Fab>
+    );
   }
 
   render() {
-
     return (
-        <Page renderToolbar={() => <TopBar title='My Herd' optionsMenu={true} logoutFunction={this.handleLogout} />}>
-          <PullHook
-              onChange={this.handleChange.bind(this)}
-              onLoad={this.handleLoad.bind(this)}
-              height={100}
-              thresholdHeight={150}>
-            {this.content}
-          </PullHook>
-
-          <div style={styles.page_content}>
-            {this.renderLoadingSpiral()}
-            <CattleList navigator={this.props.navigator}/>
-          </div>
-
-          <Fab
-              onClick={() => this.handleNewClick()}
-              position='bottom right'>
-            <Icon icon='md-file-plus'/>
-          </Fab>
-          <Fab
-              onClick={() =>this.handleCameraClick()}
-              position='bottom left'>
-            <Icon icon='md-camera'/>
-          </Fab>
-        </Page>
+      <Page renderToolbar={ () => this.renderToolbar() }>
+        { this.renderPullHook() }
+        { this.renderCattleList() }
+        { this.renderIdentifyButton() }
+        { this.renderCreateButton() }
+      </Page>
     )
   }
 }
-
 
 const styles = {
   logo_img: {
@@ -182,6 +162,5 @@ const styles = {
     height: '90%'
   }
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyHerdPage);
