@@ -1,21 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Input, List, ListItem } from 'react-onsenui';
+import CustomPropTypes from '../../utilities/CustomPropTypes'
 
 class CattleEditForm extends React.Component {
   static propTypes = {
-    cattle: React.PropTypes.shape({
-      breed: React.PropTypes.string,
-      check_digit: React.PropTypes.number.isRequired,
-      country_code: React.PropTypes.string.isRequired,
-      dob: React.PropTypes.string,
-      gender: React.PropTypes.string,
-      herdmark: React.PropTypes.number.isRequired,
-      id: React.PropTypes.number.isRequired,
-      individual_number: React.PropTypes.number.isRequired,
-      name: React.PropTypes.string,
-      images: React.PropTypes.arrayOf(React.PropTypes.string),
-    }).isRequired,
+    cattle: CustomPropTypes.cattle,
     updateFuncs: React.PropTypes.shape({
       updateHerdMark: React.PropTypes.func.isRequired,
       updateCountryCode: React.PropTypes.func.isRequired,

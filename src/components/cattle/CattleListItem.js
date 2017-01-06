@@ -16,6 +16,8 @@ import {
     CarouselItem
 } from 'react-onsenui';
 
+import CustomPropTypes from '../../utilities/CustomPropTypes'
+
 import {
     editCattle
 } from'../../actions/cattle'
@@ -39,18 +41,7 @@ const mapDispatchToProps = (dispatch) => {
 class CattleListItem extends React.Component {
 
   static propTypes = {
-    cattle: React.PropTypes.shape({
-      breed: React.PropTypes.string,
-      check_digit: React.PropTypes.number.isRequired,
-      country_code: React.PropTypes.string.isRequired,
-      dob: React.PropTypes.string,
-      gender: React.PropTypes.string,
-      herdmark: React.PropTypes.string.isRequired,
-      id: React.PropTypes.number.isRequired,
-      individual_number: React.PropTypes.number.isRequired,
-      name: React.PropTypes.string,
-      images: React.PropTypes.arrayOf(React.PropTypes.string),
-    }).isRequired
+    cattle: CustomPropTypes.cattle
   };
   static defaultProps = {
     cattle: {

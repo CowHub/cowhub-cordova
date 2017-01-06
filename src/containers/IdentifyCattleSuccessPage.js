@@ -5,6 +5,7 @@ import { Page, Toolbar, BackButton } from 'react-onsenui';
 
 import CattleEditForm from '../components/cattle/CattleEditForm';
 import { cancelIdentify } from'../actions'
+import CustomPropTypes from '../utilities/CustomPropTypes'
 
 const mapStateToProps = (state) => {
   return {
@@ -25,18 +26,7 @@ const mapDispatchToProps = (dispatch) => {
 class IdentifyCattleSuccessPage extends React.Component {
 
   static propTypes = {
-    cattle: React.PropTypes.shape({
-      breed: React.PropTypes.string,
-      check_digit: React.PropTypes.number.isRequired,
-      country_code: React.PropTypes.string.isRequired,
-      dob: React.PropTypes.string,
-      gender: React.PropTypes.string,
-      herdmark: React.PropTypes.number.isRequired,
-      id: React.PropTypes.number.isRequired,
-      individual_number: React.PropTypes.number.isRequired,
-      name: React.PropTypes.string,
-      images: React.PropTypes.arrayOf(React.PropTypes.string),
-    }).isRequired,
+    cattle: CustomPropTypes.cattle
   };
 
   static defaultProps = {

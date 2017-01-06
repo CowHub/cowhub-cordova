@@ -19,6 +19,7 @@ import {
 
 import CattleCreateTopBar from '../components/cattle/CattleCreateTopBar';
 import CattleEditForm from '../components/cattle/CattleEditForm';
+import CustomPropTypes from '../utilities/CustomPropTypes'
 
 import {
     cattleErrorSeen,
@@ -61,17 +62,7 @@ const mapDispatchToProps = (dispatch) => {
 class CreateCattlePage extends React.Component {
 
   static propTypes = {
-    cattle: React.PropTypes.shape({
-      breed: React.PropTypes.string,
-      check_digit: React.PropTypes.number.isRequired,
-      country_code: React.PropTypes.string.isRequired,
-      dob: React.PropTypes.string,
-      gender: React.PropTypes.string,
-      herdmark: React.PropTypes.string.isRequired,
-      id: React.PropTypes.number.isRequired,
-      individual_number: React.PropTypes.number.isRequired,
-      name: React.PropTypes.string,
-    }).isRequired,
+    cattle: CustomPropTypes.cattle
   };
 
   componentWillMount() {
