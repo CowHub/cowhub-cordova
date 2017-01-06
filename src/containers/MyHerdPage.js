@@ -3,9 +3,11 @@ import {connect} from 'react-redux';
 import {notification} from 'onsenui';
 import { Page, Icon, Fab, PullHook, ProgressCircular } from 'react-onsenui';
 
-import MainTopBar from '../components/MainTopBar';
 import CattleList from '../components/cattle/CattleList';
-import { fetchCattle, logoutUser, loadLoginPage, startCreateCattle, startIdentifyCattle, cattleErrorSeen, showCattle } from '../actions/index';
+import MainTopBar from '../components/topbar/MainTopBar';
+
+import { fetchCattle, logoutUser, loadLoginPage, startCreateCattle,
+   startIdentifyCattle, cattleErrorSeen, showCattle } from '../actions';
 
 const mapStateToProps = (state) => {
   return {

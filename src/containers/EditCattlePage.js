@@ -3,9 +3,9 @@ import {connect} from 'react-redux';
 import {notification} from 'onsenui';
 import { Page, ProgressCircular } from 'react-onsenui';
 
-import CattleEditTopBar from '../components/cattle/CattleEditTopBar';
+import CustomPropTypes from '../utilities/CustomPropTypes';
 import CattleDetail from '../components/cattle/CattleDetail';
-import CustomPropTypes from '../utilities/CustomPropTypes'
+import CattleEditTopBar from '../components/topbar/CattleEditTopBar';
 
 import { startEditCattle, endEditCattle, updateCattle, deleteCattle, cattleErrorSeen } from'../actions'
 

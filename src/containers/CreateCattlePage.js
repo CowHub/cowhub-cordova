@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { notification } from 'onsenui';
-import { Page, Button, Toolbar, ToolbarButton, ProgressCircular } from 'react-onsenui';
+import { Page, Button, ProgressCircular } from 'react-onsenui';
 
+import CustomPropTypes from '../utilities/CustomPropTypes';
 import CattleDetail from '../components/cattle/CattleDetail';
-import CustomPropTypes from '../utilities/CustomPropTypes'
+import CattleCreateTopBar from '../components/topbar/CattleCreateTopBar';
 
 import { cancelCreate, cattleErrorSeen, loadCameraCapturePage, registerCattle } from'../actions/index'
 
@@ -12,9 +13,7 @@ const mapStateToProps = (state) => {
   return {
     cattle: state.creation.cattle,
     image: state.creation.image,
-    isEditing: state.cattle.editing,
-    isError: state.cattle.error,
-    isFetching: state.cattle.fetching
+    error: state.cattle.error
   };
 };
 
@@ -31,9 +30,7 @@ class CreateCattlePage extends React.Component {
   static propTypes = {
     cattle: CustomPropTypes.cattle,
     image: React.PropTypes.string,
-    isEditing: React.PropTypes.bool,
-    isError: React.PropTypes.bool,
-    isFetching: React.PropTypes.bool
+    error: React.PropTypes.bool
   };
 
   componentWillMount() {
@@ -45,10 +42,10 @@ class CreateCattlePage extends React.Component {
   }
 
   handleError(props) {
-    return props.isError
+    return props.error
       ? notification.alert({
         title: 'Error',
-        message: props.isError.responseJSON ? props.isError.responseJSON.errors[0] : props.isError.responseText,
+        message: props.error.responseJSON ? props.error.responseJSON.errors[0] : props.error.responseText,
         callback: props.handleErrorSeen
       })
       : null;
@@ -56,25 +53,13 @@ class CreateCattlePage extends React.Component {
 
   renderToolbar() {
     return (
-      <Toolbar>
-        <div className='left'>
-          <ToolbarButton onClick={() =>
-            notification.confirm({
-              message: 'Are you sure you want to cancel the creation of this cattle?',
-              callback: this.props.handleCancel
-            })
-          }>
-            Cancel
-          </ToolbarButton>
-        </div>
-        <div className='center'>Enter Cattle Details</div>
-      </Toolbar>
+      <CattleCreateTopBar
+        handleCancel={ () => notification.confirm({
+          message: 'Are you sure you want to cancel the creation of this cattle?',
+          callback: this.props.handleCancel
+        })}
+      />
     );
-  }
-
-  renderLoadingSpiral() {
-    if (this.props.isFetching)
-      return <ProgressCircular indeterminate />;
   }
 
   renderCattleImage() {
@@ -112,7 +97,6 @@ class CreateCattlePage extends React.Component {
   render() {
     return (
       <Page renderToolbar={ () => this.renderToolbar() }>
-        { this.renderLoadingSpiral() }
         { this.renderCattleImage() }
         { this.renderCattleDetail() }
         { this.renderDoneButton() }
