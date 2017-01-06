@@ -1,48 +1,17 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {
-    Page,
-    Button,
-    Toolbar,
-    Icon,
-    Input,
-    ToolbarButton,
-    Row,
-    Col,
-    List,
-    ListItem,
-    ProgressCircular,
-    Carousel,
-    CarouselItem
-} from 'react-onsenui';
-
+import { connect } from 'react-redux';
+import { Row, Col, ListItem } from 'react-onsenui';
 import CustomPropTypes from '../../utilities/CustomPropTypes'
-
-import {
-    editCattle
-} from'../../actions/cattle'
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...state.cattle.cattle[ownProps.id],
-    isImageFetching: state.cattle.imageFetching
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleEdit: (id) => {
-      dispatch(editCattle(id));
-    },
-  };
-};
-
 
 class CattleListItem extends React.Component {
 
   static propTypes = {
-    cattle: CustomPropTypes.cattle
+    id: React.PropTypes.number,
+    cattle: CustomPropTypes.cattle,
+    isImageFetching: React.PropTypes.bool,
+    handleEdit: React.PropTypes.func
   };
+
   static defaultProps = {
     cattle: {
       id: -1,
@@ -54,59 +23,54 @@ class CattleListItem extends React.Component {
     }
   };
 
-  editCow() {
-    this.props.handleEdit(this.props.id);
+  renderImage() {
+    let img = this.props.cattle.images;
+    let src = img ? (img[0] ? img[0].data : null) : null;
+    return (
+      <Col width="95px">
+        { this.props.isImageFetching
+          ? <ProgressCircular indeterminate/>
+          : <div style={styles.thumbnail}>
+              <img src={ src } style={ styles.thumbnailImage }/>
+            </div>
+        }
+      </Col>
+    );
   }
 
-  getImage() {
-    if (this.props.cattle.images) {
-      if (this.props.cattle.images[0]) {
-        return this.props.cattle.images[0].data;
-      }
-    }
-    return null;
+  renderDetails() {
+    return (
+      <Col>
+        <div style={ styles.name }>
+          Herdmark: { this.props.cattle.herdmark }
+        </div>
+        <div style={ styles.desc }>
+          Country Code: { this.props.cattle.country_code }
+        </div>
+        <div style={ styles.desc }>
+          Check Digit :{ this.props.cattle.check_digit }
+        </div>
+        <div style={ styles.desc }>
+          Individual Number : { this.props.cattle.individual_number }
+        </div>
+      </Col>
+    );
   }
-
 
   render() {
-    const {
-        country_code,
-        herdmark,
-        check_digit,
-        id,
-        individual_number,
-        name,
-        images
-    } = this.props.cattle;
-    //
     return (
-        <ListItem style={styles.listItemContainer} modifier="tappable chevron" onClick={() =>this.editCow()}>
-          <Row>
-            <Col width="95px">
-              {this.props.isImageFetching ? <ProgressCircular indeterminate/> :
-                  <div style={styles.thumbnail}>
-                    <img src={this.getImage()} style={styles.thumbnailImage}/>
-                  </div>
-              }
-            </Col>
-            <Col>
-              <div style={styles.name}>
-                Herdmark: {herdmark}
-              </div>
-              <div style={styles.desc}>
-                Country Code: {country_code}
-              </div>
-              <div style={styles.desc}>
-                Check Digit :{check_digit}
-              </div>
-              <div style={styles.desc}>
-                Individual Number : {individual_number}
-
-              </div>
-            </Col>
-            <Col width="40px"></Col>
-          </Row>
-        </ListItem>)
+      <ListItem
+        style={ styles.listItemContainer }
+        modifier="tappable chevron"
+        onClick={() => this.props.handleEdit(this.props.id) }
+      >
+        <Row>
+          { this.renderImage() }
+          { this.renderDetails() }
+          <Col width="40px"></Col>
+        </Row>
+      </ListItem>
+    )
   }
 }
 
@@ -136,4 +100,4 @@ const styles = {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CattleListItem);
+export default CattleListItem;

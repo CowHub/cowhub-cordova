@@ -8,38 +8,40 @@ import CattleListItem from './CattleListItem'
 
 const mapStateToProps = (state) => {
   return {
-    cattleSize: state.cattle.cattle.length,
+    cattle: state.cattle.cattle,
     isFetching: state.cattle.fetching,
+    isImageFetching: state.cattle.fetching,
   };
 };
 
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    handleEdit: (id) => {
+      dispatch(editCattle(id));
+    },
   }
 };
-
 
 class CattleList extends React.Component {
 
   renderCattle() {
-    let cattle = [];
-    if (this.props.cattleSize > 0) {
-      let counter = 0;
-      while (counter < this.props.cattleSize) {
-        cattle.push(<CattleListItem  key={ counter } id={ counter } navigator={this.props.navigator} />);
-        counter += 1;
-      }
-    }
-    return cattle;
-  }
+    return this.props.cattle.map((o, i) => {
+      return (
+        <CattleListItem  key={ i } id={ i }
+          cattle={ o.cattle }
+          isImageFetching={ this.props.isImageFetching }
+          handleEdit={ (id) => this.props.handleEdit(id) }
+        />
+      );
+    });
+  };
 
   render() {
-
     return (
-        <div>
-          {this.renderCattle()}
-        </div>
+      <div>
+        {this.renderCattle()}
+      </div>
     )
   }
 }
