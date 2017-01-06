@@ -14,6 +14,13 @@ const initialState = {
   imageCaptured: false,
   complete: false,
   image: null,
+  cattle: {
+    id: '',
+    check_digit: '',
+    country_code: '',
+    herdmark: '',
+    individual_number: '',
+  }
 };
 
 const capture = (state = initialState, action) => {
@@ -86,6 +93,13 @@ const handleCreateCancel = (state) => {
     creating: false,
     imageCaptured: false,
     complete: false,
+    cattle: {
+      id: '',
+      check_digit: '',
+      country_code: '',
+      herdmark: '',
+      individual_number: '',
+    }
   };
 };
 

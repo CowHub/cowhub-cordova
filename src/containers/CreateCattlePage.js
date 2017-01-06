@@ -1,42 +1,17 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { notification } from 'onsenui';
-import {
-    Page,
-    Button,
-    Toolbar,
-    Icon,
-    Input,
-    ToolbarButton,
-    Row,
-    Col,
-    Fab,
-    List,
-    ListItem,
-    ProgressCircular
-
-} from 'react-onsenui';
+import { Page, Button, Toolbar, ToolbarButton, ProgressCircular } from 'react-onsenui';
 
 import CattleCreateTopBar from '../components/cattle/CattleCreateTopBar';
 import CattleEditForm from '../components/cattle/CattleEditForm';
 import CustomPropTypes from '../utilities/CustomPropTypes'
 
-import {
-    cattleErrorSeen,
-    registerCattle,
-    loadCameraCapturePage,
-    cancelCreate
-    } from'../actions/index'
+import { cancelCreate, cattleErrorSeen, loadCameraCapturePage, registerCattle } from'../actions/index'
 
 const mapStateToProps = (state) => {
   return {
-    cattle: {
-      id: '',
-      check_digit: '',
-      country_code: '',
-      herdmark: '',
-      individual_number: '',
-    },
+    cattle: state.creation.cattle,
     image: state.creation.image,
     isEditing: state.cattle.editing,
     isError: state.cattle.error,
@@ -58,7 +33,6 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-
 class CreateCattlePage extends React.Component {
 
   static propTypes = {
@@ -66,59 +40,76 @@ class CreateCattlePage extends React.Component {
   };
 
   componentWillMount() {
-    // Check for Errors
     this.handleError(this.props);
   }
 
   componentWillReceiveProps(props) {
-    // Check for Errors
     this.handleError(props);
   }
 
   handleError(props) {
-    return props.isError?
-        notification.alert({
-          message: 'Error: ' + (props.isError.responseJSON? props.isError.responseJSON.errors[0] : props.isError.responseText),
-          callback: props.handleErrorSeen
-        })
-        :
-        null;
+    return props.isError
+      ? notification.alert({
+        title: 'Error',
+        message: props.isError.responseJSON ? props.isError.responseJSON.errors[0] : props.isError.responseText,
+        callback: props.handleErrorSeen
+      })
+      : null;
   }
 
+  renderToolbar() {
+    return (
+      <Toolbar>
+        <div className='left'>
+          <ToolbarButton onClick={() =>
+            notification.confirm({
+              message: 'Are you sure you want to cancel the creation of this cattle?',
+              callback: this.props.handleCancel
+            })
+          }>
+            Cancel
+          </ToolbarButton>
+        </div>
+        <div className='center'>Enter Cattle Details</div>
+      </Toolbar>
+    );
+  }
 
   renderLoadingSpiral() {
-    return (this.props.isFetching? <ProgressCircular indeterminate />:null);
-  }
-
-  deleteCattleHelper= ()  =>  {
-    this.props.handleCancel();
-  }
-
-  deleteCattle= ()  =>  {
-    notification.confirm({
-      message: 'Are you sure you want to delete this cattle?',
-      callback: this.deleteCattleHelper
-    });
-  }
-
-  submitData= ()  =>  {
-    this.props.register(this.props);
+    if (this.props.isFetching)
+      return <ProgressCircular indeterminate />;
   }
 
   updateHerdMark = (val) => {
     this.props.cattle.herdmark = val;
+    this.forceUpdate();
   }
 
   updateCountryCode = (val) =>  {
     this.props.cattle.country_code = val;
+    this.forceUpdate();
   }
 
   updateCheckDigit = (val) => {
     this.props.cattle.check_digit = val;
+    this.forceUpdate();
   }
 
   updateIdNumber = (val) => {
     this.props.cattle.individual_number = val;
+    this.forceUpdate();
+  }
+
+  renderDoneButton() {
+    let c = this.props.cattle;
+    let complete = c.country_code && c.herdmark && c.check_digit && c.individual_number;
+    return (
+      <Button style={ complete ? styles.doneButton : styles.doneButtonDisabled }
+        onClick={ () => this.props.register(this.props) }
+      >
+        Done
+      </Button>
+    );
   }
 
   render() {
@@ -129,21 +120,17 @@ class CreateCattlePage extends React.Component {
       updateIdNumber: this.updateIdNumber,
     }
     return (
-      <Page
-          renderToolbar={() =>
-            <CattleCreateTopBar title='Enter Details'
-            deleteFunction={this.deleteCattle} submitFunction={this.submitData}/>}>
-
+      <Page renderToolbar={ () => this.renderToolbar() }>
         <div style={styles.image_container}>
           <img style={styles.reviewImage} src={this.props.image}/>
         </div>
         {this.renderLoadingSpiral()}
         <CattleEditForm cattle={this.props.cattle} updateFuncs={funcs} />
+        { this.renderDoneButton() }
       </Page>
     )
   }
 }
-
 
 const styles = {
   logo_img: {
@@ -177,6 +164,19 @@ const styles = {
     fontSize: '17px',
     marginBottom: '4px'
   },
+  doneButton: {
+    position: 'fixed',
+    bottom: '0',
+    height: '3vh',
+    width: '100%'
+  },
+  doneButtonDisabled: {
+    background: 'rgb(128, 128, 128)',
+    position: 'fixed',
+    bottom: '0',
+    height: '3vh',
+    width: '100%'
+  },
   reviewImage: {
     position: 'fixed',
     width: '100%',
@@ -185,8 +185,6 @@ const styles = {
     right: '0',
     maxHeight: '250px'
   }
-
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateCattlePage);
