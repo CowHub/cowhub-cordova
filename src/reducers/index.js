@@ -6,6 +6,7 @@ import login from './login';
 import navigation from './navigation'
 import camera from './camera'
 import creation from './creation'
+import identification from './identification'
 
 const reducers = combineReducers({
   authentication,
@@ -14,6 +15,7 @@ const reducers = combineReducers({
   navigation,
   camera,
   creation,
+  identification
 });
 
 export default reducers;

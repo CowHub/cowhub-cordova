@@ -1,25 +1,32 @@
 import {
-    FETCH_CATTLE_PENDING,
-    FETCH_CATTLE_SUCCESS,
-    FETCH_CATTLE_ERROR,
-    REGISTER_CATTLE_PENDING,
-    REGISTER_CATTLE_SUCCESS,
-    REGISTER_CATTLE_ERROR,
-    UPDATE_CATTLE_PENDING,
-    UPDATE_CATTLE_SUCCESS,
-    UPDATE_CATTLE_ERROR,
-    DELETE_CATTLE_PENDING,
-    DELETE_CATTLE_SUCCESS,
-    DELETE_CATTLE_ERROR,
-    EDITING_CATTLE_ENABLED,
-    EDITING_CATTLE_DISABLED,
-    FETCH_CATTLE_IMAGE_PENDING,
-    FETCH_CATTLE_IMAGE_SUCCESS,
-    FETCH_CATTLE_IMAGE_ERROR,
-    CATTLE_ERROR_SEEN,
-    UPLOAD_CATTLE_IMAGE_PENDING,
-    UPLOAD_CATTLE_IMAGE_SUCCESS,
-    UPLOAD_CATTLE_IMAGE_ERROR,
+  FETCH_CATTLE_PENDING,
+  FETCH_CATTLE_SUCCESS,
+  FETCH_CATTLE_ERROR,
+  REGISTER_CATTLE_PENDING,
+  REGISTER_CATTLE_SUCCESS,
+  REGISTER_CATTLE_ERROR,
+  UPDATE_CATTLE_PENDING,
+  UPDATE_CATTLE_SUCCESS,
+  UPDATE_CATTLE_ERROR,
+  DELETE_CATTLE_PENDING,
+  DELETE_CATTLE_SUCCESS,
+  DELETE_CATTLE_ERROR,
+  EDITING_CATTLE_ENABLED,
+  EDITING_CATTLE_DISABLED,
+  FETCH_CATTLE_IMAGE_PENDING,
+  FETCH_CATTLE_IMAGE_SUCCESS,
+  FETCH_CATTLE_IMAGE_ERROR,
+  UPLOAD_CATTLE_IMAGE_PENDING,
+  UPLOAD_CATTLE_IMAGE_SUCCESS,
+  UPLOAD_CATTLE_IMAGE_ERROR,
+  REQUEST_MATCH_CATTLE_PENDING,
+  REQUEST_MATCH_CATTLE_SUCCESS,
+  REQUEST_MATCH_CATTLE_ERROR,
+  MATCH_CATTLE_PENDING,
+  MATCH_CATTLE_SUCCESS,
+  MATCH_CATTLE_EXCEPTION,
+  MATCH_CATTLE_ERROR,
+  CATTLE_ERROR_SEEN,
 } from '../actions/cattle';
 
 const initialState = {
@@ -29,6 +36,7 @@ const initialState = {
   fetched: false,
   editing: false,
   cattlePos: null,
+  match_id: null,
   imageFetching: false
 };
 
@@ -68,6 +76,20 @@ const cattle = (state = initialState, action) => {
       return handleFetchCattleImageSuccess(state, action.id, action.images);
     case FETCH_CATTLE_IMAGE_ERROR:
       return handleFetchCattleImageError(state, action.error);
+    case REQUEST_MATCH_CATTLE_PENDING:
+      return handleRequestMatchCattlePending(state);
+    case REQUEST_MATCH_CATTLE_SUCCESS:
+      return handleRequestMatchCattleSuccess(state, action.match_id);
+    case REQUEST_MATCH_CATTLE_ERROR:
+      return handleRequestMatchCattleError(state, action.error);
+    case MATCH_CATTLE_PENDING:
+      return handleMatchCattlePending(state);
+    case MATCH_CATTLE_SUCCESS:
+      return handleMatchCattleSuccess(state);
+    case MATCH_CATTLE_EXCEPTION:
+      return handleMatchCattleException(state);
+    case MATCH_CATTLE_ERROR:
+      return handleMatchCattleError(state, action.error);
     case CATTLE_ERROR_SEEN:
       return handleErrorSeen(state);
     case UPLOAD_CATTLE_IMAGE_PENDING:
@@ -237,6 +259,60 @@ export function handleFetchCattleImageError(state, error) {
     imageFetching: false
   };
 };
+
+export function handleRequestMatchCattlePending(state) {
+  return {
+    ...state,
+    match_id: null,
+  };
+}
+
+export function handleRequestMatchCattleSuccess(state, id) {
+  return {
+    ...state,
+    match_id: id,
+  };
+}
+
+export function handleRequestMatchCattleError(state, error) {
+  return {
+    ...state,
+    error,
+  };
+}
+
+export function handleMatchCattlePending(state) {
+  return {
+    ...state,
+    fetching: true,
+    fetched: false
+  };
+}
+
+export function handleMatchCattleSuccess(state) {
+  return {
+    ...state,
+    fetching: false,
+    fetched: true
+  };
+}
+
+export function handleMatchCattleException(state) {
+  return {
+    ...state,
+    fetching: false,
+    fetched: true
+  };
+}
+
+export function handleMatchCattleError(state, error) {
+  return {
+    ...state,
+    fetching: false,
+    fetched: true
+  };
+}
+
 
 export function handleErrorSeen(state) {
   return {

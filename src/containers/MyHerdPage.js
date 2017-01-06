@@ -23,10 +23,10 @@ import CattleList from '../components/cattle/CattleList';
 import {
     fetchCattle,
     loadEditCattlePage,
-    loadCameraCapturePage,
     logoutUser,
     loadLoginPage,
     startCreateCattle,
+    startIdentifyCattle,
     cattleErrorSeen
 } from '../actions/index';
 
@@ -45,16 +45,10 @@ const mapDispatchToProps = (dispatch) => {
     fetchCattle: () => {
       dispatch(fetchCattle());
     },
-    createCattle: () => {
-      dispatch(startCreateCattle())
-    },
-    editCattle: () => {
-      dispatch(loadEditCattlePage())
-    },
-    identifyCattle: () => {
-      dispatch(loadCameraCapturePage())
-    },
-    handleLogout: () => {
+    createCattle:() => { dispatch(startCreateCattle()) },
+    editCattle:() => { dispatch(loadEditCattlePage()) },
+    identifyCattle:() => { dispatch(startIdentifyCattle()) },
+    handleLogout:() => {
       dispatch(logoutUser());
       dispatch(loadLoginPage());
     },

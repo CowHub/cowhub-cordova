@@ -9,6 +9,8 @@ export let CREATE_CATTLE_PAGE_LOAD = 'CREATE_CATTLE_PAGE_LOAD';
 export let CREATE_CAMERA_CAPTURE_PAGE_LOAD = 'CREATE_CAMERA_CAPTURE_PAGE_LOAD';
 export let BACK_TO_CAMERA_CAPTURE_PAGE = 'BACK_TO_CAMERA_CAPTURE_PAGE';
 export let EDIT_CATTLE_PAGE_LOAD = 'EDIT_CATTLE_PAGE_LOAD';
+export let IDENTIFY_CATTLE_WAITING_PAGE_LOAD = 'IDENTIFY_CATTLE_WAITING_PAGE_LOAD';
+export let IDENTIFY_CATTLE_SUCCESS_PAGE_LOAD = 'IDENTIFY_CATTLE_SUCCESS_PAGE_LOAD';
 export let VERIFY_IMAGE_PAGE_LOAD = 'VERIFY_IMAGE_PAGE_LOAD';
 export let PAGE_RENDERED = 'PAGE_RENDERED';
 
@@ -68,6 +70,23 @@ export function endCreateCattleRedirect()  {
   }
 }
 
+export function identifyCattleRedirect()  {
+  return(dispatch)  =>  {
+    dispatch(loadIdentifyCattleWaitingPage());
+  }
+}
+
+export function successIdentifyCattleRedirect()  {
+  return(dispatch)  =>  {
+    dispatch(loadIdentifyCattleSuccessPage());
+  }
+}
+
+export function endIdentifyCattleRedirect()  {
+  return(dispatch)  =>  {
+    dispatch(loadMyHerdPage());
+  }
+}
 
 // Login Page
 
@@ -124,6 +143,21 @@ export function loadEditCattlePage(){
 }
 
 
+// Identify Cattle Page
+
+export function loadIdentifyCattleWaitingPage(){
+  return {
+    type: IDENTIFY_CATTLE_WAITING_PAGE_LOAD,
+  }
+}
+
+export function loadIdentifyCattleSuccessPage(){
+  return {
+    type: IDENTIFY_CATTLE_SUCCESS_PAGE_LOAD,
+  }
+}
+
+
 // Verify Image Page
 
 export function loadVerifyImagePage(){
@@ -131,6 +165,7 @@ export function loadVerifyImagePage(){
     type: VERIFY_IMAGE_PAGE_LOAD,
   }
 }
+
 
 // Page rendered
 

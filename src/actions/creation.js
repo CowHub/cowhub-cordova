@@ -15,8 +15,10 @@ export let CREATE_CATTLE_CANCEL = 'CREATE_CATTLE_CANCEL';
 // Callback from Camera
 export function creationOnImageVerified() {
   return (dispatch) =>  {
-    dispatch(createCattleEnterDetails());
-    dispatch(createCattleRedirect());
+    if (store.getState().creation.creating) {
+      dispatch(createCattleEnterDetails());
+      dispatch(createCattleRedirect());
+    }
   }
 }
 
