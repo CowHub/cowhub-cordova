@@ -11,6 +11,7 @@ import {
   DELETE_CATTLE_PENDING,
   DELETE_CATTLE_SUCCESS,
   DELETE_CATTLE_ERROR,
+  SHOW_CATTLE,
   EDITING_CATTLE_ENABLED,
   EDITING_CATTLE_DISABLED,
   FETCH_CATTLE_IMAGE_PENDING,
@@ -66,8 +67,10 @@ const cattle = (state = initialState, action) => {
       return handleDeleteCattleSuccess(state, action.id);
     case DELETE_CATTLE_ERROR:
       return handleDeleteCattleError(state, action.error);
+    case SHOW_CATTLE:
+      return handleShow(state, action.id);
     case EDITING_CATTLE_ENABLED:
-      return handleEditing(state, action.id);
+      return handleStartEditing(state);
     case EDITING_CATTLE_DISABLED:
       return handleEndEditing(state);
     case FETCH_CATTLE_IMAGE_PENDING:
@@ -185,6 +188,7 @@ export function handleUpdateCattleSuccess(state, cattleUpdated) {
     ...state,
     cattle,
     fetching: false,
+    editing: false
   };
 }
 
@@ -217,11 +221,17 @@ export function handleDeleteCattleError(state, error) {
   };
 }
 
-export function handleEditing(state, id) {
+export function handleShow(state, id) {
   return {
     ...state,
-    editing: true,
     cattlePos: id
+  };
+}
+
+export function handleStartEditing(state) {
+  return {
+    ...state,
+    editing: true
   };
 }
 

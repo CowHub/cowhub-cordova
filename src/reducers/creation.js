@@ -103,7 +103,4 @@ const handleCreateCancel = (state) => {
   };
 };
 
-
-
-
 export default capture;

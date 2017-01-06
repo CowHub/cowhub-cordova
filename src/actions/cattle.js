@@ -190,34 +190,46 @@ export function deleteCattleError(error) {
 }
 
 // Cattle edit
+export let SHOW_CATTLE = 'SHOW_CATTLE';
 export let EDITING_CATTLE_ENABLED = 'EDITING_CATTLE_ENABLED';
 export let EDITING_CATTLE_DISABLED = 'EDITING_CATTLE_DISABLED';
 
-export function editCattle(id)  {
+export function showCattle(id)  {
   return(dispatch) => {
-    dispatch(enableEditingCattle(id));
+    dispatch(setCattleToDisplay(id));
     dispatch(cattleEditingRedirect());
   }
 }
 
-export function enableEditingCattle(id) {
+export function setCattleToDisplay(id) {
   return{
-    type: EDITING_CATTLE_ENABLED,
-    id,
+    type: SHOW_CATTLE,
+    id
   }
 }
 
-export function endEditCattle(id)  {
+export function startEditCattle(id)  {
+  return(dispatch) => {
+    dispatch(enableEditingCattle());
+  }
+}
+
+export function enableEditingCattle() {
+  return{
+    type: EDITING_CATTLE_ENABLED
+  }
+}
+
+export function endEditCattle() {
   return (dispatch) =>  {
     dispatch(cattlePostEditingRedirect());
     dispatch(disableEditingCattle());
   }
 }
 
-export function disableEditingCattle(id) {
+export function disableEditingCattle() {
   return{
-    type: EDITING_CATTLE_DISABLED,
-    id,
+    type: EDITING_CATTLE_DISABLED
   }
 }
 

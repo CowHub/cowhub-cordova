@@ -7,20 +7,21 @@ import CattleEditTopBar from '../components/cattle/CattleEditTopBar';
 import CattleDetail from '../components/cattle/CattleDetail';
 import CustomPropTypes from '../utilities/CustomPropTypes'
 
-import { endEditCattle, updateCattle, deleteCattle, cattleErrorSeen } from'../actions'
+import { startEditCattle, endEditCattle, updateCattle, deleteCattle, cattleErrorSeen } from'../actions'
 
 const mapStateToProps = (state) => {
   return {
-    ...state.cattle.cattle[state.cattle.cattlePos],
+    cattle: state.cattle.cattle[state.cattle.cattlePos].cattle,
+    error: state.cattle.error,
     isEditing: state.cattle.editing,
-    isError: state.cattle.error,
     isFetching: state.cattle.fetching,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleEndEdit: (pos) => { dispatch(endEditCattle(pos)) },
+    handleStartEdit: () => { dispatch(startEditCattle()) },
+    handleEndEdit: () => { dispatch(endEditCattle()) },
     handleCattleUpdate: (props) => { dispatch(updateCattle(props.cattle.id, props.cattle)) },
     handleCattleDelete: (id) => { dispatch(deleteCattle(id)) },
     handleErrorSeen: (params) => { dispatch(cattleErrorSeen()) }
@@ -30,16 +31,10 @@ const mapDispatchToProps = (dispatch) => {
 class EditCattlePage extends React.Component {
 
   static propTypes = {
-    cattle: CustomPropTypes.cattle
-  };
-  static defaultProps = {
-    cattle: {
-      id: '',
-      check_digit: '',
-      country_code: '',
-      herdmark: '',
-      individual_number: '',
-    }
+    cattle: CustomPropTypes.cattle,
+    error: React.PropTypes.string,
+    isEditing: React.PropTypes.bool,
+    isFetching: React.PropTypes.bool
   };
 
   componentWillMount() {
@@ -51,10 +46,10 @@ class EditCattlePage extends React.Component {
   }
 
   handleError(props) {
-    return props.isError
+    return props.error
       ? notification.alert({
         title: 'Error',
-        message: props.isError.responseJSON ? props.isError.responseJSON.errors[0] : props.isError.responseText,
+        message: props.error.responseJSON ? props.error.responseJSON.errors[0] : props.error.responseText,
         callback: props.handleErrorSeen
       })
       : null;
@@ -63,10 +58,16 @@ class EditCattlePage extends React.Component {
   renderToolbar() {
     return (
       <CattleEditTopBar
-        title='Edit Cattle'
-        backFunction={ () => this.props.handleEndEdit() }
-        editFunction={ () => this.props.handleCattleUpdate(this.props) }
-        deleteFunction={ () => notification.confirm({
+        isEditing={ this.props.isEditing }
+        handleEnableEdit={ () => this.props.handleStartEdit() }
+        handleDone={ () => this.props.handleCattleUpdate(this.props) }
+        handleCancel={ () => notification.confirm({
+            message: 'Are you sure you want to delete this cattle?',
+            callback: (res) => { if (res)
+              this.props.handleEndEdit(); }
+        })}
+        handleBack={ () => this.props.handleEndEdit() }
+        handleDelete={ () => notification.confirm({
             message: 'Are you sure you want to delete this cattle?',
             callback: (res) => { if (res)
               this.props.handleCattleDelete(this.props.cattle.id); }
@@ -87,6 +88,7 @@ class EditCattlePage extends React.Component {
       <CattleDetail
         cattle={ this.props.cattle }
         image={ src }
+        isEditing={ this.props.isEditing }
         handleChange={ (key, val) => this.props.cattle[key] = val }
       />
     );
