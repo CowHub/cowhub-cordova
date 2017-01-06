@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { notification } from 'onsenui';
 import { Page, Button, Toolbar, ToolbarButton, ProgressCircular } from 'react-onsenui';
 
-import CattleCreateTopBar from '../components/cattle/CattleCreateTopBar';
-import CattleEditForm from '../components/cattle/CattleEditForm';
+import CattleDetail from '../components/cattle/CattleDetail';
 import CustomPropTypes from '../utilities/CustomPropTypes'
 
 import { cancelCreate, cattleErrorSeen, loadCameraCapturePage, registerCattle } from'../actions/index'
@@ -15,28 +14,26 @@ const mapStateToProps = (state) => {
     image: state.creation.image,
     isEditing: state.cattle.editing,
     isError: state.cattle.error,
-    isFetching: state.cattle.fetching,
+    isFetching: state.cattle.fetching
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleCancel: ()  =>  {
-      dispatch(cancelCreate());
-    },
-    register: (props)  =>  {
-      dispatch(registerCattle(props.cattle,props.image))
-    },
-    handleErrorSeen:  (params)  =>  {
-      dispatch(cattleErrorSeen());
-    }
+    handleCancel: () => { dispatch(cancelCreate()) },
+    handleRegister: (props) => { dispatch(registerCattle(props.cattle,props.image)) },
+    handleErrorSeen: (params) => { dispatch(cattleErrorSeen()) }
   }
 };
 
 class CreateCattlePage extends React.Component {
 
   static propTypes = {
-    cattle: CustomPropTypes.cattle
+    cattle: CustomPropTypes.cattle,
+    image: React.PropTypes.string,
+    isEditing: React.PropTypes.bool,
+    isError: React.PropTypes.bool,
+    isFetching: React.PropTypes.bool
   };
 
   componentWillMount() {
@@ -80,24 +77,24 @@ class CreateCattlePage extends React.Component {
       return <ProgressCircular indeterminate />;
   }
 
-  updateHerdMark = (val) => {
-    this.props.cattle.herdmark = val;
-    this.forceUpdate();
+  renderCattleImage() {
+    return (
+      <div style={styles.image_container}>
+        <img style={styles.reviewImage} src={this.props.image}/>
+      </div>
+    );
   }
 
-  updateCountryCode = (val) =>  {
-    this.props.cattle.country_code = val;
-    this.forceUpdate();
-  }
-
-  updateCheckDigit = (val) => {
-    this.props.cattle.check_digit = val;
-    this.forceUpdate();
-  }
-
-  updateIdNumber = (val) => {
-    this.props.cattle.individual_number = val;
-    this.forceUpdate();
+  renderCattleDetail() {
+    return (
+      <CattleDetail
+        cattle={ this.props.cattle }
+        handleChange={ (key, val) => {
+          this.props.cattle[key] = val;
+          this.forceUpdate();
+        }}
+      />
+    );
   }
 
   renderDoneButton() {
@@ -105,7 +102,7 @@ class CreateCattlePage extends React.Component {
     let complete = c.country_code && c.herdmark && c.check_digit && c.individual_number;
     return (
       <Button style={ complete ? styles.doneButton : styles.doneButtonDisabled }
-        onClick={ () => this.props.register(this.props) }
+        onClick={ () => this.props.handleRegister(this.props) }
       >
         Done
       </Button>
@@ -113,19 +110,11 @@ class CreateCattlePage extends React.Component {
   }
 
   render() {
-    const funcs = {
-      updateHerdMark: this.updateHerdMark,
-      updateCountryCode: this.updateCountryCode,
-      updateCheckDigit: this.updateCheckDigit,
-      updateIdNumber: this.updateIdNumber,
-    }
     return (
       <Page renderToolbar={ () => this.renderToolbar() }>
-        <div style={styles.image_container}>
-          <img style={styles.reviewImage} src={this.props.image}/>
-        </div>
-        {this.renderLoadingSpiral()}
-        <CattleEditForm cattle={this.props.cattle} updateFuncs={funcs} />
+        { this.renderLoadingSpiral() }
+        { this.renderCattleImage() }
+        { this.renderCattleDetail() }
         { this.renderDoneButton() }
       </Page>
     )
