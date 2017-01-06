@@ -48,7 +48,7 @@ class Camera extends React.Component {
           <div style={styles.cameraText}>
             <h2>Please line up animal with guide</h2>
           </div>
-          <img style={styles.muzzle} src="/img/outline.png"/>
+          <img style={styles.muzzle} src="img/outline.png"/>
           <Fab
               onClick={() => this.handleCloseClick()}
               position='bottom left'>
