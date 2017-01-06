@@ -3,26 +3,16 @@ import {connect} from 'react-redux';
 import {notification} from 'onsenui';
 import { Page, Icon, Fab, PullHook, ProgressCircular } from 'react-onsenui';
 
-import TopBar from '../components/TopBar';
+import MainTopBar from '../components/MainTopBar';
 import CattleList from '../components/cattle/CattleList';
-import {
-    fetchCattle,
-    loadEditCattlePage,
-    logoutUser,
-    loadLoginPage,
-    startCreateCattle,
-    startIdentifyCattle,
-    cattleErrorSeen,
-    editCattle
-} from '../actions/index';
+import { fetchCattle, logoutUser, loadLoginPage, startCreateCattle, startIdentifyCattle, cattleErrorSeen, showCattle } from '../actions/index';
 
 const mapStateToProps = (state) => {
   return {
     cattle: state.cattle.cattle,
+    error: state.cattle.error,
     isFetching: state.cattle.fetching,
-    isImageFetching: state.cattle.imageFetching,
-    isEditing: state.cattle.editing,
-    isError: state.cattle.error,
+    isImageFetching: state.cattle.imageFetching
   };
 };
 
@@ -30,9 +20,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchCattle: () => { dispatch(fetchCattle()) },
     createCattle:() => { dispatch(startCreateCattle()) },
-    editCattle: () => { dispatch(loadEditCattlePage()) },
     identifyCattle: () => { dispatch(startIdentifyCattle()) },
-    handleEdit: (id) => { dispatch(editCattle(id)) },
+    showCattle: (id) => { dispatch(showCattle(id)) },
     handleLogout:() => {
       dispatch(logoutUser());
       dispatch(loadLoginPage());
@@ -58,10 +47,10 @@ class MyHerdPage extends React.Component {
   }
 
   handleError(props) {
-    return props.isError
+    return props.error
       ? notification.alert({
         title: 'Error',
-        message: props.isError.responseJSON ? props.isError.responseJSON.errors[0] : props.isError.responseText,
+        message: props.error.responseJSON ? props.error.responseJSON.errors[0] : props.error.responseText,
         callback: props.handleErrorSeen
       })
       : null;
@@ -69,8 +58,8 @@ class MyHerdPage extends React.Component {
 
   renderToolbar() {
     return (
-      <TopBar title='My Herd' optionsMenu={true}
-        logoutFunction={ () => this.props.handleLogout() }
+      <MainTopBar title='My Herd'
+        handleLogout={ () => this.props.handleLogout() }
       />
     );
   }
@@ -109,7 +98,7 @@ class MyHerdPage extends React.Component {
           cattle={ this.props.cattle }
           isFetching={ this.props.isFetching }
           isImageFetching={ this.props.isImageFetching }
-          handleEdit={ (id) => this.props.handleEdit(id) }
+          handleEdit={ (id) => this.props.showCattle(id) }
         />
       </div>
     );
@@ -150,11 +139,6 @@ class MyHerdPage extends React.Component {
 }
 
 const styles = {
-  logo_img: {
-    marginTop: '10%',
-    maxWidth: '100%',
-    maxHeight: '100%'
-  },
   page_content: {
     textAlign: 'center',
     width: '80%',
