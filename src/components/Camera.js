@@ -48,6 +48,7 @@ class Camera extends React.Component {
           <div style={styles.cameraText}>
             <h2>Please line up animal with guide</h2>
           </div>
+          <img style={styles.muzzle} src="/img/outline.png"/>
           <Fab
               onClick={() => this.handleCloseClick()}
               position='bottom left'>
@@ -73,10 +74,13 @@ const styles = {
     right: '0',
   },
   overlay: {
-    backgroundImage: 'url("img/outline.png")',
     height: '100%',
     width: '100%',
     objectFit: 'contain',
+  },
+  muzzle: {
+    width: "100%",
+    marginTop: "20%"
   },
   cameraText: {
     top:  '30%',
