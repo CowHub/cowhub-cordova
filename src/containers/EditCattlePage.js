@@ -13,8 +13,8 @@ import {
     Fab,
     List,
     ListItem,
-    ProgressCircular
-
+    ProgressCircular,
+    AlertDialog,
 } from 'react-onsenui';
 
 import CattleEditTopBar from '../components/cattle/CattleEditTopBar';
@@ -24,7 +24,7 @@ import {
     updateCattle,
     deleteCattle,
     cattleErrorSeen
-    } from'../actions/index'
+} from'../actions/index'
 const mapStateToProps = (state) => {
   return {
     ...state.cattle.cattle[state.cattle.cattlePos],
@@ -45,7 +45,7 @@ const mapDispatchToProps = (dispatch) => {
     handleCattleDelete: (id) => {
       dispatch(deleteCattle(id))
     },
-    handleErrorSeen:  (params)  =>  {
+    handleErrorSeen: (params) => {
       dispatch(cattleErrorSeen());
     }
   }
@@ -91,9 +91,9 @@ class EditCattlePage extends React.Component {
     this.setBackground(props);
   }
 
-  getImage()  {
+  getImage() {
     if (this.props.cattle.images) {
-      if (this.props.cattle.images[0]){
+      if (this.props.cattle.images[0]) {
         return this.props.cattle.images[0].data;
       }
     }
@@ -101,13 +101,12 @@ class EditCattlePage extends React.Component {
   }
 
   setBackground(props) {
-    styles.image_container.backgroundImage = 'url('+this.getImage()+')'
+    styles.image_container.backgroundImage = 'url(' + this.getImage() + ')'
   }
 
 
-
   handleError(props) {
-    return props.isError?
+    return props.isError ?
         notification.alert({
           message: 'Error: ' + props.isError,
           callback: props.handleErrorSeen
@@ -117,26 +116,36 @@ class EditCattlePage extends React.Component {
   }
 
   renderLoadingSpiral() {
-    return (this.props.isFetching? <ProgressCircular indeterminate />:null);
+    return (this.props.isFetching ? <ProgressCircular indeterminate/> : null);
   }
 
-  endEditing= ()  =>  {
+  endEditing = () => {
     this.props.handleEndEdit();
 
   }
 
-  updateData= ()  =>  {
+  updateData = () => {
     this.props.handleCattleUpdate(this.props);
   }
 
-  deleteCattleHelper= ()  =>  {
+  deleteCattleHelper = () => {
     this.props.handleCattleDelete(this.props.cattle.id)
   }
 
-  deleteCattle= ()  =>  {
+  deleteCattle = () => {
     notification.confirm({
       message: 'Are you sure you want to delete this cattle?',
-      callback: this.deleteCattleHelper
+      callback: (idx) => {
+        switch (idx) {
+          case 0:
+            // cancel pressed
+            break;
+          case 1:
+            // yes pressed
+            this.deleteCattleHelper();
+            break;
+        }
+      }
     });
   }
 
@@ -144,7 +153,7 @@ class EditCattlePage extends React.Component {
     this.props.cattle.herdmark = val;
   }
 
-  updateCountryCode = (val) =>  {
+  updateCountryCode = (val) => {
     this.props.cattle.country_code = val;
   }
 
@@ -155,8 +164,6 @@ class EditCattlePage extends React.Component {
   updateIdNumber = (val) => {
     this.props.cattle.individual_number = val;
   }
-
-
 
 
   render() {
@@ -176,7 +183,7 @@ class EditCattlePage extends React.Component {
             <img style={styles.reviewImage} src={this.getImage()}/>
           </div>
           {this.renderLoadingSpiral()}
-          <CattleEditForm cattle={this.props.cattle} updateFuncs={funcs} />
+          <CattleEditForm cattle={this.props.cattle} updateFuncs={funcs}/>
         </Page>
 
 
