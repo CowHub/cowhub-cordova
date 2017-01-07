@@ -1,9 +1,6 @@
 import $ from 'jquery';
 import store from '../store/store';
-import {
-    cattleEditingRedirect,
-    cattlePostEditingRedirect
-} from './navigation';
+import {endEditCattle} from './edit';
 
 import {createCattleSuccess} from './creation';
 import {identifyCattleSuccess} from './identification';
@@ -115,7 +112,7 @@ export function updateCattle(id, params) {
       },
       data: params,
     }).then((response) => {
-      dispatch(cattlePostEditingRedirect());
+      dispatch(endEditCattle);
       dispatch(updateCattleSuccess(response.cattle));
     }).catch((error) => {
       dispatch(updateCattleError(error));
@@ -184,50 +181,6 @@ export function deleteCattleError(error) {
     type: DELETE_CATTLE_ERROR,
     error,
   };
-}
-
-// Cattle edit
-export let SHOW_CATTLE = 'SHOW_CATTLE';
-export let EDITING_CATTLE_ENABLED = 'EDITING_CATTLE_ENABLED';
-export let EDITING_CATTLE_DISABLED = 'EDITING_CATTLE_DISABLED';
-
-export function showCattle(id)  {
-  return(dispatch) => {
-    dispatch(setCattleToDisplay(id));
-    dispatch(cattleEditingRedirect());
-  }
-}
-
-export function setCattleToDisplay(id) {
-  return{
-    type: SHOW_CATTLE,
-    id
-  }
-}
-
-export function startEditCattle(id)  {
-  return(dispatch) => {
-    dispatch(enableEditingCattle());
-  }
-}
-
-export function enableEditingCattle() {
-  return{
-    type: EDITING_CATTLE_ENABLED
-  }
-}
-
-export function endEditCattle() {
-  return (dispatch) =>  {
-    dispatch(cattlePostEditingRedirect());
-    dispatch(disableEditingCattle());
-  }
-}
-
-export function disableEditingCattle() {
-  return{
-    type: EDITING_CATTLE_DISABLED
-  }
 }
 
 // Cattle fetch image

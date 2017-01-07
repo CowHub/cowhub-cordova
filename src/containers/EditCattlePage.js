@@ -15,6 +15,7 @@ import CattleEditTopBar from '../components/topbar/CattleEditTopBar';
 import {
     startEditCattle,
     endEditCattle,
+    endShow,
     updateCattle,
     deleteCattle
 } from '../actions'
@@ -33,6 +34,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleStartEdit: () => dispatch(startEditCattle()),
     handleEndEdit: () => dispatch(endEditCattle()),
+    handleEndShow: () => dispatch(endShow()),
     handleCattleUpdate: (props) => dispatch(updateCattle(props.cattle.id, props.cattle)),
     handleCattleDelete: (id) => dispatch(deleteCattle(id))
   }
@@ -66,7 +68,7 @@ class EditCattlePage extends React.Component {
             callback: (res) => { if (res)
               this.props.handleEndEdit(); }
         })}
-        handleBack={ () => this.props.handleEndEdit() }
+        handleBack={ () => this.props.handleEndShow() }
         handleDelete={ () => notification.confirm({
             message: 'Are you sure you want to delete this cattle?',
             callback: (res) => { if (res)
