@@ -4,14 +4,14 @@ export default class CustomPropTypes {
 
   static _cattleObject = {
     breed: React.PropTypes.string,
-    check_digit: React.PropTypes.number.isRequired,
-    country_code: React.PropTypes.string.isRequired,
+    check_digit: React.PropTypes.number,
+    country_code: React.PropTypes.string,
     dob: React.PropTypes.string,
     gender: React.PropTypes.string,
-    herdmark: React.PropTypes.number.isRequired,
-    id: React.PropTypes.number.isRequired,
+    herdmark: React.PropTypes.string,
+    id: React.PropTypes.number,
     images: React.PropTypes.arrayOf(React.PropTypes.string),
-    individual_number: React.PropTypes.number.isRequired,
+    individual_number: React.PropTypes.number,
     name: React.PropTypes.string
   };
 
