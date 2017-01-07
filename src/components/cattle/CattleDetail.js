@@ -18,16 +18,14 @@ class CattleDetail extends React.Component {
 
   renderImage() {
     return (
-      <div style={ styles.image_container }>
-        <img style={ styles.image }
-          src={ this.props.image ? this.props.image : 'img/icon.png' }/>
-      </div>
+      <img style={ styles.image }
+        src={ this.props.image ? this.props.image : 'img/icon.png' }/>
     );
   }
 
   renderInput(placeholder, type, value, key, minlength=0, maxlength=20) {
     return (
-      <ListItem>
+      <ListItem style={ styles.input_wrapper }>
         <Input placeholder={ placeholder } type={ type }
           value={ type == 'tel' && value ? String(value) : value }
           onChange={ (e) => this.props.handleChange(key,
@@ -61,7 +59,7 @@ class CattleDetail extends React.Component {
 
   render() {
     return (
-      <List modifier='inset'>
+      <List modifier='inset' style={ styles.detail_wrapper}>
         { this.renderImage() }
         { this.renderCountryCode() }
         { this.renderHerdmark() }
@@ -73,22 +71,26 @@ class CattleDetail extends React.Component {
 }
 
 const styles = {
-  input: {
-    marginTop: '4px',
-    width: '100%'
-  },
-  image_container: {
-    backgroundColor: 'white',
-    color: 'black',
-    height: '250px',
-    overflow: 'hidden'
+  detail_wrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    margin: '0',
+    marginTop: '2.5vw',
+    marginBottom: '10vh'
   },
   image: {
-    position: 'fixed',
-    height: '100vw',
-    margin: '0 auto',
-    left: '0',
-    right: '0',
+    maxHeight: '85vw',
+    maxWidth: '85vw',
+    marginBottom: '7.5vw'
+  },
+  input: {
+    width: '100%'
+  },
+  input_wrapper: {
+    width: '85%',
+    margin: '0',
+    padding: '0'
   },
 };
 
