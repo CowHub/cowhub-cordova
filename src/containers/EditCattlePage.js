@@ -54,7 +54,7 @@ class EditCattlePage extends React.Component {
         handleEnableEdit={ () => this.props.handleStartEdit() }
         handleDone={ () => this.props.handleCattleUpdate(this.props) }
         handleCancel={ () => notification.confirm({
-            message: 'Are you sure you want to delete this cattle?',
+            message: 'Returning will discard your changes, do you wish to proceed?',
             callback: (res) => { if (res)
               this.props.handleEndEdit(); }
         })}
