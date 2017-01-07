@@ -13,8 +13,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleBack: () => { dispatch(backFromVerify()) },
-    handleVerified: (img) => { dispatch(imageConfirmed(img)) }
+    handleBack: () => dispatch(backFromVerify()),
+    handleVerified: (img) => dispatch(imageConfirmed(img))
   };
 };
 

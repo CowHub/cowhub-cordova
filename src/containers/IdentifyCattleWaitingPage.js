@@ -13,7 +13,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleEndIdentification: () => { dispatch(cancelIdentify()) }
+    handleEndIdentification: () => dispatch(cancelIdentify())
   }
 };
 

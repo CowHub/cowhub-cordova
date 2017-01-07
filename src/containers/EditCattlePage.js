@@ -4,10 +4,12 @@ import {notification} from 'onsenui';
 import { Page, ProgressCircular } from 'react-onsenui';
 
 import CustomPropTypes from '../utilities/CustomPropTypes';
+import { handleError } from '../utilities/ErrorHandler';
+
 import CattleDetail from '../components/cattle/CattleDetail';
 import CattleEditTopBar from '../components/topbar/CattleEditTopBar';
 
-import { startEditCattle, endEditCattle, updateCattle, deleteCattle, cattleErrorSeen } from'../actions'
+import { startEditCattle, endEditCattle, updateCattle, deleteCattle } from '../actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -20,11 +22,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleStartEdit: () => { dispatch(startEditCattle()) },
-    handleEndEdit: () => { dispatch(endEditCattle()) },
-    handleCattleUpdate: (props) => { dispatch(updateCattle(props.cattle.id, props.cattle)) },
-    handleCattleDelete: (id) => { dispatch(deleteCattle(id)) },
-    handleErrorSeen: (params) => { dispatch(cattleErrorSeen()) }
+    handleStartEdit: () => dispatch(startEditCattle()),
+    handleEndEdit: () => dispatch(endEditCattle()),
+    handleCattleUpdate: (props) => dispatch(updateCattle(props.cattle.id, props.cattle)),
+    handleCattleDelete: (id) => dispatch(deleteCattle(id))
   }
 };
 
@@ -32,27 +33,17 @@ class EditCattlePage extends React.Component {
 
   static propTypes = {
     cattle: CustomPropTypes.cattle,
-    error: React.PropTypes.string,
+    error: React.PropTypes.object,
     isEditing: React.PropTypes.bool,
     isFetching: React.PropTypes.bool
   };
 
   componentWillMount() {
-    this.handleError(this.props);
+    handleError(this.props.error);
   }
 
   componentWillReceiveProps(props) {
-    this.handleError(props);
-  }
-
-  handleError(props) {
-    return props.error
-      ? notification.alert({
-        title: 'Error',
-        message: props.error.responseJSON ? props.error.responseJSON.errors[0] : props.error.responseText,
-        callback: props.handleErrorSeen
-      })
-      : null;
+    handleError(props.error);
   }
 
   renderToolbar() {

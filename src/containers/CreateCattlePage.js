@@ -4,10 +4,12 @@ import { notification } from 'onsenui';
 import { Page, Button, ProgressCircular } from 'react-onsenui';
 
 import CustomPropTypes from '../utilities/CustomPropTypes';
+import { handleError } from '../utilities/ErrorHandler';
+
 import CattleDetail from '../components/cattle/CattleDetail';
 import CattleCreateTopBar from '../components/topbar/CattleCreateTopBar';
 
-import { cancelCreate, cattleErrorSeen, loadCameraCapturePage, registerCattle } from'../actions/index'
+import { cancelCreate, loadCameraCapturePage, registerCattle } from '../actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -19,9 +21,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleCancel: () => { dispatch(cancelCreate()) },
-    handleRegister: (props) => { dispatch(registerCattle(props.cattle,props.image)) },
-    handleErrorSeen: (params) => { dispatch(cattleErrorSeen()) }
+    handleCancel: () => dispatch(cancelCreate()),
+    handleRegister: (props) => dispatch(registerCattle(props.cattle, props.image)),
   }
 };
 
@@ -30,25 +31,15 @@ class CreateCattlePage extends React.Component {
   static propTypes = {
     cattle: CustomPropTypes.cattle,
     image: React.PropTypes.string,
-    error: React.PropTypes.bool
+    error: React.PropTypes.object
   };
 
   componentWillMount() {
-    this.handleError(this.props);
+    handleError(this.props.error);
   }
 
   componentWillReceiveProps(props) {
-    this.handleError(props);
-  }
-
-  handleError(props) {
-    return props.error
-      ? notification.alert({
-        title: 'Error',
-        message: props.error.responseJSON ? props.error.responseJSON.errors[0] : props.error.responseText,
-        callback: props.handleErrorSeen
-      })
-      : null;
+    handleError(props.error);
   }
 
   renderToolbar() {

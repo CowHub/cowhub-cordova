@@ -6,7 +6,7 @@ import { Page, Toolbar, BackButton } from 'react-onsenui';
 import CustomPropTypes from '../utilities/CustomPropTypes';
 import CattleDetail from '../components/cattle/CattleDetail';
 
-import { cancelIdentify } from'../actions'
+import { cancelIdentify } from '../actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -17,7 +17,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    backFunction: (pos) => { dispatch(cancelIdentify(pos)) },
+    backFunction: () => dispatch(cancelIdentify())
   }
 };
 

@@ -10,8 +10,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleTakePhoto: () => { dispatch(takePhoto()) },
-    handleBack: () => { dispatch(backFromCamera()) }
+    handleTakePhoto: () => dispatch(takePhoto()),
+    handleBack: () => dispatch(backFromCamera())
   };
 };
 

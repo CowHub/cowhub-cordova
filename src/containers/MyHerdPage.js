@@ -3,11 +3,14 @@ import {connect} from 'react-redux';
 import {notification} from 'onsenui';
 import { Page, Icon, Fab, PullHook, ProgressCircular } from 'react-onsenui';
 
+import CustomPropTypes from '../utilities/CustomPropTypes';
+import { handleError } from '../utilities/ErrorHandler';
+
 import CattleList from '../components/cattle/CattleList';
 import MainTopBar from '../components/topbar/MainTopBar';
 
 import { fetchCattle, logoutUser, loadLoginPage, startCreateCattle,
-   startIdentifyCattle, cattleErrorSeen, showCattle } from '../actions';
+   startIdentifyCattle, showCattle } from '../actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -20,19 +23,25 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchCattle: () => { dispatch(fetchCattle()) },
-    createCattle:() => { dispatch(startCreateCattle()) },
-    identifyCattle: () => { dispatch(startIdentifyCattle()) },
-    showCattle: (id) => { dispatch(showCattle(id)) },
+    fetchCattle: () => dispatch(fetchCattle()),
+    createCattle:() => dispatch(startCreateCattle()),
+    identifyCattle: () => dispatch(startIdentifyCattle()),
+    showCattle: (id) => dispatch(showCattle(id)),
     handleLogout:() => {
       dispatch(logoutUser());
       dispatch(loadLoginPage());
-    },
-    handleErrorSeen: (params) => { dispatch(cattleErrorSeen()) }
+    }
   }
 };
 
 class MyHerdPage extends React.Component {
+
+  static propTypes = {
+    cattle: React.PropTypes.arrayOf(React.PropTypes.object),
+    error: React.PropTypes.object,
+    isFetching: React.PropTypes.bool,
+    isImageFetching: React.PropTypes.bool
+  }
 
   constructor(props) {
     super(props);
@@ -41,21 +50,11 @@ class MyHerdPage extends React.Component {
 
   componentWillMount() {
     this.props.fetchCattle();
-    this.handleError(this.props);
+    handleError(this.props.error);
   }
 
   componentWillReceiveProps(props) {
-    this.handleError(props);
-  }
-
-  handleError(props) {
-    return props.error
-      ? notification.alert({
-        title: 'Error',
-        message: props.error.responseJSON ? props.error.responseJSON.errors[0] : props.error.responseText,
-        callback: props.handleErrorSeen
-      })
-      : null;
+    handleError(props.error);
   }
 
   renderToolbar() {

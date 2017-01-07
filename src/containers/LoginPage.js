@@ -3,8 +3,9 @@ import {connect} from 'react-redux';
 import { notification } from 'onsenui';
 import { Page, Button, Toolbar, Icon, Input, Row } from 'react-onsenui';
 
+import { handleError } from '../utilities/ErrorHandler';
 import { loginUser, loginErrorSeen, enterEmail, enterPassword, submitPressed,
-  initialTokenCheck } from '../actions/index';
+  initialTokenCheck } from '../actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -17,14 +18,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleEmail: (email) => { dispatch(enterEmail(email)) },
-    handlePassword: (password) => { dispatch(enterPassword(password)) },
+    handleEmail: (email) => dispatch(enterEmail(email)),
+    handlePassword: (password) => dispatch(enterPassword(password)),
     handleLogin: (params) => {
       dispatch(loginUser(params));
       dispatch(submitPressed());
     },
-    handleErrorSeen: (params) => { dispatch(loginErrorSeen()) },
-    handleFetchToken: () => { dispatch(initialTokenCheck()) }
+    handleFetchToken: () => dispatch(initialTokenCheck())
   };
 };
 
@@ -38,7 +38,7 @@ class LoginPage extends React.Component {
   };
 
   componentWillMount() {
-    this.handleError(this.props);
+    handleError(this.props.error);
   }
 
   componentDidMount() {
@@ -47,17 +47,7 @@ class LoginPage extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    this.handleError(props);
-  }
-
-  handleError(props) {
-    return props.error
-      ? notification.alert({
-        title: 'Error',
-        message: props.error.responseJSON ? props.error.responseJSON.errors[0] : props.error.responseText,
-        callback: props.handleErrorSeen
-      })
-      : null;
+    handleError(props.error);
   }
 
   renderToolbar() {
