@@ -26,7 +26,7 @@ class CattleCreateTopBar extends React.Component {
     );
   }
 
-  renderToolbar() {
+  render() {
     return (
       <Toolbar>
         { this.renderCancelButton() }
