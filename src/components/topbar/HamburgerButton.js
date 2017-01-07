@@ -47,7 +47,8 @@ class HamburgerButton extends React.Component {
 
   renderOption(option) {
     return (
-      <ListItem modifier='tappable' onClick={ () => {
+      <ListItem key={ option.title } modifier='tappable'
+        onClick={ () => {
           option.onClick();
           this.setState({ expanded: false });
         }}
