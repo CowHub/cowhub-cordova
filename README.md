@@ -19,6 +19,14 @@ npm install
 
 ```
 
+After you will need to install the EZAR snapshot and overlay plugins.
+After downloading the zip from the site, unzip to a directory outside of the project,
+and then add using 
+```
+cordova plugin add PATH-TO-OVERLAY
+cordova plugin add PATH-TO-SNAPSHOT
+```
+
 ## Build project for debugging
 
 Ther are two ways of running the application for debugging. One way is to host the webview locally on the development
