@@ -2,7 +2,7 @@ import store from '../store/store';
 import { notification } from 'onsenui';
 import { cattleErrorSeen } from '../actions'
 
-export function handleError(error, callback) {
+export function handleError(error, callback = () => store.dispatch(cattleErrorSeen())) {
   if (!error)
     return null;
 
@@ -17,6 +17,6 @@ export function handleError(error, callback) {
   return notification.alert({
     title: 'Error',
     message: msg,
-    callback: () => store.dispatch(cattleErrorSeen())
+    callback: callback
   });
 }

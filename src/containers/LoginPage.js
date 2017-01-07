@@ -12,6 +12,7 @@ const mapStateToProps = (state) => {
     token: state.authentication.token,
     email: state.login.email,
     password: state.login.password,
+    error: state.authentication.error,
     isFetching: state.authentication.fetching
   };
 };
@@ -24,6 +25,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(loginUser(params));
       dispatch(submitPressed());
     },
+    handleErrorSeen: () => dispatch(loginErrorSeen()),
     handleFetchToken: () => dispatch(initialTokenCheck())
   };
 };
@@ -34,6 +36,7 @@ class LoginPage extends React.Component {
     token: React.PropTypes.string,
     email: React.PropTypes.string,
     password: React.PropTypes.string,
+    error: React.PropTypes.object,
     isFetching: React.PropTypes.bool
   };
 
@@ -47,7 +50,7 @@ class LoginPage extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    handleError(props.error);
+    handleError(props.error, props.handleErrorSeen);
   }
 
   renderToolbar() {
