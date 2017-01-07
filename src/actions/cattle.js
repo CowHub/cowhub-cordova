@@ -117,9 +117,6 @@ export function updateCattle(id, params) {
     }).then((response) => {
       dispatch(cattlePostEditingRedirect());
       dispatch(updateCattleSuccess(response.cattle));
-      for (let cattle of response.cattle) {
-        dispatch(fetchCattleImage(cattle.id))
-      }
     }).catch((error) => {
       dispatch(updateCattleError(error));
     })
