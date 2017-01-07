@@ -1,11 +1,21 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import { notification } from 'onsenui';
-import { Page, Button, Toolbar, Icon, Input, Row } from 'react-onsenui';
+import {
+    Page,
+    Button,
+    Toolbar,
+    Input
+} from 'react-onsenui';
 
 import { handleError } from '../utilities/ErrorHandler';
-import { loginUser, loginErrorSeen, enterEmail, enterPassword, submitPressed,
-  initialTokenCheck } from '../actions';
+import {
+    loginUser,
+    loginErrorSeen,
+    enterEmail,
+    enterPassword,
+    submitPressed,
+    initialTokenCheck
+} from '../actions';
 
 const mapStateToProps = (state) => {
   return {

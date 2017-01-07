@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { notification } from 'onsenui';
-import { Page, Toolbar, BackButton } from 'react-onsenui';
+import {
+    Page,
+    Toolbar,
+    BackButton
+} from 'react-onsenui';
 
 import CustomPropTypes from '../utilities/CustomPropTypes';
 import { handleError } from '../utilities/ErrorHandler';

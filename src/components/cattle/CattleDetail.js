@@ -1,6 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Input, List, ListItem } from 'react-onsenui';
+import {
+    Input,
+    List,
+    ListItem
+} from 'react-onsenui';
 import CustomPropTypes from '../../utilities/CustomPropTypes'
 
 class CattleDetail extends React.Component {

@@ -1,7 +1,19 @@
-import { IDENTIFY_CATTLE_CAMERA_INIT, IDENTIFY_CATTLE_SUBMIT_REQUEST,
-  IDENTIFY_CATTLE_CANCEL } from '../actions/identification'
-import { CANCEL_CAMERA, IMAGE_VERIFIED } from '../actions/camera'
-import { MATCH_CATTLE_SUCCESS, MATCH_CATTLE_EXCEPTION, MATCH_CATTLE_ERROR }
+import {
+    IDENTIFY_CATTLE_CAMERA_INIT,
+    IDENTIFY_CATTLE_SUBMIT_REQUEST,
+    IDENTIFY_CATTLE_CANCEL
+} from '../actions/identification'
+
+import {
+    CANCEL_CAMERA,
+    IMAGE_VERIFIED
+} from '../actions/camera'
+
+import {
+    MATCH_CATTLE_SUCCESS,
+    MATCH_CATTLE_EXCEPTION,
+    MATCH_CATTLE_ERROR
+}
  from '../actions/cattle'
 
 const initialState = {

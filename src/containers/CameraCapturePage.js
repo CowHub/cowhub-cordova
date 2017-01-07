@@ -1,6 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import { Page, Icon, Fab } from 'react-onsenui';
+import {
+    Page,
+    Icon,
+    Fab
+} from 'react-onsenui';
 
 import { takePhoto, backFromCamera } from '../actions';
 

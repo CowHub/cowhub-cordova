@@ -1,16 +1,26 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {notification} from 'onsenui';
-import { Page, Icon, Fab, PullHook, ProgressCircular } from 'react-onsenui';
+import {
+    Page,
+    Icon,
+    Fab,
+    PullHook,
+    ProgressCircular
+} from 'react-onsenui';
 
-import CustomPropTypes from '../utilities/CustomPropTypes';
 import { handleError } from '../utilities/ErrorHandler';
 
 import CattleList from '../components/cattle/CattleList';
 import MainTopBar from '../components/topbar/MainTopBar';
 
-import { fetchCattle, logoutUser, loadLoginPage, startCreateCattle,
-   startIdentifyCattle, showCattle } from '../actions';
+import {
+    fetchCattle,
+    logoutUser,
+    loadLoginPage,
+    startCreateCattle,
+    startIdentifyCattle,
+    showCattle
+} from '../actions';
 
 const mapStateToProps = (state) => {
   return {

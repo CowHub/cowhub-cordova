@@ -1,7 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {notification} from 'onsenui';
-import { Page, ProgressCircular } from 'react-onsenui';
+import {
+    Page,
+    ProgressCircular
+} from 'react-onsenui';
 
 import CustomPropTypes from '../utilities/CustomPropTypes';
 import { handleError } from '../utilities/ErrorHandler';
@@ -9,7 +12,12 @@ import { handleError } from '../utilities/ErrorHandler';
 import CattleDetail from '../components/cattle/CattleDetail';
 import CattleEditTopBar from '../components/topbar/CattleEditTopBar';
 
-import { startEditCattle, endEditCattle, updateCattle, deleteCattle } from '../actions'
+import {
+    startEditCattle,
+    endEditCattle,
+    updateCattle,
+    deleteCattle
+} from '../actions'
 
 const mapStateToProps = (state) => {
   return {

@@ -13,19 +13,8 @@ import {
 } from '../actions/navigation'
 
 import {
-    LOAD_TOKEN,
-    STORE_TOKEN,
-    REMOVE_TOKEN,
-    LOGIN_USER_PENDING,
     LOGIN_USER_SUCCESS,
-    LOGIN_USER_ERROR,
-    REGISTER_USER_PENDING,
-    REGISTER_USER_SUCCESS,
-    REGISTER_USER_ERROR,
-    LOGOUT_USER_PENDING,
     LOGOUT_USER_SUCCESS,
-    LOGOUT_USER_ERROR,
-    LOGIN_ERROR_SEEN,
 } from '../actions/authentication'
 
 const initialState = {

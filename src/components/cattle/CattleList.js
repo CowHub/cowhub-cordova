@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import CustomPropTypes from '../../utilities/CustomPropTypes'
 import CattleListItem from './CattleListItem'
 

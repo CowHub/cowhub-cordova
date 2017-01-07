@@ -1,6 +1,11 @@
 import React from 'react';
 
-import { Toolbar, BackButton, ToolbarButton, Icon } from 'react-onsenui';
+import {
+    Toolbar,
+    BackButton,
+    ToolbarButton,
+    Icon
+} from 'react-onsenui';
 import HamburgerButton from './HamburgerButton'
 
 class CattleEditTopBar extends React.Component {

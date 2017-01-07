@@ -1,9 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {notification} from 'onsenui';
-import { Page, Icon, Fab } from 'react-onsenui';
+import {
+    Page,
+    Icon,
+    Fab
+} from 'react-onsenui';
 
-import { backFromVerify, imageConfirmed } from '../actions';
+import {
+    backFromVerify,
+    imageConfirmed
+} from '../actions';
 
 const mapStateToProps = (state) => {
   return {

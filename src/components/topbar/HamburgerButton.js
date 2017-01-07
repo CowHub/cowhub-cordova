@@ -1,6 +1,12 @@
 import React from 'react';
 
-import { ToolbarButton, Icon, Popover, List, ListItem } from 'react-onsenui';
+import {
+    ToolbarButton,
+    Icon,
+    Popover,
+    List,
+    ListItem
+} from 'react-onsenui';
 
 class HamburgerButton extends React.Component {
 

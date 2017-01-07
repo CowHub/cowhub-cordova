@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { Toolbar, ToolbarButton } from 'react-onsenui';
+import {
+    Toolbar,
+    ToolbarButton
+} from 'react-onsenui';
 
 class CattleCreateTopBar extends React.Component {
 
