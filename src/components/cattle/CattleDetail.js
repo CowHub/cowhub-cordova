@@ -29,7 +29,7 @@ class CattleDetail extends React.Component {
     return (
       <ListItem>
         <Input placeholder={ placeholder } type={ type } value={ value }
-          onChange={ (e) => this.props.handleUpdate(key, e.target.value) }
+          onChange={ (e) => this.props.handleChange(key, e.target.value) }
           style={ styles.input } minlength={ minlength } maxlength={ maxlength }
           {... (!this.props.isEditing ? { 'readOnly': true } : {}) }
         />
