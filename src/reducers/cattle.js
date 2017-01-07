@@ -251,7 +251,6 @@ export function handleFetchCattleImagePending(state) {
 }
 
 export function handleFetchCattleImageSuccess(state, id, images) {
-  console.dir(state)
   let cattle = state.cattle
   const index = cattle.findIndex((c) => c.cattle.id === id);
   cattle[index].cattle.images = images;

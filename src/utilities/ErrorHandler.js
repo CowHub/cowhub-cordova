@@ -6,6 +6,8 @@ export function handleError(error, callback) {
   if (!error)
     return null;
 
+  console.error(error);
+
   let msg = error.responseJSON
     ? error.responseJSON.errors
       ? error.responseJSON.errors[0]
