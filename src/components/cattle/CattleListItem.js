@@ -48,10 +48,10 @@ class CattleListItem extends React.Component {
           Country Code: { this.props.cattle.country_code }
         </div>
         <div style={ styles.desc }>
-          Check Digit :{ this.props.cattle.check_digit }
+          Check Digit: { this.props.cattle.check_digit }
         </div>
         <div style={ styles.desc }>
-          Individual Number : { this.props.cattle.individual_number }
+          Individual Number: { this.props.cattle.individual_number }
         </div>
       </Col>
     );

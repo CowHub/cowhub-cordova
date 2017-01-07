@@ -28,8 +28,10 @@ class CattleDetail extends React.Component {
   renderInput(placeholder, type, value, key, minlength=0, maxlength=20) {
     return (
       <ListItem>
-        <Input placeholder={ placeholder } type={ type } value={ value }
-          onChange={ (e) => this.props.handleChange(key, e.target.value) }
+        <Input placeholder={ placeholder } type={ type }
+          value={ type == 'tel' && value ? String(value) : value }
+          onChange={ (e) => this.props.handleChange(key,
+            type == 'tel' ? Number(e.target.value) : e.target.value) }
           style={ styles.input } minlength={ minlength } maxlength={ maxlength }
           {... (!this.props.isEditing ? { 'readOnly': true } : {}) }
         />
@@ -43,7 +45,7 @@ class CattleDetail extends React.Component {
   }
 
   renderHerdmark() {
-    return this.renderInput('Herdmark', 'tel',
+    return this.renderInput('Herdmark', 'text',
       this.props.cattle.herdmark, 'herdmark', 6, 6);
   }
 
