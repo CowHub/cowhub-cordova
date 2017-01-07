@@ -12,22 +12,22 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleTakePhoto: () => { dispatch(takePhoto()) },
     handleBack: () => { dispatch(backFromCamera()) }
-  }
+  };
 };
 
 class CameraCapturePage extends React.Component {
 
   renderTitle() {
     return (
-      <div style={ styles.cameraText }>
-        <h2>Please line up animal with guide</h2>
-      </div>
+      <h2 style={ styles.title }>
+        Line Up Cattle with Mask
+      </h2>
     );
   }
 
   renderMuzzle() {
     return (
-      <img style={ styles.muzzle } src="img/outline.png"/>
+      <img style={ styles.muzzle } src='img/outline.png'/>
     );
   }
 
@@ -53,7 +53,7 @@ class CameraCapturePage extends React.Component {
 
   render() {
     return (
-      <Page modifier="transparent">
+      <Page modifier='transparent'>
         <div style={ styles.overlay }>
           { this.renderTitle() }
           { this.renderMuzzle() }
@@ -72,15 +72,11 @@ const styles = {
     objectFit: 'contain',
   },
   muzzle: {
-    width: "100%",
-    marginTop: "20%"
+    width: '100%',
+    marginTop: '20%'
   },
-  cameraText: {
-    top:  '30%',
-    margin: '0 auto',
-    left: '0',
-    right:  '0',
-    textAlign: 'center',
+  title: {
+    textAlign: 'center'
   }
 };
 
