@@ -43,6 +43,7 @@ const handleCreateCameraInit = (state) => {
   return {
     ...state,
     creating: true,
+    cattle: {}
   };
 };
 
