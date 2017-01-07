@@ -1,21 +1,15 @@
-import {
-  IDENTIFY_CATTLE_CAMERA_INIT,
-  IDENTIFY_CATTLE_SUBMIT_REQUEST,
-  IDENTIFY_CATTLE_CANCEL,
-} from '../actions/identification'
-// Import Camera states
-import {CANCEL_CAMERA, IMAGE_VERIFIED} from '../actions/camera'
-// Import Cattle submit fail
-import {MATCH_CATTLE_SUCCESS,MATCH_CATTLE_EXCEPTION,MATCH_CATTLE_ERROR} from '../actions/cattle'
+import { IDENTIFY_CATTLE_CAMERA_INIT, IDENTIFY_CATTLE_SUBMIT_REQUEST,
+  IDENTIFY_CATTLE_CANCEL } from '../actions/identification'
+import { CANCEL_CAMERA, IMAGE_VERIFIED } from '../actions/camera'
+import { MATCH_CATTLE_SUCCESS, MATCH_CATTLE_EXCEPTION, MATCH_CATTLE_ERROR }
+ from '../actions/cattle'
 
 const initialState = {
   identifying: false,
   imageCaptured: false,
   match: null,
   complete: false,
-  image: null,
-  error: null,
-  exception: null
+  image: null
 };
 
 const identification = (state = initialState, action) => {
@@ -29,9 +23,9 @@ const identification = (state = initialState, action) => {
     case MATCH_CATTLE_SUCCESS:
       return handleIdentifyCattleSuccess(state,action.match);
     case MATCH_CATTLE_EXCEPTION:
-      return handleIdentifyCattleException(state,action.exception);
+      return handleIdentifyCattleException(state);
     case MATCH_CATTLE_ERROR:
-      return handleIdentifyFail(state,action.error);
+      return handleIdentifyFail(state);
     case IDENTIFY_CATTLE_CANCEL:
     case CANCEL_CAMERA:
       return handleIdentifyCancel(state);
@@ -71,17 +65,15 @@ const handleIdentifyCattleSuccess = (state, match) => {
   };
 };
 
-const handleIdentifyCattleException = (state, exception) => {
+const handleIdentifyCattleException = (state) => {
   return {
-    ...state,
-    exception: exception
+    ...state
   };
 };
 
-const handleIdentifyFail = (state, error) => {
+const handleIdentifyFail = (state) => {
   return {
     ...state,
-    error: error
   };
 };
 
@@ -90,9 +82,7 @@ const handleIdentifyCancel = (state) => {
     ...state,
     identifying: false,
     imageCaptured: false,
-    complete: false,
-    error: null,
-    exception: null
+    complete: false
   };
 };
 

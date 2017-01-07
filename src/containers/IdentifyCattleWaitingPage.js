@@ -9,8 +9,8 @@ import { cancelIdentify } from '../actions';
 const mapStateToProps = (state) => {
   return {
     image: state.identification.image,
-    error: state.identification.error,
-    exception: state.identification.exception
+    error: state.cattle.error,
+    exception: state.cattle.exception
   };
 };
 
