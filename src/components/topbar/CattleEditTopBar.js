@@ -28,7 +28,7 @@ class CattleEditTopBar extends React.Component {
     return (
       <div className='left'>
         <ToolbarButton onClick={ this.props.handleCancel }>
-          Cancel
+          <Icon icon='md-close-circle' />
         </ToolbarButton>
       </div>
     );
@@ -38,7 +38,7 @@ class CattleEditTopBar extends React.Component {
     return (
       <div className='right'>
         <ToolbarButton onClick={ this.props.handleDone }>
-          Done
+          <Icon icon='md-check' />
         </ToolbarButton>
       </div>
     );
