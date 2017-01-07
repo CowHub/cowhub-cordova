@@ -53,18 +53,11 @@ class CreateCattlePage extends React.Component {
     );
   }
 
-  renderCattleImage() {
-    return (
-      <div style={styles.image_container}>
-        <img style={styles.reviewImage} src={this.props.image}/>
-      </div>
-    );
-  }
-
   renderCattleDetail() {
     return (
       <CattleDetail
         cattle={ this.props.cattle }
+        image={ this.props.image }
         handleChange={ (key, val) => {
           this.props.cattle[key] = val;
           this.forceUpdate();
@@ -88,7 +81,6 @@ class CreateCattlePage extends React.Component {
   render() {
     return (
       <Page renderToolbar={ () => this.renderToolbar() }>
-        { this.renderCattleImage() }
         { this.renderCattleDetail() }
         { this.renderDoneButton() }
       </Page>
