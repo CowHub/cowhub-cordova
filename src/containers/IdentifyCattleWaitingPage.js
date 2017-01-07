@@ -3,11 +3,14 @@ import { connect } from 'react-redux';
 import { notification } from 'onsenui';
 import { Page, Icon, Fab } from 'react-onsenui';
 
+import { handleError } from '../utilities/ErrorHandler';
 import { cancelIdentify } from '../actions';
 
 const mapStateToProps = (state) => {
   return {
-    ...state.identification
+    image: state.identification.image,
+    error: state.identification.error,
+    exception: state.identification.exception
   };
 };
 
@@ -19,6 +22,12 @@ const mapDispatchToProps = (dispatch) => {
 
 class IdentifyCattleWaitingPage extends React.Component {
 
+  static propTypes = {
+    image: React.PropTypes.string,
+    error: React.PropTypes.object,
+    exception: React.PropTypes.string
+  };
+
   componentWillMount() {
     this.handlePrompts(this.props);
   }
@@ -28,39 +37,51 @@ class IdentifyCattleWaitingPage extends React.Component {
   }
 
   handlePrompts(props) {
-    if (props.error) {
-      return notification.alert({
-        title: 'Error',
-        message: props.error.responseJSON ? props.error.responseJSON.errors[0] : props.error.responseText,
-        callback: props.handleEndIdentification
-      });
-    }
-    else if (props.exception) {
+    if (props.error)
+      handleError(props.error);
+    else if (props.exception)
       return notification.alert({
         title: props.exception,
         message: ' ',
         callback: props.handleEndIdentification
       });
-    }
+  }
+
+  renderImage() {
+    return (
+      <img style={ styles.image } src={ this.props.image }/>
+    );
+  }
+
+  renderScanner() {
+    return (
+      <div style={ styles.scanner }></div>
+    );
+  }
+
+  renderCancelButton() {
+    return (
+      <Fab
+          onClick={ () => notification.confirm({
+            message: 'Are you sure you want to cancel request',
+            callback: (answer) => { if (answer)
+              this.props.handleEndIdentification();
+            }
+          })}
+          position='bottom center'>
+        <Icon icon='md-close-circle' />
+      </Fab>
+    );
   }
 
   render() {
     return (
       <Page>
-        <img style={ styles.image } src={ this.props.image }/>
-        <div style={styles.scanner}></div>
-        <Fab
-            onClick={ () => notification.confirm({
-              message: 'Are you sure you want to cancel request',
-              callback: (answer) => { if (answer)
-                this.props.handleEndIdentification();
-              }
-            })}
-            position='bottom center'>
-          <Icon icon='md-close-circle' />
-        </Fab>
+        { this.renderImage() }
+        { this.renderScanner() }
+        { this.renderCancelButton() }
       </Page>
-    )
+    );
   }
 }
 
