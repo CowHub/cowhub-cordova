@@ -14,7 +14,7 @@ const initialState = {
   imageCaptured: false,
   complete: false,
   image: null,
-  cattle: { id: -1 }
+  cattle: {}
 };
 
 const capture = (state = initialState, action) => {
@@ -87,7 +87,7 @@ const handleCreateCancel = (state) => {
     creating: false,
     imageCaptured: false,
     complete: false,
-    cattle: { id: -1 }
+    cattle: {}
   };
 };
 
