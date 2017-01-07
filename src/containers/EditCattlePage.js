@@ -13,7 +13,8 @@ import { startEditCattle, endEditCattle, updateCattle, deleteCattle } from '../a
 
 const mapStateToProps = (state) => {
   return {
-    cattle: state.cattle.cattle[state.cattle.cattlePos].cattle,
+    cattle: state.cattle.cattlePos == null ? { images: [] }
+      : state.cattle.cattle[state.cattle.cattlePos].cattle,
     error: state.cattle.error,
     isEditing: state.cattle.editing,
     isFetching: state.cattle.fetching,

@@ -212,6 +212,7 @@ export function handleDeleteCattleSuccess(state, id) {
   return {
     ...state,
     cattle,
+    cattlePos: null
   };
 }
 
