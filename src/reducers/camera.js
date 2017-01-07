@@ -1,18 +1,21 @@
 import {
     ACTIVATE_CAMERA,
+    ACTIVATE_CROP_CAMERA,
     DEACTIVATE_CAMERA,
     CAPTURE_IMAGE,
     STORE_IMAGE,
     ERROR_IMAGE,
     CAMERA_ERROR_SEEN,
     CAMERA_TRY_AGAIN,
-    IMAGE_VERIFIED
+    IMAGE_VERIFIED,
+    CANCEL_CAMERA
 } from '../actions/camera'
 
 const initialState = {
   active: false,
   image: null,
-  error: false
+  error: false,
+  crop: false
 };
 
 
@@ -21,6 +24,8 @@ const camera = (state = initialState, action) => {
   switch (action.type) {
     case ACTIVATE_CAMERA:
       return handleActivateCamera(state);
+    case ACTIVATE_CROP_CAMERA:
+      return handleActivateCropCamera();
     case DEACTIVATE_CAMERA:
       return handleDeactivateCamera(state);
     case CAPTURE_IMAGE:
@@ -43,7 +48,16 @@ const camera = (state = initialState, action) => {
 const handleActivateCamera = (state)  => {
   return {
     ...state,
-    active: true
+    active: true,
+    crop: false
+  };
+};
+
+const handleActivateCropCamera = (state)  => {
+  return {
+    ...state,
+    active: true,
+    crop: true
   };
 };
 
@@ -72,6 +86,7 @@ const handleStoreImage = (state,base64Image)  => {
 const handleImageVerified = (state,img)  =>  {
   return {
     ...state,
+    crop: false
   };
 };
 

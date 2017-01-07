@@ -16,6 +16,7 @@ import {identificationOnImageVerified} from './identification';
 
 // Pages
 export let ACTIVATE_CAMERA = 'ACTIVATE_CAMERA';
+export let ACTIVATE_CROP_CAMERA = 'ACTIVATE_CROP_CAMERA';
 export let DEACTIVATE_CAMERA = 'DEACTIVATE_CAMERA';
 export let CAPTURE_IMAGE = 'CAPTURE_IMAGE';
 export let STORE_IMAGE = 'STORE_IMAGE';
@@ -55,10 +56,10 @@ export function cropImage(base64in) {
   }
 }
 
-export function startCameraCapture()  {
+export function startCameraCapture(crop=false)  {
   return (dispatch) =>  {
     if (ons.platform.isWebView()) {
-      dispatch(activateCamera());
+      dispatch(activateCamera(crop));
     }
     dispatch(cameraStartRedirect());
   }
@@ -73,7 +74,7 @@ export function restartCameraCapture()  {
   }
 }
 
-export function activateCamera() {
+export function activateCamera(crop) {
   ezar.initializeVideoOverlay(
       () => {
         ezar.getBackCamera().start()
@@ -82,8 +83,14 @@ export function activateCamera() {
         dispatch(errorImage())
       }
   );
-  return {
-    type: ACTIVATE_CAMERA,
+  if (crop == true) {
+    return {
+      type: ACTIVATE_CROP_CAMERA
+    }
+  } else {
+    return {
+      type: ACTIVATE_CAMERA,
+    }
   }
 }
 
