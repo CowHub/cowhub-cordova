@@ -40,7 +40,7 @@ class VerifyImagePage extends React.Component {
 
   renderOverloay() {
     return (
-      <img style={ styles.overlay } src='/img/outline.png'/>
+      <img style={ styles.overlay } src='img/outline.png'/>
     );
   }
 
