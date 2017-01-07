@@ -70,39 +70,26 @@ class LoginPage extends React.Component {
 
   renderLogo() {
     return (
-      <Row style={{'height': '20%'}}>
-        <div className='center'>
-          <img src='img/logo.jpg' style={ styles.logo_img }/>
-        </div>
-      </Row>
+      <img src='img/logo.jpg' style={ styles.logo_img }/>
     );
   }
 
   renderForm() {
     return (
-      <Row style={{'height': '80%'}}>
-        <Row style={{'height': '30%'}}/>
-        <Row style={{'height': '5%'}}>
-          { this.renderEmailInput() }
-        </Row>
-        <Row style={{'height': '5%'}}/>
-        <Row style={{'height': '5%'}}>
-          { this.renderPasswordInput() }
-        </Row>
-        <Row style={{'height': '20%'}}/>
-        <Row style={{'height': '5%'}}>
-          { this.renderButton() }
-        </Row>
-      </Row>
+      <div>
+        { this.renderEmailInput() }
+        { this.renderPasswordInput() }
+        { this.renderButton() }
+      </div>
     );
   }
 
   renderEmailInput() {
     return (
       <Input ref='email' placeholder='Email' type='text'
-        value={this.props.email} modifier='underbar'
+        value={ this.props.email } modifier='underbar'
         onChange={ (event) => this.props.handleEmail(event.target.value) }
-        style={{width:'100%'}}
+        style={ styles.email_input }
       />
     );
   }
@@ -112,14 +99,14 @@ class LoginPage extends React.Component {
       <Input ref='password' placeholder='Password' type='password'
         value={this.props.password} modifier='underbar'
         onChange={ (event) => this.props.handlePassword(event.target.value) }
-        style={{width:'100%'}}
+        style={ styles.password_input }
       />
     );
   }
 
   renderButton() {
     return (
-      <Button id='signIn' className='signIn' modifier='large'
+      <Button id='signIn' modifier='large' style={ styles.login_button }
         onClick={ () => this.props.handleLogin({
           email: this.props.email,
           password: this.props.password
@@ -146,13 +133,28 @@ const styles = {
   logo_img: {
     'marginTop': '10%',
     'maxWidth': '100%',
-    'maxHeight': '100%'
+    'maxHeight': '100%',
+    marginBottom: '40%'
   },
   page_content: {
     textAlign: 'center',
     width: '80%',
     margin: '0 auto 0',
     height: '90%'
+  },
+  email_input: {
+    height: '6.25%',
+    width: '100%',
+    marginBottom: '20%'
+  },
+  password_input: {
+    height: '6.25%',
+    width: '100%',
+    marginBottom: '45%'
+  },
+  login_button: {
+    height: '6.25%',
+    width: '100%'
   }
 };
 
