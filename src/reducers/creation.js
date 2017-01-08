@@ -5,16 +5,24 @@ import {
   CREATE_CATTLE_CANCEL,
 } from '../actions/creation'
 // Import Camera states
-import {CANCEL_CAMERA, IMAGE_VERIFIED} from '../actions/camera'
+import {
+  CANCEL_CAMERA,
+  IMAGE_VERIFIED,
+  CROP_COMPLETE
+} from '../actions/camera'
 // Import Cattle submit fail
-import {REGISTER_CATTLE_ERROR,REGISTER_CATTLE_SUCCESS} from '../actions/cattle'
+import {
+  REGISTER_CATTLE_ERROR,
+  REGISTER_CATTLE_SUCCESS
+} from '../actions/cattle'
 
 const initialState = {
   creating: false,
   imageCaptured: false,
   complete: false,
   image: null,
-  cattle: {}
+  cattle: {},
+  croppedImage: null
 };
 
 const capture = (state = initialState, action) => {
@@ -23,6 +31,8 @@ const capture = (state = initialState, action) => {
       return handleCreateCameraInit(state);
     case IMAGE_VERIFIED:
       return handleCreateCameraCapture(state,action.img);
+    case CROP_COMPLETE:
+      return handleCropComplete(state,action.img);
     case CREATE_CATTLE_ENTER_DETAILS:
       return handleCreateEnterDetails(state);
     case REGISTER_CATTLE_SUCCESS:
@@ -55,6 +65,14 @@ const handleCreateCameraCapture = (state,img) => {
   };
 };
 
+const handleCropComplete = (state,img) => {
+  return {
+    ...state,
+    imageCaptured: true,
+    croppedImage: img
+  };
+};
+
 const handleCreateEnterDetails = (state) => {
   return {
     ...state,
@@ -67,6 +85,8 @@ const handleCreateSuccess = (state) => {
     creating: false,
     imageCaptured: false,
     complete: false,
+    image: false,
+    croppedImage: false
   };
 };
 
@@ -88,7 +108,9 @@ const handleCreateCancel = (state) => {
     creating: false,
     imageCaptured: false,
     complete: false,
-    cattle: {}
+    cattle: {},
+    image: null,
+    croppedImage:null
   };
 };
 

@@ -8,14 +8,17 @@ import {
     CAMERA_ERROR_SEEN,
     CAMERA_TRY_AGAIN,
     IMAGE_VERIFIED,
-    CANCEL_CAMERA
+    CANCEL_CAMERA,
+    CROP_STARTED,
+    CROP_COMPLETE
 } from '../actions/camera'
 
 const initialState = {
   active: false,
   image: null,
   error: false,
-  crop: false
+  crop: false,
+  cropping: false,
 };
 
 
@@ -40,6 +43,10 @@ const camera = (state = initialState, action) => {
       return handleTryAgain(state);
     case IMAGE_VERIFIED:
       return handleImageVerified(state,action.img);
+    case CROP_STARTED:
+      return handleCropStart(state);
+    case CROP_COMPLETE:
+      return handleCropComplete(state);
     default:
       return state;
   }
@@ -108,6 +115,20 @@ const handleTryAgain = (state) =>  {
   return {
     ...state,
     image: null,
+  }
+};
+
+const handleCropStart = (state) =>  {
+  return {
+    ...state,
+    cropping: true,
+  }
+};
+
+const handleCropComplete = (state) =>  {
+  return {
+    ...state,
+    cropping: false,
   }
 };
 
