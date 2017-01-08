@@ -137,11 +137,12 @@ export function takePhoto() {
 
 export function imageConfirmed(img) {
   return (dispatch) => {
-    dispatch(imageVerified(img));
     let crop = store.getState().camera.crop;
     if (ons.platform.isWebView() && crop == true) {
       dispatch(cropImage(img));
     }
+
+    dispatch(imageVerified(img));
     dispatch(creationOnImageVerified());
     dispatch(identificationOnImageVerified(img));
   }
@@ -210,10 +211,10 @@ export function cropStarted() {
   }
 }
 
-export function cropComplete(base64) {
+export function cropComplete(img) {
   return {
     type: CROP_COMPLETE,
-    base64
+    img
   }
 }
 

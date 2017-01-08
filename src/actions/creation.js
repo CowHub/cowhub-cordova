@@ -26,7 +26,7 @@ export function creationOnImageVerified() {
 export function startCreateCattle() {
   return (dispatch) =>  {
     dispatch(createCattleCameraInit());
-    dispatch(startCameraCapture());
+    dispatch(startCameraCapture(true));
   }
 };
 
