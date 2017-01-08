@@ -54,6 +54,7 @@ class CattleEditTopBar extends React.Component {
 
   renderHamburger() {
     return (
+      <div className='right'>
       <HamburgerButton
         options={[
           {
@@ -68,6 +69,7 @@ class CattleEditTopBar extends React.Component {
           },
         ]}
       />
+      </div>
     );
   }
 
