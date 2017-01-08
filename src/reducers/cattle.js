@@ -11,8 +11,6 @@ import {
   DELETE_CATTLE_PENDING,
   DELETE_CATTLE_SUCCESS,
   DELETE_CATTLE_ERROR,
-  EDITING_CATTLE_ENABLED,
-  EDITING_CATTLE_DISABLED,
   FETCH_CATTLE_IMAGE_PENDING,
   FETCH_CATTLE_IMAGE_SUCCESS,
   FETCH_CATTLE_IMAGE_ERROR,
@@ -29,9 +27,17 @@ import {
   CATTLE_ERROR_SEEN,
 } from '../actions/cattle';
 
+import {
+    SHOW_CATTLE,
+    EDITING_CATTLE_ENABLED,
+    EDITING_CATTLE_DISABLED,
+    END_SHOW_CATTLE
+} from '../actions/edit'
+
 const initialState = {
   cattle: [],
   error: null,
+  exception: null,
   fetching: false,
   fetched: false,
   editing: false,
@@ -66,8 +72,12 @@ const cattle = (state = initialState, action) => {
       return handleDeleteCattleSuccess(state, action.id);
     case DELETE_CATTLE_ERROR:
       return handleDeleteCattleError(state, action.error);
+    case SHOW_CATTLE:
+      return handleShow(state, action.id);
+    case END_SHOW_CATTLE:
+      return handleEndShow(state);
     case EDITING_CATTLE_ENABLED:
-      return handleEditing(state, action.id);
+      return handleStartEditing(state);
     case EDITING_CATTLE_DISABLED:
       return handleEndEditing(state);
     case FETCH_CATTLE_IMAGE_PENDING:
@@ -87,7 +97,7 @@ const cattle = (state = initialState, action) => {
     case MATCH_CATTLE_SUCCESS:
       return handleMatchCattleSuccess(state);
     case MATCH_CATTLE_EXCEPTION:
-      return handleMatchCattleException(state);
+      return handleMatchCattleException(state, action.exception);
     case MATCH_CATTLE_ERROR:
       return handleMatchCattleError(state, action.error);
     case CATTLE_ERROR_SEEN:
@@ -185,6 +195,7 @@ export function handleUpdateCattleSuccess(state, cattleUpdated) {
     ...state,
     cattle,
     fetching: false,
+    editing: false
   };
 }
 
@@ -207,6 +218,7 @@ export function handleDeleteCattleSuccess(state, id) {
   return {
     ...state,
     cattle,
+    cattlePos: null
   };
 }
 
@@ -217,11 +229,24 @@ export function handleDeleteCattleError(state, error) {
   };
 }
 
-export function handleEditing(state, id) {
+export function handleShow(state, id) {
   return {
     ...state,
-    editing: true,
     cattlePos: id
+  };
+}
+
+export function handleEndShow(state) {
+  return {
+    ...state,
+    cattlePos: null
+  };
+}
+
+export function handleStartEditing(state) {
+  return {
+    ...state,
+    editing: true
   };
 }
 
@@ -229,7 +254,6 @@ export function handleEndEditing(state) {
   return {
     ...state,
     editing: false,
-    cattlePos: null
   };
 }
 
@@ -241,7 +265,6 @@ export function handleFetchCattleImagePending(state) {
 }
 
 export function handleFetchCattleImageSuccess(state, id, images) {
-  console.dir(state)
   let cattle = state.cattle
   const index = cattle.findIndex((c) => c.cattle.id === id);
   cattle[index].cattle.images = images;
@@ -297,9 +320,10 @@ export function handleMatchCattleSuccess(state) {
   };
 }
 
-export function handleMatchCattleException(state) {
+export function handleMatchCattleException(state, exception) {
   return {
     ...state,
+    exception: exception,
     fetching: false,
     fetched: true
   };
@@ -308,6 +332,7 @@ export function handleMatchCattleException(state) {
 export function handleMatchCattleError(state, error) {
   return {
     ...state,
+    error,
     fetching: false,
     fetched: true
   };

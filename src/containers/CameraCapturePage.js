@@ -1,86 +1,88 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {notification} from 'onsenui';
-import ons from 'onsenui';
 import {
     Page,
-    Button,
-    Toolbar,
     Icon,
-    Input,
-    ToolbarButton,
-    Row,
-    Col,
     Fab
-
 } from 'react-onsenui';
 
-import CattleEditTopBar from '../components/cattle/CattleEditTopBar'
-import Camera from '../components/Camera'
-
-import {
-    backFromCamera
-} from'../actions/index'
+import { takePhoto, backFromCamera } from '../actions';
 
 const mapStateToProps = (state) => {
-  return {
-    ...state
-  };
+  return {};
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleBack: ()  =>  {
-      dispatch(backFromCamera());
-    }
-  }
+    handleTakePhoto: () => dispatch(takePhoto()),
+    handleBack: () => dispatch(backFromCamera())
+  };
 };
-
-// This is a wrapper for the Camera component - since if we are running in a browser the cordova module ezAR will
-// not load.
 
 class CameraCapturePage extends React.Component {
 
-  backFunction = () =>  {
-    this.props.handleBack();
-  };
-
-  returnCordova() {
+  renderTitle() {
     return (
-        <Camera onCaptureFunction={this.onCapture}/>
+      <h2 style={ styles.title }>
+        Line Up Cattle with Mask
+      </h2>
     );
   }
 
-  returnBrowser() {
+  renderMuzzle() {
     return (
-      <div>
-        <h2> This will only work when running on a device</h2>
-
-      </div>
-    )
+      <img style={ styles.muzzle } src='img/outline.png'/>
+    );
   }
 
-  startCamera() {
-    if (ons.platform.isWebView()) {
-      return this.returnCordova();
-    } else {
-      //return this.returnBrowser();
-      // DEBUG!
-      return this.returnCordova();
-    }
+  renderCloseButton() {
+    return (
+      <Fab
+          onClick={ () => this.props.handleBack() }
+          position='bottom left'>
+        <Icon icon='md-close-circle' />
+      </Fab>
+    );
   }
 
+  renderCameraButton() {
+    return (
+      <Fab
+          onClick={ () => this.props.handleTakePhoto() }
+          position='bottom right'>
+        <Icon icon='md-camera' />
+      </Fab>
+    );
+  }
 
   render() {
-    // renderToolbar={() => <CattleEditTopBar title='Capture Image' backFunction={this.backFunction} />}
     return (
-        <Page modifier="transparent">
-          {this.startCamera()}
-        </Page>
-    )
+      <Page modifier='transparent'>
+        <div style={ styles.overlay }>
+          { this.renderTitle() }
+          { this.renderMuzzle() }
+          { this.renderCloseButton() }
+          { this.renderCameraButton() }
+        </div>
+      </Page>
+    );
   }
-
-
 }
+
+const styles = {
+  overlay: {
+    height: '100%',
+    width: '100%',
+    objectFit: 'contain',
+  },
+  muzzle: {
+    position: 'absolute',
+    width: '100%',
+    top: '30%'
+  },
+  title: {
+    textAlign: 'center'
+  }
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CameraCapturePage);

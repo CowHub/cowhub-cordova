@@ -1,90 +1,107 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {notification} from 'onsenui';
 import {
     Page,
-    Button,
-    Toolbar,
     Icon,
-    Input,
-    ToolbarButton,
-    Row,
-    Col,
     Fab
-
 } from 'react-onsenui';
-
-import CattleEditTopBar from '../components/cattle/CattleEditTopBar'
 
 import {
     backFromVerify,
-    imageConfirmed,
-} from'../actions/index'
+    imageConfirmed
+} from '../actions';
 
 const mapStateToProps = (state) => {
   return {
-    ...state
+    image: state.camera.image
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleBack: ()  =>  {
-      dispatch(backFromVerify());
-    },
-    handleVerified: (img)  =>  {
-      dispatch(imageConfirmed(img));
-    }
-  }
+    handleBack: () => dispatch(backFromVerify()),
+    handleVerified: (img) => dispatch(imageConfirmed(img))
+  };
 };
-
 
 class VerifyImagePage extends React.Component {
 
   static propTypes = {
-    token: React.PropTypes.string,
-    email: React.PropTypes.string,
-    password: React.PropTypes.string
+    image: React.PropTypes.string,
   };
 
-  handleBackClick() {
-    this.props.handleBack();
+  renderImage() {
+    return (
+      <img style={ styles.image } src={ this.props.image }/>
+    );
   }
 
-  handleVerifyClick()  {
-    this.props.handleVerified(this.props.camera.image);
+  renderTitle() {
+    return (
+      <h2 style={ styles.title }>
+        Please ensure that the muzzle lines up with the template
+      </h2>
+    );
+  }
+
+  renderOverlay() {
+    return (
+      <img style={ styles.overlay } src='img/outline.png'/>
+    );
+  }
+
+  renderBackButton() {
+    return (
+      <Fab
+          onClick={ () => this.props.handleBack() }
+          position='bottom left'>
+        <Icon icon='md-arrow-left' />
+      </Fab>
+    );
+  }
+
+  renderValidateButton() {
+    return (
+      <Fab
+          onClick={ () => this.props.handleVerified(this.props.image) }
+          position='bottom right'>
+        <Icon icon='md-check' />
+      </Fab>
+    );
   }
 
   render() {
     return (
-        <Page>
-          <img style={styles.reviewImage} src={this.props.camera.image}/>
-          <Fab
-              onClick={() => this.handleBackClick()}
-              position='bottom left'>
-            <Icon icon='md-arrow-left' />
-          </Fab>
-          <Fab
-              onClick={() =>this.handleVerifyClick()}
-              position='bottom right'>
-            <Icon icon='md-check' />
-          </Fab>
-        </Page>
-    )
+      <Page>
+        { this.renderImage() }
+        { this.renderTitle() }
+        { this.renderOverlay() }
+        { this.renderBackButton() }
+        { this.renderValidateButton() }
+      </Page>
+    );
   }
 }
 
 const styles = {
-  reviewImage: {
+  title: {
+    textAlign: 'center',
+    position: 'absolute'
+  },
+  image: {
     position: 'fixed',
     height: '100%',
     width: '100%',
     margin: '0 auto',
+    top: '0',
     left: '0',
     right: '0'
+  },
+  overlay: {
+    position: 'absolute',
+    width: '100%',
+    top: '30%',
   }
 };
-
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerifyImagePage);

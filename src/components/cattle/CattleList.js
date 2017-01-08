@@ -1,47 +1,34 @@
 import React from 'react';
-import { connect } from 'react-redux';
-
-
-
+import CustomPropTypes from '../../utilities/CustomPropTypes'
 import CattleListItem from './CattleListItem'
 
-
-const mapStateToProps = (state) => {
-  return {
-    cattleSize: state.cattle.cattle.length,
-    isFetching: state.cattle.fetching,
-  };
-};
-
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-  }
-};
-
-
 class CattleList extends React.Component {
+  static propTypes = {
+    cattle: React.PropTypes.arrayOf(CustomPropTypes.cattle),
+    isFetching: React.PropTypes.bool,
+    isImageFetching: React.PropTypes.bool,
+    handleEdit: React.PropTypes.func
+  };
 
   renderCattle() {
-    let cattle = [];
-    if (this.props.cattleSize > 0) {
-      let counter = 0;
-      while (counter < this.props.cattleSize) {
-        cattle.push(<CattleListItem  key={ counter } id={ counter } navigator={this.props.navigator} />);
-        counter += 1;
-      }
-    }
-    return cattle;
-  }
+    return this.props.cattle.map((o, i) => {
+      return (
+        <CattleListItem  key={ i } id={ i }
+          cattle={ o.cattle }
+          isImageFetching={ this.props.isImageFetching }
+          handleEdit={ (id) => this.props.handleEdit(id) }
+        />
+      );
+    });
+  };
 
   render() {
-
     return (
-        <div>
-          {this.renderCattle()}
-        </div>
+      <div>
+        {this.renderCattle()}
+      </div>
     )
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CattleList);
+export default CattleList;

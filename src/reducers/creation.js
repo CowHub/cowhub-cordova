@@ -14,6 +14,7 @@ const initialState = {
   imageCaptured: false,
   complete: false,
   image: null,
+  cattle: {}
 };
 
 const capture = (state = initialState, action) => {
@@ -42,6 +43,7 @@ const handleCreateCameraInit = (state) => {
   return {
     ...state,
     creating: true,
+    cattle: {}
   };
 };
 
@@ -86,10 +88,8 @@ const handleCreateCancel = (state) => {
     creating: false,
     imageCaptured: false,
     complete: false,
+    cattle: {}
   };
 };
-
-
-
 
 export default capture;

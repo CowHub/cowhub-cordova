@@ -1,117 +1,76 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {notification} from 'onsenui';
-import { Page, Toolbar, BackButton } from 'react-onsenui';
+import { connect } from 'react-redux';
+import {
+    Page,
+    Toolbar,
+    BackButton
+} from 'react-onsenui';
 
-import CattleEditForm from '../components/cattle/CattleEditForm';
-import { cancelIdentify } from'../actions'
+import CustomPropTypes from '../utilities/CustomPropTypes';
+import { handleError } from '../utilities/ErrorHandler';
+
+import CattleDetail from '../components/cattle/CattleDetail';
+
+import { cancelIdentify } from '../actions'
 
 const mapStateToProps = (state) => {
   return {
     cattle: state.identification.match,
     image: state.identification.image,
+    error: state.cattle.error
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    backFunction: (pos) => {
-      dispatch(cancelIdentify(pos));
-    },
+    backFunction: () => dispatch(cancelIdentify())
   }
 };
-
 
 class IdentifyCattleSuccessPage extends React.Component {
 
   static propTypes = {
-    cattle: React.PropTypes.shape({
-      breed: React.PropTypes.string,
-      check_digit: React.PropTypes.number.isRequired,
-      country_code: React.PropTypes.string.isRequired,
-      dob: React.PropTypes.string,
-      gender: React.PropTypes.string,
-      herdmark: React.PropTypes.number.isRequired,
-      id: React.PropTypes.number.isRequired,
-      individual_number: React.PropTypes.number.isRequired,
-      name: React.PropTypes.string,
-      images: React.PropTypes.arrayOf(React.PropTypes.string),
-    }).isRequired,
+    cattle: CustomPropTypes.cattle,
+    image: React.PropTypes.string,
+    error: React.PropTypes.object
   };
 
-  static defaultProps = {
-    cattle: {
-      id: '',
-      check_digit: '',
-      country_code: '',
-      herdmark: '',
-      individual_number: '',
-    }
-  };
+  componentWillMount() {
+    handleError(this.props.error);
+  }
+
+  componentWillReceiveProps(props) {
+    handleError(props.error);
+  }
 
   renderToolbar() {
     return (
       <Toolbar>
         <div className='left'>
-          <BackButton onClick={ () => this.props.backFunction() }>Back</BackButton>
+          <BackButton onClick={ () => this.props.backFunction() }/>
         </div>
         <div className='center'>Match Found</div>
       </Toolbar>
-    )
+    );
+  }
+
+  renderCattleDetail() {
+    return (
+      <CattleDetail
+        cattle={ this.props.cattle }
+        image={ this.props.image }
+        isEditing={ false }
+      />
+    );
   }
 
   render() {
     return (
       <Page renderToolbar={ () => this.renderToolbar() }>
-        <div style={styles.image_container}>
-          <img style={ styles.reviewImage } src={this.props.image ? this.props.image : 'img/icon.png'}/>
-        </div>
-        <CattleEditForm cattle={this.props.cattle}/>
+        { this.renderCattleDetail() }
       </Page>
-    )
+    );
   }
 }
-
-const styles = {
-  logo_img: {
-    'marginTop': '10%',
-    'maxWidth': '100%',
-    'maxHeight': '100%'
-  },
-  page_content: {
-    textAlign: 'center',
-    width: '80%',
-    margin: '0 auto 0',
-    height: '90%',
-    marginTop: '25%',
-  },
-  card_wrapper: {
-    lineHeight: 1,
-    height: '62px',
-    paddding: '10px'
-  },
-  image_container: {
-    backgroundColor: 'white',
-    color: 'black',
-    height: '250px',
-    overflow: 'hidden'
-  },
-  reviewImage: {
-    position: 'fixed',
-    height: '100vw',
-    margin: '0 auto',
-    left: '0',
-    right: '0',
-  },
-  textInput: {
-    marginTop: '4px',
-    width: '100%'
-  },
-  formInput: {
-    fontWeight: '500',
-    fontSize: '17px',
-    marginBottom: '4px'
-  }
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(IdentifyCattleSuccessPage);
