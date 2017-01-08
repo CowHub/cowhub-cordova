@@ -1,18 +1,24 @@
 import {
     ACTIVATE_CAMERA,
+    ACTIVATE_CROP_CAMERA,
     DEACTIVATE_CAMERA,
     CAPTURE_IMAGE,
     STORE_IMAGE,
     ERROR_IMAGE,
     CAMERA_ERROR_SEEN,
     CAMERA_TRY_AGAIN,
-    IMAGE_VERIFIED
+    IMAGE_VERIFIED,
+    CANCEL_CAMERA,
+    CROP_STARTED,
+    CROP_COMPLETE
 } from '../actions/camera'
 
 const initialState = {
   active: false,
   image: null,
-  error: false
+  error: false,
+  crop: false,
+  cropping: false,
 };
 
 
@@ -21,6 +27,8 @@ const camera = (state = initialState, action) => {
   switch (action.type) {
     case ACTIVATE_CAMERA:
       return handleActivateCamera(state);
+    case ACTIVATE_CROP_CAMERA:
+      return handleActivateCropCamera();
     case DEACTIVATE_CAMERA:
       return handleDeactivateCamera(state);
     case CAPTURE_IMAGE:
@@ -35,6 +43,10 @@ const camera = (state = initialState, action) => {
       return handleTryAgain(state);
     case IMAGE_VERIFIED:
       return handleImageVerified(state,action.img);
+    case CROP_STARTED:
+      return handleCropStart(state);
+    case CROP_COMPLETE:
+      return handleCropComplete(state);
     default:
       return state;
   }
@@ -43,7 +55,16 @@ const camera = (state = initialState, action) => {
 const handleActivateCamera = (state)  => {
   return {
     ...state,
-    active: true
+    active: true,
+    crop: false
+  };
+};
+
+const handleActivateCropCamera = (state)  => {
+  return {
+    ...state,
+    active: true,
+    crop: true
   };
 };
 
@@ -72,6 +93,7 @@ const handleStoreImage = (state,base64Image)  => {
 const handleImageVerified = (state,img)  =>  {
   return {
     ...state,
+    crop: false
   };
 };
 
@@ -93,6 +115,20 @@ const handleTryAgain = (state) =>  {
   return {
     ...state,
     image: null,
+  }
+};
+
+const handleCropStart = (state) =>  {
+  return {
+    ...state,
+    cropping: true,
+  }
+};
+
+const handleCropComplete = (state) =>  {
+  return {
+    ...state,
+    cropping: false,
   }
 };
 
