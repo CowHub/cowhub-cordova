@@ -25,6 +25,13 @@ export function endShow() {
   }
 }
 
+export function postDelete()  {
+  return(dispatch)  =>  {
+    dispatch(endEditCattle());
+    dispatch(endShow());
+  }
+}
+
 export function setCattleToDisplay(id) {
   return{
     type: SHOW_CATTLE,
@@ -59,7 +66,6 @@ export function disableEditingCattle() {
 export function endShowCattle() {
   return{
     type: SHOW_CATTLE,
-    id
   }
 }
 

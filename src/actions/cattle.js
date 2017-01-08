@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import store from '../store/store';
-import {endEditCattle} from './edit';
+import {postDelete} from './edit';
 
 import {createCattleSuccess} from './creation';
 import {identifyCattleSuccess} from './identification';
@@ -155,7 +155,7 @@ export function deleteCattle(id) {
         'Authorization': `Bearer ${token}`,
       },
     }).then((response) => {
-      dispatch(cattlePostEditingRedirect());
+      dispatch(postDelete());
       dispatch(deleteCattleSuccess(id));
     }).catch((error) => {
       dispatch(deleteCattleError(error));
