@@ -76,8 +76,9 @@ const styles = {
     objectFit: 'contain',
   },
   muzzle: {
+    position: 'absolute',
     width: '100%',
-    marginTop: '20%'
+    top: '30%'
   },
   title: {
     textAlign: 'center'

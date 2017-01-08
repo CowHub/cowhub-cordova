@@ -39,12 +39,12 @@ class VerifyImagePage extends React.Component {
   renderTitle() {
     return (
       <h2 style={ styles.title }>
-        Validate Image
+        Please ensure that the muzzle lines up with the template
       </h2>
     );
   }
 
-  renderOverloay() {
+  renderOverlay() {
     return (
       <img style={ styles.overlay } src='img/outline.png'/>
     );
@@ -73,9 +73,9 @@ class VerifyImagePage extends React.Component {
   render() {
     return (
       <Page>
-        { this.renderTitle() }
         { this.renderImage() }
-        { this.renderOverloay() }
+        { this.renderTitle() }
+        { this.renderOverlay() }
         { this.renderBackButton() }
         { this.renderValidateButton() }
       </Page>
@@ -85,7 +85,8 @@ class VerifyImagePage extends React.Component {
 
 const styles = {
   title: {
-    textAlign: 'center'
+    textAlign: 'center',
+    position: 'absolute'
   },
   image: {
     position: 'fixed',
@@ -97,9 +98,9 @@ const styles = {
     right: '0'
   },
   overlay: {
-    position: 'fixed',
-    width: "100%",
-    marginTop: "20%"
+    position: 'absolute',
+    width: '100%',
+    top: '30%',
   }
 };
 
