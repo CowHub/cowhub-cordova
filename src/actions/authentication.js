@@ -39,8 +39,8 @@ export function loginUser(params) {
       method: 'POST',
       data: params
     }).then((response) => {
-      dispatch(loginUserSuccess());
       dispatch(storeToken(response.auth_token));
+      dispatch(loginUserSuccess());
     }).catch((error) => {
       dispatch(loginUserError(error));
     })
