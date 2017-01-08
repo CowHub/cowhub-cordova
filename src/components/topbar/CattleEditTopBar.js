@@ -4,7 +4,6 @@ import {
     Toolbar,
     BackButton,
     ToolbarButton,
-    Icon
 } from 'react-onsenui';
 import HamburgerButton from './HamburgerButton'
 
@@ -28,7 +27,7 @@ class CattleEditTopBar extends React.Component {
     return (
       <div className='left'>
         <ToolbarButton onClick={ this.props.handleCancel }>
-          <Icon icon='md-close-circle' />
+          Cancel
         </ToolbarButton>
       </div>
     );
@@ -38,7 +37,7 @@ class CattleEditTopBar extends React.Component {
     return (
       <div className='right'>
         <ToolbarButton onClick={ this.props.handleDone }>
-          <Icon icon='md-check' />
+          Done
         </ToolbarButton>
       </div>
     );
