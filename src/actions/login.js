@@ -26,7 +26,7 @@ export function enterPassword(password){
 }
 // Submit
 export function submitPressed(params){
-  return(dispatch)  {
+  return(dispatch) =>  {
     dispatch(loginUser(params));
     dispatch(announceSubmit());
   }
