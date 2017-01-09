@@ -13,7 +13,8 @@ import {
 
 const mapStateToProps = (state) => {
   return {
-    image: state.camera.image
+    image: state.camera.image,
+    crop: state.camera.crop
   };
 };
 
@@ -38,15 +39,21 @@ class VerifyImagePage extends React.Component {
 
   renderTitle() {
     return (
-      <h2 style={ styles.title }>
-        Please ensure that the muzzle lines up with the template
-      </h2>
+      this.props.crop ?
+        <h2 style={ styles.title }>
+          Please ensure that the muzzle lines up with the template
+        </h2>:
+        <h2 style={ styles.title }>
+          Confirm ID photo
+        </h2>
     );
   }
 
   renderOverlay() {
     return (
-      <img style={ styles.overlay } src='img/outline.png'/>
+      this.props.crop ?
+        <img style={ styles.overlay } src='img/outline.png'/>:
+        null
     );
   }
 
