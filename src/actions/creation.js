@@ -1,18 +1,33 @@
 import $ from 'jquery';
 import store from '../store/store';
 // Import Camera
-import {startCameraCapture} from './camera';
+import {
+  startCameraCapture,
+  toNextCamera
+} from './camera';
 
 // Import navigation
 import {createCattleRedirect,endCreateCattleRedirect} from './navigation';
 
 // States of creation
+export let CREATE_CATTLE_MUZZLE_CAMERA_INIT = 'CREATE_CATTLE_MUZZLE_CAMERA_INIT';
 export let CREATE_CATTLE_CAMERA_INIT = 'CREATE_CATTLE_CAMERA_INIT';
 export let CREATE_CATTLE_ENTER_DETAILS = 'CREATE_CATTLE_ENTER_DETAILS';
 export let CREATE_CATTLE_CREATE_SUBMIT = 'CREATE_CATTLE_CREATE_SUBMIT';
 export let CREATE_CATTLE_CANCEL = 'CREATE_CATTLE_CANCEL';
 
+
+
+
 // Callback from Camera
+
+export function creationOnMuzzleImageVerified() {
+  return (dispatch) =>  {
+    if (store.getState().creation.creating) {
+      dispatch(startCattleProfileCapture());
+    }
+  }
+}
 export function creationOnImageVerified() {
   return (dispatch) =>  {
     if (store.getState().creation.creating) {
@@ -25,8 +40,15 @@ export function creationOnImageVerified() {
 
 export function startCreateCattle() {
   return (dispatch) =>  {
-    dispatch(createCattleCameraInit());
+    dispatch(createCattleMuzzleCameraInit());
     dispatch(startCameraCapture(true));
+  }
+};
+
+export function startCattleProfileCapture() {
+  return (dispatch) =>  {
+    dispatch(createCattleCameraInit());
+    dispatch(toNextCamera());
   }
 };
 
@@ -42,6 +64,12 @@ export function cancelCreate()  {
     dispatch(endCreateCattleRedirect());
   }
 }
+
+export function createCattleMuzzleCameraInit()  {
+  return {
+    type: CREATE_CATTLE_MUZZLE_CAMERA_INIT
+  }
+};
 
 export function createCattleCameraInit()  {
   return {

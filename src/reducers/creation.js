@@ -1,4 +1,5 @@
 import {
+  CREATE_CATTLE_MUZZLE_CAMERA_INIT,
   CREATE_CATTLE_CAMERA_INIT,
   CREATE_CATTLE_ENTER_DETAILS,
   CREATE_CATTLE_CREATE_SUBMIT,
@@ -27,6 +28,8 @@ const initialState = {
 
 const capture = (state = initialState, action) => {
   switch (action.type) {
+    case CREATE_CATTLE_MUZZLE_CAMERA_INIT:
+      return handleCreateMuzzleCameraInit(state);
     case CREATE_CATTLE_CAMERA_INIT:
       return handleCreateCameraInit(state);
     case IMAGE_VERIFIED:
@@ -49,10 +52,17 @@ const capture = (state = initialState, action) => {
   }
 };
 
-const handleCreateCameraInit = (state) => {
+const handleCreateMuzzleCameraInit = (state) => {
   return {
     ...state,
     creating: true,
+    cattle: {}
+  };
+};
+
+const handleCreateCameraInit = (state) => {
+  return {
+    ...state,
     cattle: {}
   };
 };

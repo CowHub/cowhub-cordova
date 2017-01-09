@@ -26,7 +26,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     handleCancel: () => dispatch(cancelCreate()),
-    handleRegister: (props) => dispatch(registerCattle(props.cattle, props.croppedImage)),
+    handleRegister: (props) => {
+      let cattle = props.cattle;
+      cattle.imprint_image = props.croppedImage;
+      cattle.profile_image = props.image;
+      dispatch(registerCattle(cattle))
+    },
   }
 };
 

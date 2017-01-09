@@ -1,15 +1,22 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {
-    Page,
-    Icon,
-    Fab
+  Page,
+  Icon,
+  Fab
 } from 'react-onsenui';
 
-import { takePhoto, backFromCamera } from '../actions';
+import {
+  takePhoto,
+  backFromCamera
+} from '../actions';
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    crop: state.camera.crop,
+    active: state.camera.active,
+    message: state.camera.message
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -22,25 +29,35 @@ const mapDispatchToProps = (dispatch) => {
 class CameraCapturePage extends React.Component {
 
   renderTitle() {
-    return (
-      <h2 style={ styles.title }>
-        Line Up Cattle with Mask
-      </h2>
-    );
+    if (this.props.crop && this.props.message) {
+      return (
+        <h2 style={ styles.title }>
+          Line Up Cattle with Mask
+        </h2>
+      );
+    } else if (this.props.message) {
+      return (
+        <h2 style={ styles.title }>
+          Please take ID photo of cattle
+        </h2>
+      );
+    } else return null
   }
 
   renderMuzzle() {
     return (
-      <img style={ styles.muzzle } src='img/outline.png'/>
+      this.props.crop && this.props.message ?
+        <img style={ styles.muzzle } src='img/outline.png'/> :
+        null
     );
   }
 
   renderCloseButton() {
     return (
       <Fab
-          onClick={ () => this.props.handleBack() }
-          position='bottom left'>
-        <Icon icon='md-close-circle' />
+        onClick={ () => this.props.handleBack() }
+        position='bottom left'>
+        <Icon icon='md-close-circle'/>
       </Fab>
     );
   }
@@ -48,9 +65,9 @@ class CameraCapturePage extends React.Component {
   renderCameraButton() {
     return (
       <Fab
-          onClick={ () => this.props.handleTakePhoto() }
-          position='bottom right'>
-        <Icon icon='md-camera' />
+        onClick={ () => this.props.handleTakePhoto() }
+        position='bottom right'>
+        <Icon icon='md-camera'/>
       </Fab>
     );
   }

@@ -13,7 +13,7 @@ export let IDENTIFY_CATTLE_CANCEL = 'IDENTIFY_CATTLE_CANCEL';
 export function startIdentifyCattle() {
   return (dispatch) => {
     dispatch(identifyCattleCameraInit());
-    dispatch(startCameraCapture());
+    dispatch(startCameraCapture(true));
   }
 };
 
