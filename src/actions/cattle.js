@@ -111,7 +111,7 @@ export function updateCattle(id, params) {
       },
       data: params,
     }).then((response) => {
-      dispatch(endEditCattle);
+      dispatch(endEditCattle());
       dispatch(updateCattleSuccess(response.cattle));
     }).catch((error) => {
       dispatch(updateCattleError(error));

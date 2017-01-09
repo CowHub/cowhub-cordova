@@ -56,7 +56,8 @@ class CreateCattlePage extends React.Component {
       <CattleCreateTopBar
         handleCancel={ () => notification.confirm({
           message: 'Are you sure you want to cancel the creation of this cattle?',
-          callback: this.props.handleCancel
+          callback: (res) => { if (res)
+              this.props.handleCancel(); }
         })}
       />
     );
