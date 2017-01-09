@@ -19,6 +19,7 @@ const initialState = {
   error: false,
   crop: false,
   cropping: false,
+  message: false
 };
 
 
@@ -47,6 +48,8 @@ const camera = (state = initialState, action) => {
       return handleCropStart(state);
     case CROP_COMPLETE:
       return handleCropComplete(state);
+    case CANCEL_CAMERA:
+      return handleCancelCamera(state);
     default:
       return state;
   }
@@ -56,7 +59,8 @@ const handleActivateCamera = (state)  => {
   return {
     ...state,
     active: true,
-    crop: false
+    crop: false,
+    message:true
   };
 };
 
@@ -64,7 +68,8 @@ const handleActivateCropCamera = (state)  => {
   return {
     ...state,
     active: true,
-    crop: true
+    crop: true,
+    message:true
   };
 };
 
@@ -72,13 +77,14 @@ const handleDeactivateCamera = (state)  => {
   return {
     ...state,
     active: false,
-    error: false
+    error: false,
   };
 };
 
 const handleCaptureImage = (state)  => {
   return {
-    ...state
+    ...state,
+    message:true
   };
 };
 
@@ -93,7 +99,8 @@ const handleStoreImage = (state,base64Image)  => {
 const handleImageVerified = (state,img)  =>  {
   return {
     ...state,
-    crop: false
+    crop: false,
+    message:false
   };
 };
 
@@ -129,6 +136,13 @@ const handleCropComplete = (state) =>  {
   return {
     ...state,
     cropping: false,
+  }
+};
+
+const handleCancelCamera = (state) =>  {
+  return {
+    ...state,
+    message: false
   }
 };
 

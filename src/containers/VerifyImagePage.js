@@ -1,20 +1,22 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {
-    Page,
-    Icon,
-    Fab
+  Page,
+  Icon,
+  Fab
 } from 'react-onsenui';
 
 import {
-    backFromVerify,
-    imageConfirmed
+  backFromVerify,
+  imageConfirmed
 } from '../actions';
 
 const mapStateToProps = (state) => {
   return {
     image: state.camera.image,
-    crop: state.camera.crop
+    crop: state.camera.crop,
+    creating: state.creation.creating,
+    message: state.camera.message
   };
 };
 
@@ -38,56 +40,64 @@ class VerifyImagePage extends React.Component {
   }
 
   renderTitle() {
-    return (
-      this.props.crop ?
-        <h2 style={ styles.title }>
-          Please ensure that the muzzle lines up with the template
-        </h2>:
-        <h2 style={ styles.title }>
-          Confirm ID photo
-        </h2>
-    );
+    if (this.props.crop && this.props.message) {
+      return (
+      <h2 style={ styles.title }>
+        Please ensure that the muzzle lines up with the template
+      </h2>);
+    } else if (this.props.creating && this.props.message) {
+      return (
+      <h2 style={ styles.title }>
+        Confirm ID photo
+      </h2>
+      );
+    } else return null;
   }
 
-  renderOverlay() {
-    return (
-      this.props.crop ?
-        <img style={ styles.overlay } src='img/outline.png'/>:
-        null
-    );
-  }
 
-  renderBackButton() {
-    return (
-      <Fab
-          onClick={ () => this.props.handleBack() }
-          position='bottom left'>
-        <Icon icon='md-arrow-left' />
-      </Fab>
-    );
-  }
+renderOverlay()
+{
+  return (
+    this.props.crop && this.props.message?
+      <img style={ styles.overlay } src='img/outline.png'/> :
+      null
+  );
+}
 
-  renderValidateButton() {
-    return (
-      <Fab
-          onClick={ () => this.props.handleVerified(this.props.image) }
-          position='bottom right'>
-        <Icon icon='md-check' />
-      </Fab>
-    );
-  }
+renderBackButton()
+{
+  return (
+    <Fab
+      onClick={ () => this.props.handleBack() }
+      position='bottom left'>
+      <Icon icon='md-arrow-left'/>
+    </Fab>
+  );
+}
 
-  render() {
-    return (
-      <Page>
-        { this.renderImage() }
-        { this.renderTitle() }
-        { this.renderOverlay() }
-        { this.renderBackButton() }
-        { this.renderValidateButton() }
-      </Page>
-    );
-  }
+renderValidateButton()
+{
+  return (
+    <Fab
+      onClick={ () => this.props.handleVerified(this.props.image) }
+      position='bottom right'>
+      <Icon icon='md-check'/>
+    </Fab>
+  );
+}
+
+render()
+{
+  return (
+    <Page>
+      { this.renderImage() }
+      { this.renderTitle() }
+      { this.renderOverlay() }
+      { this.renderBackButton() }
+      { this.renderValidateButton() }
+    </Page>
+  );
+}
 }
 
 const styles = {
