@@ -71,7 +71,7 @@ class CattleDetail extends React.Component {
     if (this.props.isEditing || value)
       return (
         <ListItem style={ styles.input_wrapper }>
-          <select  style={styles.drop_down} onchange={(e) => this.props.handleChange(key, e.target.value)}>
+          <select  style={styles.drop_down} onChange={(e) => this.props.handleChange(key, e.target.value)}>
             <option value="">{placeholder}</option>
             { options.map((option, i) => {
               return <option value={ values[i] } key={ i }>{ option }</option>
@@ -101,7 +101,7 @@ class CattleDetail extends React.Component {
 
   renderIdNumber() {
     return this.renderNumberInput(this.props.cattle.individual_number,
-      'Individual Number', 'tel', 'individual_number', 1, 5);
+      'Individual Number', 'individual_number', 1, 5);
   }
 
   renderBreed() {
