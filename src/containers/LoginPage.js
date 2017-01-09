@@ -89,7 +89,7 @@ class LoginPage extends React.Component {
   renderEmailInput() {
     return (
       <Input ref='email' placeholder='Email' type='text'
-        value={ this.props.email } modifier='underbar'
+        value={ this.props.email } modifier='underbar' float
         onChange={ (event) => this.props.handleEmail(event.target.value) }
         style={ styles.email_input }
       />
@@ -99,7 +99,7 @@ class LoginPage extends React.Component {
   renderPasswordInput() {
     return (
       <Input ref='password' placeholder='Password' type='password'
-        value={this.props.password} modifier='underbar'
+        value={this.props.password} modifier='underbar' float
         onChange={ (event) => this.props.handlePassword(event.target.value) }
         style={ styles.password_input }
       />

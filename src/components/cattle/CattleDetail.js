@@ -27,7 +27,7 @@ class CattleDetail extends React.Component {
     if (this.props.isEditing || value)
       return (
         <ListItem style={ styles.input_wrapper }>
-          <Input placeholder={ placeholder } type='text' value={ value }
+          <Input float placeholder={ placeholder } type='text' value={ value }
             onChange={ (e) => this.props.handleChange(key, e.target.value) }
             style={ styles.input } minlength={ minlength } maxlength={ maxlength }
             {... (!this.props.isEditing ? { 'readOnly': true } : {}) }
@@ -40,7 +40,7 @@ class CattleDetail extends React.Component {
     if (this.props.isEditing || value)
       return (
         <ListItem style={ styles.input_wrapper }>
-          <Input placeholder={ placeholder } type='tel'
+          <Input float placeholder={ placeholder } type='tel'
             value={ value ? String(value) : value }
             onChange={ (e) => this.props.handleChange(key, Number(e.target.value)) }
             style={ styles.input } minlength={ minlength } maxlength={ maxlength }
@@ -54,7 +54,7 @@ class CattleDetail extends React.Component {
     if (this.props.isEditing || value)
       return (
         <ListItem style={ styles.input_wrapper }>
-          <Input placeholder={ placeholder } type='date' value={ value }
+          <Input float placeholder={ placeholder } type='date' value={ value }
             onChange={ (e) => this.props.handleChange(key, e.target.value) }
             style={ styles.input } max={ before }
             {... (!this.props.isEditing ? { 'readOnly': true } : {}) }
@@ -69,7 +69,7 @@ class CattleDetail extends React.Component {
     if (this.props.isEditing || value)
     return (
       <ListItem style={ styles.input_wrapper }>
-        <input list='options'/>
+        <input list='options' placeholder={placeholder}/>
         <datalist id='options'>
           { options.map((option, i) => {
             return <option value={ values[i] } key={ i }>{ option }</option>
