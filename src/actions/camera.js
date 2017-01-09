@@ -57,7 +57,9 @@ export function cropImage(base64in) {
       // draw source image into the off-screen canvas:
       ctx.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
       // encode image to data-uri with base64 version of compressed image
-      dispatch(cropComplete(canvas.toDataURL()));
+      let cropImg = canvas.toDataURL();
+      dispatch(cropComplete(cropImg));
+      dispatch(identificationOnImageVerified(cropImg));
     }
   }
 }
@@ -141,10 +143,8 @@ export function imageConfirmed(img) {
     if (ons.platform.isWebView() && crop == true) {
       dispatch(cropImage(img));
     }
-
     dispatch(imageVerified(img));
     dispatch(creationOnImageVerified());
-    dispatch(identificationOnImageVerified(img));
   }
 }
 

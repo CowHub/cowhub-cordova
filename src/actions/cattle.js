@@ -233,7 +233,6 @@ export let REQUEST_MATCH_CATTLE_SUCCESS = 'REQUEST_MATCH_CATTLE_SUCCESS';
 export let REQUEST_MATCH_CATTLE_ERROR = 'REQUEST_MATCH_CATTLE_ERROR';
 
 export function requestMatchCattle(params) {
-  params = { data: 'VG9tIGxvdmVzIGNhdHRsZSE=' };
   let token = store.getState().authentication.token;
   return (dispatch) => {
     dispatch(requestMatchCattlePending());
