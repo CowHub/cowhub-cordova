@@ -1,6 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Input, List, ListItem } from 'react-onsenui';
+import {connect} from 'react-redux';
+import {Input, List, ListItem} from 'react-onsenui';
 import CustomPropTypes from '../../utilities/CustomPropTypes'
 
 class CattleDetail extends React.Component {
@@ -12,52 +12,54 @@ class CattleDetail extends React.Component {
   };
 
   static defaultProps = {
-    handleUpdate: () => { return },
+    handleUpdate: () => {
+      return
+    },
     isEditing: true
   };
 
   renderImage() {
     return (
       <img style={ styles.image }
-        src={ this.props.image ? this.props.image : 'img/icon.png' }/>
+           src={ this.props.image ? this.props.image : 'img/icon.png' }/>
     );
   }
 
-  renderTextInput(value, placeholder, key, minlength=0, maxlength=20) {
+  renderTextInput(value, placeholder, key, minlength = 0, maxlength = 20) {
     if (this.props.isEditing || value)
       return (
         <ListItem style={ styles.input_wrapper }>
           <Input float placeholder={ placeholder } type='text' value={ value }
-            onChange={ (e) => this.props.handleChange(key, e.target.value) }
-            style={ styles.input } minlength={ minlength } maxlength={ maxlength }
-            {... (!this.props.isEditing ? { 'readOnly': true } : {}) }
+                 onChange={ (e) => this.props.handleChange(key, e.target.value) }
+                 style={ styles.input } minlength={ minlength } maxlength={ maxlength }
+            {... (!this.props.isEditing ? {'readOnly': true} : {}) }
           />
         </ListItem>
       );
   }
 
-  renderNumberInput(value, placeholder, key, minlength=0, maxlength=20) {
+  renderNumberInput(value, placeholder, key, minlength = 0, maxlength = 20) {
     if (this.props.isEditing || value)
       return (
         <ListItem style={ styles.input_wrapper }>
           <Input float placeholder={ placeholder } type='tel'
-            value={ value ? String(value) : value }
-            onChange={ (e) => this.props.handleChange(key, Number(e.target.value)) }
-            style={ styles.input } minlength={ minlength } maxlength={ maxlength }
-            {... (!this.props.isEditing ? { 'readOnly': true } : {}) }
+                 value={ value ? String(value) : value }
+                 onChange={ (e) => this.props.handleChange(key, Number(e.target.value)) }
+                 style={ styles.input } minlength={ minlength } maxlength={ maxlength }
+            {... (!this.props.isEditing ? {'readOnly': true} : {}) }
           />
         </ListItem>
       );
   }
 
-  renderDateInput(value, placeholder, key, before=new Date()) {
+  renderDateInput(value, placeholder, key, before = new Date()) {
     if (this.props.isEditing || value)
       return (
         <ListItem style={ styles.input_wrapper }>
           <Input float placeholder={ placeholder } type='date' value={ value }
-            onChange={ (e) => this.props.handleChange(key, e.target.value) }
-            style={ styles.input } max={ before }
-            {... (!this.props.isEditing ? { 'readOnly': true } : {}) }
+                 onChange={ (e) => this.props.handleChange(key, e.target.value) }
+                 style={ styles.input } max={ before }
+            {... (!this.props.isEditing ? {'readOnly': true} : {}) }
           />
         </ListItem>
       );
@@ -67,26 +69,18 @@ class CattleDetail extends React.Component {
     if (!values)
       values = options;
     if (this.props.isEditing || value)
-    return (
-      <ListItem style={ styles.input_wrapper }>
-        <input list='options' placeholder={placeholder}/>
-        <datalist id='options'>
-          { options.map((option, i) => {
-            return <option value={ values[i] } key={ i }>{ option }</option>
-          })}
-        </datalist>
-        {/* <Input placeholder={ placeholder } type='list' value={ value } list='options'
-          onChange={ (e) => this.props.handleChange(key, e.target.value) }
-          {... (!this.props.isEditing ? { 'readOnly': true } : {}) }
-        /> */}
-      {/* <datalist id='options'
-          onChange={ (e) => this.props.handleChange(key,e.target.value) }
-          {... (!this.props.isEditing ? { 'readOnly': true } : {}) }
-        >
+      return (
+        <ListItem style={ styles.input_wrapper }>
+          <select placeholder={placeholder} style={styles.drop_down}>
+            <option value="">{placeholder}</option>
+            { options.map((option, i) => {
+              return <option value={ values[i] } key={ i }>{ option }</option>
+            })}
+          </select>
 
-        </datalist> */}
-      </ListItem>
-    );
+
+        </ListItem>
+      );
   }
 
 
@@ -180,6 +174,15 @@ const styles = {
     margin: '0',
     padding: '0'
   },
+  drop_down: {
+    border: 'none',
+    backgroundColor: 'transparent',
+    padding: '3px 5px',
+    width: '100%',
+    fontSize: '15px',
+    height: '31px',
+
+  }
 };
 
 const gender = ['male', 'female'];
