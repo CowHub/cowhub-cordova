@@ -55,7 +55,7 @@ export let REGISTER_CATTLE_PENDING = 'REGISTER_CATTLE_PENDING';
 export let REGISTER_CATTLE_SUCCESS = 'REGISTER_CATTLE_SUCCESS';
 export let REGISTER_CATTLE_ERROR = 'REGISTER_CATTLE_ERROR';
 
-export function registerCattle(params,img) {
+export function registerCattle(params) {
   let token = store.getState().authentication.token;
   return (dispatch) => {
     dispatch(registerCattlePending());
@@ -66,7 +66,6 @@ export function registerCattle(params,img) {
       },
       data: params,
     }).then((response) => {
-      dispatch(uploadCattleImage(response.cattle.id, img))
       dispatch(createCattleSuccess());
       dispatch(registerCattleSuccess(response.cattle));
     }).catch((error) => {

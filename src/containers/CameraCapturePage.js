@@ -13,7 +13,8 @@ import {
 
 const mapStateToProps = (state) => {
   return {
-    crop: state.camera.crop
+    crop: state.camera.crop,
+    active: state.camera.active
   };
 };
 
@@ -28,7 +29,7 @@ class CameraCapturePage extends React.Component {
 
   renderTitle() {
     return (
-      this.props.crop ?
+      this.props.crop && this.props.active?
       <h2 style={ styles.title }>
         Line Up Cattle with Mask
       </h2> :
@@ -40,7 +41,7 @@ class CameraCapturePage extends React.Component {
 
   renderMuzzle() {
     return (
-      this.props.crop?
+      this.props.crop && this.props.active?
       <img style={ styles.muzzle } src='img/outline.png'/>:
         null
     );

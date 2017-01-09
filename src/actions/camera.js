@@ -11,7 +11,11 @@ import {
 } from './navigation';
 
 // Import actions dependant on verified image
-import {creationOnImageVerified} from './creation';
+import {
+  creationOnImageVerified,
+  creationOnMuzzleImageVerified
+} from './creation';
+
 import {identificationOnImageVerified} from './identification';
 
 // Pages
@@ -31,66 +35,77 @@ export let CROP_COMPLETE = ' CROP_COMPLETE';
 export function cropImage(base64in) {
   return (dispatch) => {
     dispatch(cropStarted());
-    // create image
-    var image = new Image();
-    image.src = base64in;
-    image.onload = function () {
-      //width
-      let width = this.width;
-      let height = this.height;
+    let cropImg = null;
+    if (ons.platform.isWebView()) {
+      // create image
+      var image = new Image();
+      image.src = base64in;
+      image.onload = function () {
+        //width
+        let width = this.width;
+        let height = this.height;
 
-      // create an off-screen canvas
-      var canvas = document.createElement('canvas');
-      canvas.width = width;
-      canvas.height = width * 0.85;
-      var ctx = canvas.getContext('2d');
-      // draw cropped image
-      var sourceX = 0;
-      var sourceY = 0.3 * height;
-      var sourceWidth = canvas.width;
-      var sourceHeight = canvas.height;
-      var destWidth = sourceWidth;
-      var destHeight = sourceHeight;
-      var destX = 0;
-      var destY = 0;
+        // create an off-screen canvas
+        var canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = width * 0.85;
+        var ctx = canvas.getContext('2d');
+        // draw cropped image
+        var sourceX = 0;
+        var sourceY = 0.3 * height;
+        var sourceWidth = canvas.width;
+        var sourceHeight = canvas.height;
+        var destWidth = sourceWidth;
+        var destHeight = sourceHeight;
+        var destX = 0;
+        var destY = 0;
 
-      // draw source image into the off-screen canvas:
-      ctx.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
-      // encode image to data-uri with base64 version of compressed image
-      let cropImg = canvas.toDataURL();
-      dispatch(cropComplete(cropImg));
-      dispatch(identificationOnImageVerified(cropImg));
+        // draw source image into the off-screen canvas:
+        ctx.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
+        // encode image to data-uri with base64 version of compressed image
+        cropImg = canvas.toDataURL();
+        dispatch(cropComplete(cropImg));
+        dispatch(identificationOnImageVerified(cropImg));
+        dispatch(creationOnMuzzleImageVerified(cropImg));
+      }
     }
+
+
+  }
+}
+
+export function toNextCamera()  {
+  return (dispatch) =>  {
+    dispatch(activateCamera(false));
+    dispatch(backToCameraRedirect());
   }
 }
 
 export function startCameraCapture(crop = false) {
   return (dispatch) => {
-    if (ons.platform.isWebView()) {
-      dispatch(activateCamera(crop));
-    }
+    dispatch(activateCamera(crop));
     dispatch(cameraStartRedirect());
   }
 }
 
 export function restartCameraCapture() {
   return (dispatch) => {
-    if (ons.platform.isWebView()) {
-      dispatch(activateCamera());
-    }
+    dispatch(activateCamera());
     dispatch(backToCameraRedirect());
   }
 }
 
 export function activateCamera(crop) {
-  ezar.initializeVideoOverlay(
-    () => {
-      ezar.getBackCamera().start()
-    },
-    (error) => {
-      dispatch(errorImage())
-    }
-  );
+  if (ons.platform.isWebView()) {
+    ezar.initializeVideoOverlay(
+      () => {
+        ezar.getBackCamera().start()
+      },
+      (error) => {
+        dispatch(errorImage())
+      }
+    );
+  }
   if (crop == true) {
     return {
       type: ACTIVATE_CROP_CAMERA
@@ -104,9 +119,7 @@ export function activateCamera(crop) {
 
 export function backFromCamera() {
   return (dispatch) => {
-    if (ons.platform.isWebView()) {
-      dispatch(deactivateCamera());
-    }
+    dispatch(deactivateCamera());
     dispatch(cancelCamera());
     dispatch(cameraEndRedirect());
   }
@@ -120,7 +133,9 @@ export function backFromVerify() {
 }
 
 export function deactivateCamera() {
-  ezar.getBackCamera().stop();
+  if (ons.platform.isWebView()) {
+    ezar.getBackCamera().stop();
+  }
   return {
     type: DEACTIVATE_CAMERA,
   }
@@ -128,10 +143,8 @@ export function deactivateCamera() {
 
 export function takePhoto() {
   return (dispatch) => {
-    if (ons.platform.isWebView()) {
-      dispatch(snapshot());
-      dispatch(deactivateCamera());
-    }
+    dispatch(snapshot());
+    dispatch(deactivateCamera());
     dispatch(captureImage());
     dispatch(cameraVerifyImageRedirect());
   }
@@ -140,30 +153,33 @@ export function takePhoto() {
 export function imageConfirmed(img) {
   return (dispatch) => {
     let crop = store.getState().camera.crop;
-    if (ons.platform.isWebView() && crop == true) {
+    if (crop == true) {
       dispatch(cropImage(img));
+    } else {
+      dispatch(creationOnImageVerified());
     }
     dispatch(imageVerified(img));
-    dispatch(creationOnImageVerified());
   }
 }
 
 export function snapshot() {
   return (dispatch) => {
-    ezar.snapshot(
-      (base64Image) => {
-        dispatch(storeImage(base64Image));
-        cropImage(base64Image);
-      },
-      (error) => {
-        dispatch(errorImage());
-      },
-      {
-        encodingType: ezar.ImageEncoding.PNG,
-        includeWebView: false,
-        saveToPhotoAlbum: false
-      }
-    );
+    if (ons.platform.isWebView()) {
+      ezar.snapshot(
+        (base64Image) => {
+          dispatch(storeImage(base64Image));
+          cropImage(base64Image);
+        },
+        (error) => {
+          dispatch(errorImage());
+        },
+        {
+          encodingType: ezar.ImageEncoding.PNG,
+          includeWebView: false,
+          saveToPhotoAlbum: false
+        }
+      );
+    }
   }
 }
 
