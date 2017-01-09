@@ -71,7 +71,7 @@ class CattleDetail extends React.Component {
     if (this.props.isEditing || value)
       return (
         <ListItem style={ styles.input_wrapper }>
-          <select placeholder={placeholder} style={styles.drop_down}>
+          <select  style={styles.drop_down} onchange={(e) => this.props.handleChange(key, e.target.value)}>
             <option value="">{placeholder}</option>
             { options.map((option, i) => {
               return <option value={ values[i] } key={ i }>{ option }</option>
