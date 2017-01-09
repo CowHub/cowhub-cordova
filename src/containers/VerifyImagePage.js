@@ -6,6 +6,8 @@ import {
   Fab
 } from 'react-onsenui';
 
+import ons from 'onsenui';
+
 import {
   backFromVerify,
   imageConfirmed
@@ -64,17 +66,27 @@ renderOverlay()
   );
 }
 
-renderBackButton()
-{
-  return (
-    <Fab
-      onClick={ () => this.props.handleBack() }
-      position='bottom left'>
-      <Icon icon='md-arrow-left'/>
-    </Fab>
-  );
-}
+  renderBackButton() {
+    return (
+      <Fab
+          onClick={ () => this.props.handleBack() }
+          position='bottom left' style={ons.platform.isIOS() && styles.fab_ios}
+      >
+        <Icon icon='md-arrow-left' />
+      </Fab>
+    );
+  }
 
+  renderValidateButton() {
+    return (
+      <Fab
+          onClick={ () => this.props.handleVerified(this.props.image) }
+          position='bottom right' style={ons.platform.isIOS() && styles.fab_ios}
+      >
+        <Icon icon='md-check' />
+      </Fab>
+    );
+  }
 renderValidateButton()
 {
   return (
@@ -118,6 +130,9 @@ const styles = {
     position: 'absolute',
     width: '100%',
     top: '30%',
+  },
+  fab_ios: {
+    background: 'rgb(66, 139, 202)'
   }
 };
 

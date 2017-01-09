@@ -8,6 +8,8 @@ import {
     ProgressCircular
 } from 'react-onsenui';
 
+import ons from 'onsenui';
+
 import { handleError } from '../utilities/ErrorHandler';
 
 import CattleList from '../components/cattle/CattleList';
@@ -119,9 +121,10 @@ class MyHerdPage extends React.Component {
     return (
       <Fab
         onClick={ () => this.props.identifyCattle() }
-        position='bottom left'
+        position='bottom left' style={ons.platform.isIOS() && styles.fab_ios}
       >
-        <Icon icon='md-camera'/>
+        {ons.platform.isAndroid() ? <Icon icon='md-camera'/>
+              : <Icon class="zmdi zmdi-camera" icon='md-camera'/>}
       </Fab>
     );
   }
@@ -130,9 +133,10 @@ class MyHerdPage extends React.Component {
     return (
       <Fab
         onClick={ () => this.props.createCattle() }
-        position='bottom right'
+        position='bottom right' style={ons.platform.isIOS() && styles.fab_ios}
       >
-        <Icon icon='md-file-plus'/>
+        {ons.platform.isAndroid() ? <Icon icon='md-file-plus'/>
+              : <Icon class="zmdi zmdi-file-plus" icon='md-file-plus'/>}
       </Fab>
     );
   }
@@ -155,6 +159,9 @@ const styles = {
     width: '80%',
     margin: '0 auto 0',
     height: '90%'
+  },
+  fab_ios: {
+    background: 'rgb(66, 139, 202)'
   }
 };
 

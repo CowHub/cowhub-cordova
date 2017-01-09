@@ -11,6 +11,9 @@ import {
   backFromCamera
 } from '../actions';
 
+import ons from 'onsenui';
+
+
 const mapStateToProps = (state) => {
   return {
     crop: state.camera.crop,
@@ -55,9 +58,10 @@ class CameraCapturePage extends React.Component {
   renderCloseButton() {
     return (
       <Fab
-        onClick={ () => this.props.handleBack() }
-        position='bottom left'>
-        <Icon icon='md-close-circle'/>
+          onClick={ () => this.props.handleBack() }
+          position='bottom left' style={ons.platform.isIOS() && styles.fab_ios}
+      >
+        <Icon icon='md-close-circle' />
       </Fab>
     );
   }
@@ -65,9 +69,10 @@ class CameraCapturePage extends React.Component {
   renderCameraButton() {
     return (
       <Fab
-        onClick={ () => this.props.handleTakePhoto() }
-        position='bottom right'>
-        <Icon icon='md-camera'/>
+          onClick={ () => this.props.handleTakePhoto() }
+          position='bottom right' style={ons.platform.isIOS() && styles.fab_ios}
+      >
+        <Icon icon='md-camera' />
       </Fab>
     );
   }
@@ -99,6 +104,9 @@ const styles = {
   },
   title: {
     textAlign: 'center'
+  },
+  fab_ios: {
+    background: 'rgb(66, 139, 202)'
   }
 };
 
