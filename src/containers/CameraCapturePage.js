@@ -6,10 +6,15 @@ import {
     Fab
 } from 'react-onsenui';
 
-import { takePhoto, backFromCamera } from '../actions';
+import {
+  takePhoto,
+  backFromCamera
+} from '../actions';
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    crop: state.camera.crop
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -23,15 +28,21 @@ class CameraCapturePage extends React.Component {
 
   renderTitle() {
     return (
+      this.props.crop ?
       <h2 style={ styles.title }>
         Line Up Cattle with Mask
-      </h2>
+      </h2> :
+        <h2 style={ styles.title }>
+          Please take ID photo of cattle
+        </h2>
     );
   }
 
   renderMuzzle() {
     return (
-      <img style={ styles.muzzle } src='img/outline.png'/>
+      this.props.crop?
+      <img style={ styles.muzzle } src='img/outline.png'/>:
+        null
     );
   }
 
