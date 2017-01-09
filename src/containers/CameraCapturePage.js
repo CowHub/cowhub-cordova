@@ -92,7 +92,6 @@ class CameraCapturePage extends React.Component {
 
 const styles = {
   overlay: {
-    height: '100%',
     width: '100%',
     objectFit: 'contain',
   },
