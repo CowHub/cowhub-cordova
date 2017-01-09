@@ -6,6 +6,8 @@ import {
     Fab
 } from 'react-onsenui';
 
+import ons from 'onsenui';
+
 import { takePhoto, backFromCamera } from '../actions';
 
 const mapStateToProps = (state) => {
@@ -39,7 +41,8 @@ class CameraCapturePage extends React.Component {
     return (
       <Fab
           onClick={ () => this.props.handleBack() }
-          position='bottom left'>
+          position='bottom left' style={ons.platform.isIOS() && styles.fab_ios}
+      >
         <Icon icon='md-close-circle' />
       </Fab>
     );
@@ -49,7 +52,8 @@ class CameraCapturePage extends React.Component {
     return (
       <Fab
           onClick={ () => this.props.handleTakePhoto() }
-          position='bottom right'>
+          position='bottom right' style={ons.platform.isIOS() && styles.fab_ios}
+      >
         <Icon icon='md-camera' />
       </Fab>
     );
@@ -82,6 +86,9 @@ const styles = {
   },
   title: {
     textAlign: 'center'
+  },
+  fab_ios: {
+    background: 'rgb(66, 139, 202)'
   }
 };
 

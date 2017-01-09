@@ -6,6 +6,8 @@ import {
     Fab
 } from 'react-onsenui';
 
+import ons from 'onsenui';
+
 import {
     backFromVerify,
     imageConfirmed
@@ -54,7 +56,8 @@ class VerifyImagePage extends React.Component {
     return (
       <Fab
           onClick={ () => this.props.handleBack() }
-          position='bottom left'>
+          position='bottom left' style={ons.platform.isIOS() && styles.fab_ios}
+      >
         <Icon icon='md-arrow-left' />
       </Fab>
     );
@@ -64,7 +67,8 @@ class VerifyImagePage extends React.Component {
     return (
       <Fab
           onClick={ () => this.props.handleVerified(this.props.image) }
-          position='bottom right'>
+          position='bottom right' style={ons.platform.isIOS() && styles.fab_ios}
+      >
         <Icon icon='md-check' />
       </Fab>
     );
@@ -101,6 +105,9 @@ const styles = {
     position: 'absolute',
     width: '100%',
     top: '30%',
+  },
+  fab_ios: {
+    background: 'rgb(66, 139, 202)'
   }
 };
 
