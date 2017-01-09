@@ -27,10 +27,12 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleCancel: () => dispatch(cancelCreate()),
     handleRegister: (props) => {
-      let cattle = props.cattle;
-      cattle.imprint_image = props.croppedImage;
-      cattle.profile_image = props.image;
-      dispatch(registerCattle(cattle))
+      let params = {
+        cattle: props.cattle,
+        imprint_image: props.croppedImage,
+        profile_image: props.image
+      }
+      dispatch(registerCattle(params));
     },
   }
 };
