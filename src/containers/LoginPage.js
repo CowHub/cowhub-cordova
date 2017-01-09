@@ -32,8 +32,7 @@ const mapDispatchToProps = (dispatch) => {
     handleEmail: (email) => dispatch(enterEmail(email)),
     handlePassword: (password) => dispatch(enterPassword(password)),
     handleLogin: (params) => {
-      dispatch(loginUser(params));
-      dispatch(submitPressed());
+      dispatch(submitPressed(params));
     },
     handleErrorSeen: () => dispatch(loginErrorSeen()),
     handleFetchToken: () => dispatch(initialTokenCheck())

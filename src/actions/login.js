@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import store from '../store/store';
+import {loginUser} from './authentication';
 
 // Detail management
 export let EMAIL_MODIFIED = 'EMAIL_MODIFIED';
@@ -24,7 +25,14 @@ export function enterPassword(password){
   }
 }
 // Submit
-export function submitPressed(){
+export function submitPressed(params){
+  return(dispatch) =>  {
+    dispatch(loginUser(params));
+    dispatch(announceSubmit());
+  }
+}
+
+export function announceSubmit()  {
   return {
     type: SUBMIT_PRESSED,
   }
