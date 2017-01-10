@@ -12,7 +12,13 @@ export default class CustomPropTypes {
     herdmark: React.PropTypes.string,
     id: React.PropTypes.number,
     image_ids: React.PropTypes.arrayOf(React.PropTypes.number),
-    images: React.PropTypes.arrayOf(React.PropTypes.string),
+    images: React.PropTypes.arrayOf(
+      React.PropTypes.shape(
+      {
+        image_id: React.PropTypes.number,
+        data: React.PropTypes.string
+      })
+    ),
     individual_number: React.PropTypes.number,
     location: CustomPropTypes.location,
     name: React.PropTypes.string,

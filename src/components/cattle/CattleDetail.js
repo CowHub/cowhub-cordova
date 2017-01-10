@@ -68,19 +68,31 @@ class CattleDetail extends React.Component {
   renderSelectInput(value, placeholder, key, options, values) {
     if (!values)
       values = options;
-    if (this.props.isEditing || value)
-      return (
-        <ListItem style={ styles.input_wrapper }>
-          <select  style={styles.drop_down} onChange={(e) => this.props.handleChange(key, e.target.value)}>
-            <option value="">{placeholder}</option>
-            { options.map((option, i) => {
-              return <option value={ values[i] } key={ i }>{ option }</option>
-            })}
-          </select>
+    if (this.props.isEditing || value) {
+      if (this.props.isEditing) {
+        return (
+          <ListItem style={ styles.input_wrapper }>
+            <select style={styles.drop_down} onChange={(e) => this.props.handleChange(key, e.target.value)}>
+              <option value="">{placeholder}</option>
+              { options.map((option, i) => {
+                return <option value={ values[i] } key={ i }>{ option }</option>
+              })}
+            </select>
 
 
-        </ListItem>
-      );
+          </ListItem>
+        )
+      } else {
+        return (
+          <ListItem style={ styles.input_wrapper }>
+            <Input float placeholder={ placeholder } type='text' value={ value }
+                   onChange={ (e) => this.props.handleChange(key, e.target.value) }
+                   style={ styles.input } minlength={ minlength } maxlength={ maxlength } readOnly={true}
+            />
+          </ListItem>
+        );
+      }
+    }
   }
 
 
