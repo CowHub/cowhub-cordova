@@ -103,8 +103,8 @@ class CreateCattlePage extends React.Component {
 const styles = {
   doneButton: {
     position: 'fixed',
-    bottom: '0',
-    height: '3vh',
+    bottom: '1vh',
+    height: '6vh',
     width: '100%'
   },
   doneButtonDisabled: {
