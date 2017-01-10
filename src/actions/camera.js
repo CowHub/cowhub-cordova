@@ -35,6 +35,7 @@ export let CROP_COMPLETE = ' CROP_COMPLETE';
 export function cropImage(base64in) {
   return (dispatch) => {
     dispatch(cropStarted());
+    dispatch(creationOnMuzzleImageVerified());
     let cropImg = null;
     if (ons.platform.isWebView()) {
       // create image
@@ -66,13 +67,11 @@ export function cropImage(base64in) {
         cropImg = canvas.toDataURL();
         dispatch(cropComplete(cropImg));
         dispatch(identificationOnImageVerified(cropImg));
-        dispatch(creationOnMuzzleImageVerified(cropImg));
       }
     } else {
       // Debug code so can be tested in browser
       dispatch(cropComplete(null));
       dispatch(identificationOnImageVerified(null));
-      dispatch(creationOnMuzzleImageVerified(null));
     }
 
 
@@ -81,15 +80,16 @@ export function cropImage(base64in) {
 
 export function toNextCamera()  {
   return (dispatch) =>  {
-    dispatch(activateCamera(false));
-    dispatch(backToCameraRedirect());
+    dispatch(backToCameraRedirect()).then(()  =>  {
+      dispatch(activateCamera(false));
+    });
   }
 }
 
 export function startCameraCapture(crop = false) {
   return (dispatch) => {
-    dispatch(activateCamera(crop));
     dispatch(cameraStartRedirect());
+    dispatch(activateCamera(crop));
   }
 }
 

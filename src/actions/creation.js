@@ -47,7 +47,6 @@ export function startCreateCattle() {
 
 export function startCattleProfileCapture() {
   return (dispatch) =>  {
-    dispatch(createCattleCameraInit());
     dispatch(toNextCamera());
   }
 };
