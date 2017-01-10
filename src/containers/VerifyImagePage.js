@@ -87,29 +87,19 @@ renderOverlay()
       </Fab>
     );
   }
-renderValidateButton()
-{
-  return (
-    <Fab
-      onClick={ () => this.props.handleVerified(this.props.image) }
-      position='bottom right'>
-      <Icon icon='md-check'/>
-    </Fab>
-  );
-}
 
-render()
-{
-  return (
-    <Page>
-      { this.renderImage() }
-      { this.renderTitle() }
-      { this.renderOverlay() }
-      { this.renderBackButton() }
-      { this.renderValidateButton() }
-    </Page>
-  );
-}
+  render()
+  {
+    return (
+      <Page>
+        { this.renderImage() }
+        { this.renderTitle() }
+        { this.renderOverlay() }
+        { this.renderBackButton() }
+        { this.renderValidateButton() }
+      </Page>
+    );
+  }
 }
 
 const styles = {
