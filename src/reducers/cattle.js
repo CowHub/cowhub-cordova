@@ -83,7 +83,7 @@ const cattle = (state = initialState, action) => {
     case FETCH_CATTLE_IMAGE_PENDING:
       return handleFetchCattleImagePending(state, action.id);
     case FETCH_CATTLE_IMAGE_SUCCESS:
-      return handleFetchCattleImageSuccess(state, action.id, action.images);
+      return handleFetchCattleImageSuccess(state, action.id, action.image, action.image_id);
     case FETCH_CATTLE_IMAGE_ERROR:
       return handleFetchCattleImageError(state, action.error);
     case REQUEST_MATCH_CATTLE_PENDING:
@@ -264,10 +264,20 @@ export function handleFetchCattleImagePending(state) {
   };
 }
 
-export function handleFetchCattleImageSuccess(state, id, images) {
+export function handleFetchCattleImageSuccess(state, id, image, image_id) {
   let cattle = state.cattle
   const index = cattle.findIndex((c) => c.cattle.id === id);
-  cattle[index].cattle.images = images;
+  let img_obj = {
+    image_id: image_id,
+    data: image
+  };
+  if (cattle[index].cattle.images)  {
+    cattle[index].cattle.images.push(img_obj)
+  } else {
+    let cattle_imgs = [];
+    cattle_imgs.push(img_obj);
+    cattle[index].cattle.images = cattle_imgs;
+  }
   return {
     ...state,
     cattle,

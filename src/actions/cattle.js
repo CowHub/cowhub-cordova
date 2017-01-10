@@ -22,7 +22,9 @@ export function fetchCattle() {
     }).then((response) => {
       dispatch(fetchCattleSuccess(response.cattle));
       for (let cattle of response.cattle) {
-        dispatch(fetchCattleImage(cattle.id))
+        for (let image_id of cattle.image_ids)  {
+          dispatch(fetchCattleImage(cattle.id,image_id))
+        }
       }
     }).catch((error) => {
       dispatch(fetchCattleError(error));
@@ -188,20 +190,27 @@ export let FETCH_CATTLE_IMAGE_PENDING = 'FETCH_CATTLE_IMAGE_PENDING';
 export let FETCH_CATTLE_IMAGE_SUCCESS = 'FETCH_CATTLE_IMAGE_SUCCESS';
 export let FETCH_CATTLE_IMAGE_ERROR = 'FETCH_CATTLE_IMAGE_ERROR';
 
-export function fetchCattleImage(id) {
+export function fetchCattleImage(id,image_id) {
   let token = store.getState().authentication.token;
   return (dispatch) => {
-    dispatch(fetchCattleImagePending(id));
-    $.ajax(`${process.env.API_ENDPOINT}/cattle/${id}/images`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-      method: 'GET'
-    }).then((response) => {
-      dispatch(fetchCattleImageSuccess(id, response.images));
-    }).catch((error) => {
-      dispatch(fetchCattleImageError(error));
-    })
+    if ((window.localStorage && window.localStorage.image_id))  {
+      dispatch(fetchCattleImageSuccess(id,window.localStorage.image_id,image_id));
+    } else {
+      dispatch(fetchCattleImagePending(id));
+      $.ajax(`${process.env.API_ENDPOINT}/cattle/${id}/image/${image_id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+        method: 'GET'
+      }).then((response) => {
+        if (window.localStorage) {
+          window.localStorage.setItem(image_id, response.image.data);
+        }
+        dispatch(fetchCattleImageSuccess(id, response.image.data, image_id));
+      }).catch((error) => {
+        dispatch(fetchCattleImageError(error));
+      })
+    }
   };
 };
 
@@ -212,11 +221,12 @@ export function fetchCattleImagePending(id) {
   };
 };
 
-export function fetchCattleImageSuccess(id, images) {
+export function fetchCattleImageSuccess(id, image ,image_id) {
   return {
     type: FETCH_CATTLE_IMAGE_SUCCESS,
     id,
-    images,
+    image,
+    image_id
   };
 };
 

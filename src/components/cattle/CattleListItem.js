@@ -23,7 +23,10 @@ class CattleListItem extends React.Component {
       country_code: '',
       herdmark: '',
       individual_number: -1,
-      images: ["img/img.png"],
+      images: {
+        id: -1,
+        data: "img/img.png"
+      },
     }
   };
 
