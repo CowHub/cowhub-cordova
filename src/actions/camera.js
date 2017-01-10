@@ -68,6 +68,11 @@ export function cropImage(base64in) {
         dispatch(identificationOnImageVerified(cropImg));
         dispatch(creationOnMuzzleImageVerified(cropImg));
       }
+    } else {
+      // Debug code so can be tested in browser
+      dispatch(cropComplete(null));
+      dispatch(identificationOnImageVerified(null));
+      dispatch(creationOnMuzzleImageVerified(null));
     }
 
 
@@ -157,8 +162,8 @@ export function imageConfirmed(img) {
       dispatch(cropImage(img));
     } else {
       dispatch(creationOnImageVerified());
+      dispatch(imageVerified(img));
     }
-    dispatch(imageVerified(img));
   }
 }
 
