@@ -27,7 +27,7 @@ class HamburgerButton extends React.Component {
 
   renderHamburger() {
     return (
-      <ToolbarButton ref='optionsMenu'>
+      <ToolbarButton ref='optionsMenu' style={ styles.button }>
         <Icon icon='md-more-vert'
           onClick={ () => this.setState({ expanded: true })}/>
       </ToolbarButton>
@@ -72,6 +72,12 @@ class HamburgerButton extends React.Component {
         { this.renderOptions() }
       </div>
     );
+  }
+}
+
+const styles = {
+  button: {
+    margin: "0 25px",
   }
 }
 
