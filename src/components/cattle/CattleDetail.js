@@ -87,7 +87,7 @@ class CattleDetail extends React.Component {
           <ListItem style={ styles.input_wrapper }>
             <Input float placeholder={ placeholder } type='text' value={ value }
                    onChange={ (e) => this.props.handleChange(key, e.target.value) }
-                   style={ styles.input } minlength={ minlength } maxlength={ maxlength } readOnly={true}
+                   style={ styles.input } readOnly={true}
             />
           </ListItem>
         );
