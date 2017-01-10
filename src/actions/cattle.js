@@ -22,7 +22,9 @@ export function fetchCattle() {
     }).then((response) => {
       dispatch(fetchCattleSuccess(response.cattle));
       for (let cattle of response.cattle) {
-        dispatch(fetchCattleImage(cattle.id))
+        for (let image_id of cattle.image_ids)  {
+          dispatch(fetchCattleImage(cattle.id,image_id))
+        }
       }
     }).catch((error) => {
       dispatch(fetchCattleError(error));
@@ -188,17 +190,17 @@ export let FETCH_CATTLE_IMAGE_PENDING = 'FETCH_CATTLE_IMAGE_PENDING';
 export let FETCH_CATTLE_IMAGE_SUCCESS = 'FETCH_CATTLE_IMAGE_SUCCESS';
 export let FETCH_CATTLE_IMAGE_ERROR = 'FETCH_CATTLE_IMAGE_ERROR';
 
-export function fetchCattleImage(id) {
+export function fetchCattleImage(id,image_id) {
   let token = store.getState().authentication.token;
   return (dispatch) => {
     dispatch(fetchCattleImagePending(id));
-    $.ajax(`${process.env.API_ENDPOINT}/cattle/${id}/images`, {
+    $.ajax(`${process.env.API_ENDPOINT}/cattle/${id}/image/${image_id}`, {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
       method: 'GET'
     }).then((response) => {
-      dispatch(fetchCattleImageSuccess(id, response.images));
+      dispatch(fetchCattleImageSuccess(id, response.image));
     }).catch((error) => {
       dispatch(fetchCattleImageError(error));
     })
