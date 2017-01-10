@@ -175,8 +175,9 @@ export function imageConfirmed(img) {
       dispatch(cropImage(img));
     } else {
       dispatch(creationOnImageVerified());
-      dispatch(imageVerified(img));
     }
+
+    dispatch(imageVerified(img));
   }
 }
 
