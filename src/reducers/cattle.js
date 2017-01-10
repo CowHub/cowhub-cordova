@@ -269,9 +269,15 @@ export function handleFetchCattleImageSuccess(state, id, image, image_id) {
   const index = cattle.findIndex((c) => c.cattle.id === id);
   let img_obj = {
     image_id: image_id,
-    image: image
+    data: image
   };
-  cattle[index].cattle.images.push(img_obj);
+  if (cattle[index].cattle.images)  {
+    cattle[index].cattle.images.push(img_obj)
+  } else {
+    let cattle_imgs = [];
+    cattle_imgs.push(img_obj);
+    cattle[index].cattle.images = cattle_imgs;
+  }
   return {
     ...state,
     cattle,

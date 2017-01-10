@@ -193,17 +193,24 @@ export let FETCH_CATTLE_IMAGE_ERROR = 'FETCH_CATTLE_IMAGE_ERROR';
 export function fetchCattleImage(id,image_id) {
   let token = store.getState().authentication.token;
   return (dispatch) => {
-    dispatch(fetchCattleImagePending(id));
-    $.ajax(`${process.env.API_ENDPOINT}/cattle/${id}/image/${image_id}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-      method: 'GET'
-    }).then((response) => {
-      dispatch(fetchCattleImageSuccess(id, response.image, image_id));
-    }).catch((error) => {
-      dispatch(fetchCattleImageError(error));
-    })
+    if ((window.localStorage && window.localStorage.image_id))  {
+      dispatch(fetchCattleImageSuccess(id,window.localStorage.image_id,image_id));
+    } else {
+      dispatch(fetchCattleImagePending(id));
+      $.ajax(`${process.env.API_ENDPOINT}/cattle/${id}/image/${image_id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+        method: 'GET'
+      }).then((response) => {
+        if (window.localStorage) {
+          window.localStorage.setItem(image_id, response.image.data);
+        }
+        dispatch(fetchCattleImageSuccess(id, response.image.data, image_id));
+      }).catch((error) => {
+        dispatch(fetchCattleImageError(error));
+      })
+    }
   };
 };
 
