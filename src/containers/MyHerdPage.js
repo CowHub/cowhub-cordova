@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import {
     Page,
     Icon,
@@ -78,7 +78,7 @@ class MyHerdPage extends React.Component {
   }
 
   renderPullHook() {
-    return (
+    return ( ons.platform.isAndroid() &&
       <PullHook
           onChange={ (e) => this.setState({ state: e.state }) }
           onLoad={ (done) => {
