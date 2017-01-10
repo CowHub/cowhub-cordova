@@ -59,7 +59,6 @@ export let REGISTER_CATTLE_ERROR = 'REGISTER_CATTLE_ERROR';
 
 export function registerCattle(params) {
   let token = store.getState().authentication.token;
-  console.log(params);
   return (dispatch) => {
     dispatch(registerCattlePending());
     $.ajax(`${process.env.API_ENDPOINT}/cattle/new`, {
