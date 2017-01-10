@@ -59,7 +59,7 @@ class CattleDetail extends React.Component {
           <Input float placeholder={ placeholder } type='date' value={ value }
                  onChange={ (e) => this.props.handleChange(key, e.target.value) }
                  style={ styles.input } max={ before }
-            {... (!this.props.isEditing ? {'readOnly': true} : {}) }
+            {... (!this.props.isEditing ? {'readOnly': true, 'value':} : {}) }
           />
         </ListItem>
       );
@@ -82,11 +82,10 @@ class CattleDetail extends React.Component {
 
           </ListItem>
         )
-      } else {
+      } else if (value){
         return (
           <ListItem style={ styles.input_wrapper }>
             <Input float placeholder={ placeholder } type='text' value={ value }
-                   onChange={ (e) => this.props.handleChange(key, e.target.value) }
                    style={ styles.input } readOnly={true}
             />
           </ListItem>

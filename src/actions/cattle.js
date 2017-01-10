@@ -1,7 +1,6 @@
 import $ from 'jquery';
 import store from '../store/store';
-import {postDelete} from './edit';
-
+import {postDelete,endEditCattle} from './edit';
 import {createCattleSuccess} from './creation';
 import {identifyCattleSuccess} from './identification';
 
@@ -113,8 +112,12 @@ export function updateCattle(id, params) {
       },
       data: params,
     }).then((response) => {
-      dispatch(endEditCattle());
       dispatch(updateCattleSuccess(response.cattle));
+      for (let image_id of response.cattle.image_ids)  {
+        dispatch(fetchCattleImage(id,image_id))
+      }
+      dispatch(endEditCattle());
+      console.log(response);
     }).catch((error) => {
       dispatch(updateCattleError(error));
     })
