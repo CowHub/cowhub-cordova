@@ -35,6 +35,7 @@ export let CROP_COMPLETE = ' CROP_COMPLETE';
 export function cropImage(base64in) {
   return (dispatch) => {
     dispatch(cropStarted());
+    dispatch(creationOnMuzzleImageVerified());
     let cropImg = null;
     if (ons.platform.isWebView()) {
       // create image
@@ -66,8 +67,11 @@ export function cropImage(base64in) {
         cropImg = canvas.toDataURL();
         dispatch(cropComplete(cropImg));
         dispatch(identificationOnImageVerified(cropImg));
-        dispatch(creationOnMuzzleImageVerified(cropImg));
       }
+    } else {
+      // Debug code so can be tested in browser
+      dispatch(cropComplete(null));
+      dispatch(identificationOnImageVerified(null));
     }
 
 
@@ -76,21 +80,29 @@ export function cropImage(base64in) {
 
 export function toNextCamera()  {
   return (dispatch) =>  {
-    dispatch(activateCamera(false));
-    dispatch(backToCameraRedirect());
+    dispatch(backToCameraRedirect()).then(()  =>  {
+      dispatch(activateCamera(false));
+    });
   }
 }
 
 export function startCameraCapture(crop = false) {
   return (dispatch) => {
-    dispatch(activateCamera(crop));
     dispatch(cameraStartRedirect());
+    dispatch(activateCamera(crop));
   }
 }
 
 export function restartCameraCapture() {
   return (dispatch) => {
     dispatch(activateCamera());
+    dispatch(backToCameraRedirect());
+  }
+}
+
+export function restartMuzzleCameraCapture() {
+  return (dispatch) => {
+    dispatch(activateCamera(true));
     dispatch(backToCameraRedirect());
   }
 }
@@ -127,7 +139,13 @@ export function backFromCamera() {
 
 export function backFromVerify() {
   return (dispatch) => {
-    dispatch(restartCameraCapture());
+    // This depends on whether we are capturing a muzzle or a profile image
+    let crop = store.getState().camera.crop;
+    if (crop == true) {
+      dispatch(restartMuzzleCameraCapture());
+    } else {
+      dispatch(restartCameraCapture());
+    }
     dispatch(tryAgain());
   }
 }
@@ -157,8 +175,8 @@ export function imageConfirmed(img) {
       dispatch(cropImage(img));
     } else {
       dispatch(creationOnImageVerified());
+      dispatch(imageVerified(img));
     }
-    dispatch(imageVerified(img));
   }
 }
 
