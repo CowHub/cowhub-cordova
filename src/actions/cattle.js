@@ -200,7 +200,7 @@ export function fetchCattleImage(id,image_id) {
       },
       method: 'GET'
     }).then((response) => {
-      dispatch(fetchCattleImageSuccess(id, response.image));
+      dispatch(fetchCattleImageSuccess(id, response.image, image_id));
     }).catch((error) => {
       dispatch(fetchCattleImageError(error));
     })
@@ -214,11 +214,12 @@ export function fetchCattleImagePending(id) {
   };
 };
 
-export function fetchCattleImageSuccess(id, images) {
+export function fetchCattleImageSuccess(id, image ,image_id) {
   return {
     type: FETCH_CATTLE_IMAGE_SUCCESS,
     id,
-    images,
+    image,
+    image_id
   };
 };
 
