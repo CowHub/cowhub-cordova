@@ -13,7 +13,6 @@ import {
 
 import ons from 'onsenui';
 
-
 const mapStateToProps = (state) => {
   return {
     crop: state.camera.crop,
