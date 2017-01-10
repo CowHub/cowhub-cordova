@@ -100,6 +100,13 @@ export function restartCameraCapture() {
   }
 }
 
+export function restartMuzzleCameraCapture() {
+  return (dispatch) => {
+    dispatch(activateCamera(true));
+    dispatch(backToCameraRedirect());
+  }
+}
+
 export function activateCamera(crop) {
   if (ons.platform.isWebView()) {
     ezar.initializeVideoOverlay(
@@ -132,7 +139,13 @@ export function backFromCamera() {
 
 export function backFromVerify() {
   return (dispatch) => {
-    dispatch(restartCameraCapture());
+    // This depends on whether we are capturing a muzzle or a profile image
+    let crop = store.getState().camera.crop;
+    if (crop == true) {
+      dispatch(restartMuzzleCameraCapture());
+    } else {
+      dispatch(restartCameraCapture());
+    }
     dispatch(tryAgain());
   }
 }
