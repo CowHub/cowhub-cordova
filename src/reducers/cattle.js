@@ -23,6 +23,7 @@ import {
   MATCH_CATTLE_PENDING,
   MATCH_CATTLE_SUCCESS,
   MATCH_CATTLE_EXCEPTION,
+  MATCH_CATTLE_EXCEPTION_SEEN,
   MATCH_CATTLE_ERROR,
   CATTLE_ERROR_SEEN,
 } from '../actions/cattle';
@@ -98,6 +99,8 @@ const cattle = (state = initialState, action) => {
       return handleMatchCattleSuccess(state);
     case MATCH_CATTLE_EXCEPTION:
       return handleMatchCattleException(state, action.exception);
+    case MATCH_CATTLE_EXCEPTION_SEEN:
+      return handleMatchCattleExceptionSeen(state);
     case MATCH_CATTLE_ERROR:
       return handleMatchCattleError(state, action.error);
     case CATTLE_ERROR_SEEN:
@@ -318,7 +321,7 @@ export function handleMatchCattlePending(state) {
   return {
     ...state,
     fetching: true,
-    fetched: false
+    fetched: false,
   };
 }
 
@@ -336,6 +339,13 @@ export function handleMatchCattleException(state, exception) {
     exception: exception,
     fetching: false,
     fetched: true
+  };
+}
+
+export function handleMatchCattleExceptionSeen(state) {
+  return {
+    ...state,
+    exception: null
   };
 }
 

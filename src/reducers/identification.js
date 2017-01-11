@@ -64,6 +64,7 @@ const handleIdentifyCameraCapture = (state,img) => {
 const handleIdentifyCattleSubmitRequest = (state) => {
   return {
     ...state,
+    match: null
   };
 };
 

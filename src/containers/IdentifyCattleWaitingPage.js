@@ -8,7 +8,7 @@ import {
 } from 'react-onsenui';
 
 import { handleError } from '../utilities/ErrorHandler';
-import { cancelIdentify } from '../actions';
+import { cancelIdentify, matchCattleExceptionSeen } from '../actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -20,7 +20,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleEndIdentification: () => dispatch(cancelIdentify())
+    handleEndIdentification: () => {
+      dispatch(matchCattleExceptionSeen());
+      dispatch(cancelIdentify());
+    }
   }
 };
 
