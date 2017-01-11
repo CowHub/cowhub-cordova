@@ -284,6 +284,7 @@ export function requestMatchCattleError(error) {
 export let MATCH_CATTLE_PENDING = 'MATCH_CATTLE_PENDING';
 export let MATCH_CATTLE_SUCCESS = 'MATCH_CATTLE_SUCCESS';
 export let MATCH_CATTLE_EXCEPTION = 'MATCH_CATTLE_EXCEPTION';
+export let MATCH_CATTLE_EXCEPTION_SEEN = 'MATCH_CATTLE_EXCEPTION_SEEN';
 export let MATCH_CATTLE_ERROR = 'MATCH_CATTLE_ERROR';
 
 export function matchCattle(id) {
@@ -297,16 +298,18 @@ export function matchCattle(id) {
       },
     }).then((response) => {
       if (response.cattle) {
-        dispatch(identifyCattleSuccess());
+
         dispatch(matchCattleSuccess(response.cattle));
+        dispatch(identifyCattleSuccess());
       }
       else if (response.pending)
         setTimeout(() => {
           if (store.getState().identification.identifying)
             dispatch(matchCattle(id));
         }, 2000);
-      else if (!response.found)
+      else if (!response.found) {
         dispatch(matchCattleException('No match found'));
+      }
       else if (response.lost)
         dispatch(matchCattleException('Cattle information lost'));
     }).catch((error) => {
@@ -332,6 +335,12 @@ export function matchCattleException(exception) {
   return {
     type: MATCH_CATTLE_EXCEPTION,
     exception: exception
+  };
+};
+
+export function matchCattleExceptionSeen() {
+  return {
+    type: MATCH_CATTLE_EXCEPTION_SEEN,
   };
 };
 

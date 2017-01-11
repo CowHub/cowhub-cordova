@@ -64,10 +64,12 @@ const handleIdentifyCameraCapture = (state,img) => {
 const handleIdentifyCattleSubmitRequest = (state) => {
   return {
     ...state,
+    match: null
   };
 };
 
 const handleIdentifyCattleSuccess = (state, match) => {
+  console.log(match);
   return {
     ...state,
     match: match,
