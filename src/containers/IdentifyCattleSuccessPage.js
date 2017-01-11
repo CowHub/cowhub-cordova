@@ -16,7 +16,7 @@ import { cancelIdentify } from '../actions'
 const mapStateToProps = (state) => {
   return {
     cattle: state.identification.match,
-    image: state.identification.image,
+    image: state.identification.match.profile_images[0].data,
     error: state.cattle.error
   };
 };

@@ -47,10 +47,20 @@ class CreateCattlePage extends React.Component {
 
   componentWillMount() {
     handleError(this.props.error);
+    if(navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(this.gotLocation);
+    }
   }
 
   componentWillReceiveProps(props) {
     handleError(props.error);
+  }
+
+  gotLocation(position) {
+    var latitude  = position.coords.latitude;
+    var longitude = position.coords.longitude;
+    this.props.cattle.longitude = longitude;
+    this.props.cattle.latitude = latitude;
   }
 
   renderToolbar() {
