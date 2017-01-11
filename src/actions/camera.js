@@ -111,7 +111,8 @@ export function activateCamera(crop) {
   if (ons.platform.isWebView()) {
     ezar.initializeVideoOverlay(
       () => {
-        ezar.getBackCamera().start()
+        ezar.getBackCamera().start();
+        activateZoom(2.0);
       },
       (error) => {
         dispatch(errorImage())
@@ -129,6 +130,13 @@ export function activateCamera(crop) {
   }
 }
 
+export function activateZoom(level) {
+  if (ons.platform.isWebView()) {
+    if(ezar.getBackCamera().hasZoom())  {
+      ezar.getBackCamera().setZoom(level);
+    }
+  }
+}
 export function backFromCamera() {
   return (dispatch) => {
     dispatch(deactivateCamera());
