@@ -12,7 +12,9 @@ export function handleError(error, callback = () => store.dispatch(cattleErrorSe
     ? error.responseJSON.errors
       ? error.responseJSON.errors[0]
       : error.responseJSON.error
-    : error.responseText;
+    : error.responseText
+      ? error.responseText
+      : error.statusText;
 
   return notification.alert({
     title: 'Error',
