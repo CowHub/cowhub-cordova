@@ -69,6 +69,7 @@ const handleIdentifyCattleSubmitRequest = (state) => {
 };
 
 const handleIdentifyCattleSuccess = (state, match) => {
+  console.log(match);
   return {
     ...state,
     match: match,

@@ -298,8 +298,9 @@ export function matchCattle(id) {
       },
     }).then((response) => {
       if (response.cattle) {
-        dispatch(identifyCattleSuccess());
+
         dispatch(matchCattleSuccess(response.cattle));
+        dispatch(identifyCattleSuccess());
       }
       else if (response.pending)
         setTimeout(() => {
