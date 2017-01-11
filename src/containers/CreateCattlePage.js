@@ -47,9 +47,6 @@ class CreateCattlePage extends React.Component {
 
   componentWillMount() {
     handleError(this.props.error);
-    if(navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(this.gotLocation);
-    }
   }
 
   componentWillReceiveProps(props) {
