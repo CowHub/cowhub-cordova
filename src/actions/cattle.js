@@ -193,8 +193,8 @@ export let FETCH_CATTLE_IMAGE_ERROR = 'FETCH_CATTLE_IMAGE_ERROR';
 export function fetchCattleImage(id,image_id) {
   let token = store.getState().authentication.token;
   return (dispatch) => {
-    if ((window.localStorage && window.localStorage.image_id))  {
-      dispatch(fetchCattleImageSuccess(id,window.localStorage.image_id,image_id));
+    if ((window.localStorage && window.localStorage.getItem(image_id)))  {
+      dispatch(fetchCattleImageSuccess(id,window.localStorage.getItem(image_id),image_id));
     } else {
       dispatch(fetchCattleImagePending(id));
       $.ajax(`${process.env.API_ENDPOINT}/cattle/${id}/image/${image_id}`, {
