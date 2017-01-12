@@ -87,14 +87,14 @@ class CreateCattlePage extends React.Component {
 
   renderCattleDetail() {
     return (
-      <CattleDetail
-        cattle={ this.props.cattle }
-        image={ this.props.image }
-        handleChange={ (key, val) => {
-          this.props.cattle[key] = val;
-          this.forceUpdate();
-        }}
-      />
+      <div style={ styles.detail_wrapper }>
+        <CattleDetail
+          cattle={ this.props.cattle }
+          image={ this.props.image }
+          isEditing={ this.props.isEditing }
+          handleChange={ (key, val) => this.props.cattle[key] = val }
+        />
+      </div>
     );
   }
 
@@ -124,15 +124,21 @@ class CreateCattlePage extends React.Component {
 const styles = {
   doneButton: {
     position: 'fixed',
-    bottom: '0',
-    height: '3vh',
+    bottom: '1vh',
+    height: '6vh',
     width: '100%'
   },
   doneButtonDisabled: {
     background: 'rgb(128, 128, 128)',
     position: 'fixed',
-    bottom: '0',
-    height: '3vh',
+    bottom: '1vh',
+    height: '6vh',
+    width: '100%'
+  },
+  detail_wrapper: {
+    height: '80vh',
+    overflow: 'auto',
+    position: 'relative',
     width: '100%'
   }
 };
