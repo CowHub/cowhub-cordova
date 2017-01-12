@@ -101,10 +101,18 @@ class MyHerdPage extends React.Component {
     }
   }
 
+  renderLoadingSpiral() {
+    return (
+      <ProgressSpinner
+        message='Fetching Cattle'
+        shouldDisplay={ this.props.isFetching }
+      />
+    );
+  }
+
   renderCattleList() {
     return (
       <div style={styles.page_content}>
-        { this.props.isFetching ? <ProgressCircular indeterminate/> : null }
         <CattleList
           cattle={ this.props.cattle }
           isFetching={ this.props.isFetching }
