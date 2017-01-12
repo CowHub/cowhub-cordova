@@ -56,23 +56,37 @@ class CameraCapturePage extends React.Component {
 
   renderCloseButton() {
     return (
+      ons.platform.isIOS() ?
       <Fab
           onClick={ () => this.props.handleBack() }
-          position='bottom left' style={ons.platform.isIOS() && styles.fab_ios}
+          position='bottom left' style={styles.fab_ios}
       >
         <Icon icon='md-close-circle' />
-      </Fab>
+      </Fab> :
+        <Fab
+          onClick={ () => this.props.handleBack() }
+          position='bottom left'
+        >
+          <Icon icon='md-close-circle' />
+        </Fab>
     );
   }
 
   renderCameraButton() {
     return (
+      ons.platform.isIOS() ?
       <Fab
           onClick={ () => this.props.handleTakePhoto() }
-          position='bottom right' style={ons.platform.isIOS() && styles.fab_ios}
+          position='bottom right' style={styles.fab_ios}
       >
         <Icon icon='md-camera' />
-      </Fab>
+      </Fab> :
+        <Fab
+          onClick={ () => this.props.handleTakePhoto() }
+          position='bottom right'
+        >
+          <Icon icon='md-camera' />
+        </Fab>
     );
   }
 

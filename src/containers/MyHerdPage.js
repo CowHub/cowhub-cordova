@@ -127,25 +127,39 @@ class MyHerdPage extends React.Component {
 
   renderIdentifyButton() {
     return (
+      ons.platform.isIOS()?
       <Fab
         onClick={ () => this.props.identifyCattle() }
-        position='bottom left' style={ons.platform.isIOS() && styles.fab_ios}
+        position='bottom left' style={styles.fab_ios}
       >
-        {ons.platform.isAndroid() ? <Icon icon='md-camera'/>
-              : <Icon class="zmdi zmdi-camera" icon='md-camera'/>}
-      </Fab>
+        <Icon class="zmdi zmdi-camera" icon='md-camera'/>
+      </Fab>:
+        <Fab
+          onClick={ () => this.props.identifyCattle() }
+          position='bottom left'
+        >
+          <Icon icon='md-camera'/>
+        </Fab>
+
     );
   }
 
   renderCreateButton() {
     return (
+      ons.platform.isIOS()?
       <Fab
         onClick={ () => this.props.createCattle() }
-        position='bottom right' style={ons.platform.isIOS() && styles.fab_ios}
+        position='bottom right' style={styles.fab_ios}
       >
-        {ons.platform.isAndroid() ? <Icon icon='md-file-plus'/>
-              : <Icon class="zmdi zmdi-file-plus" icon='md-file-plus'/>}
-      </Fab>
+        <Icon class="zmdi zmdi-file-plus" icon='md-file-plus'/>
+      </Fab>:
+        <Fab
+          onClick={ () => this.props.createCattle() }
+          position='bottom right'
+        >
+          <Icon icon='md-file-plus'/>
+        </Fab>
+
     );
   }
 

@@ -68,23 +68,37 @@ class VerifyImagePage extends React.Component {
 
   renderBackButton() {
     return (
+      ons.platform.isIOS() ?
       <Fab
           onClick={ () => this.props.handleBack() }
-          position='bottom left' style={ons.platform.isIOS() && styles.fab_ios}
+          position='bottom left' style={styles.fab_ios}
       >
         <Icon icon='md-arrow-left' />
-      </Fab>
+      </Fab>:
+        <Fab
+          onClick={ () => this.props.handleBack() }
+          position='bottom left'
+        >
+          <Icon icon='md-arrow-left' />
+        </Fab>
     );
   }
 
   renderValidateButton() {
     return (
+      ons.platform.isIOS() ?
       <Fab
           onClick={ () => this.props.handleVerified(this.props.image) }
-          position='bottom right' style={ons.platform.isIOS() && styles.fab_ios}
+          position='bottom right' style={styles.fab_ios}
       >
         <Icon icon='md-check' />
-      </Fab>
+      </Fab>:
+        <Fab
+          onClick={ () => this.props.handleVerified(this.props.image) }
+          position='bottom right' 
+        >
+          <Icon icon='md-check' />
+        </Fab>
     );
   }
 
