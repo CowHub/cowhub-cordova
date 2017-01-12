@@ -23,6 +23,7 @@ import {
   MATCH_CATTLE_PENDING,
   MATCH_CATTLE_SUCCESS,
   MATCH_CATTLE_EXCEPTION,
+  MATCH_CATTLE_EXCEPTION_SEEN,
   MATCH_CATTLE_ERROR,
   CATTLE_ERROR_SEEN,
 } from '../actions/cattle';
@@ -83,7 +84,7 @@ const cattle = (state = initialState, action) => {
     case FETCH_CATTLE_IMAGE_PENDING:
       return handleFetchCattleImagePending(state, action.id);
     case FETCH_CATTLE_IMAGE_SUCCESS:
-      return handleFetchCattleImageSuccess(state, action.id, action.images);
+      return handleFetchCattleImageSuccess(state, action.id, action.image, action.image_id);
     case FETCH_CATTLE_IMAGE_ERROR:
       return handleFetchCattleImageError(state, action.error);
     case REQUEST_MATCH_CATTLE_PENDING:
@@ -98,6 +99,8 @@ const cattle = (state = initialState, action) => {
       return handleMatchCattleSuccess(state);
     case MATCH_CATTLE_EXCEPTION:
       return handleMatchCattleException(state, action.exception);
+    case MATCH_CATTLE_EXCEPTION_SEEN:
+      return handleMatchCattleExceptionSeen(state);
     case MATCH_CATTLE_ERROR:
       return handleMatchCattleError(state, action.error);
     case CATTLE_ERROR_SEEN:
@@ -264,10 +267,20 @@ export function handleFetchCattleImagePending(state) {
   };
 }
 
-export function handleFetchCattleImageSuccess(state, id, images) {
+export function handleFetchCattleImageSuccess(state, id, image, image_id) {
   let cattle = state.cattle
   const index = cattle.findIndex((c) => c.cattle.id === id);
-  cattle[index].cattle.images = images;
+  let img_obj = {
+    image_id: image_id,
+    data: image
+  };
+  if (cattle[index].cattle.images)  {
+    cattle[index].cattle.images.push(img_obj)
+  } else {
+    let cattle_imgs = [];
+    cattle_imgs.push(img_obj);
+    cattle[index].cattle.images = cattle_imgs;
+  }
   return {
     ...state,
     cattle,
@@ -308,7 +321,7 @@ export function handleMatchCattlePending(state) {
   return {
     ...state,
     fetching: true,
-    fetched: false
+    fetched: false,
   };
 }
 
@@ -326,6 +339,13 @@ export function handleMatchCattleException(state, exception) {
     exception: exception,
     fetching: false,
     fetched: true
+  };
+}
+
+export function handleMatchCattleExceptionSeen(state) {
+  return {
+    ...state,
+    exception: null
   };
 }
 

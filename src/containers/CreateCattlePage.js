@@ -11,6 +11,7 @@ import { handleError } from '../utilities/ErrorHandler';
 
 import CattleDetail from '../components/cattle/CattleDetail';
 import CattleCreateTopBar from '../components/topbar/CattleCreateTopBar';
+import ProgressSpinner from '../components/loader/ProgressSpinner';
 
 import { cancelCreate, loadCameraCapturePage, registerCattle } from '../actions'
 
@@ -18,8 +19,9 @@ const mapStateToProps = (state) => {
   return {
     cattle: state.creation.cattle,
     image: state.creation.image,
-    error: state.cattle.error,
-    croppedImage: state.creation.croppedImage
+    croppedImage: state.creation.croppedImage,
+    isUploading: state.cattle.fetching,
+    error: state.cattle.error
   };
 };
 
@@ -42,6 +44,8 @@ class CreateCattlePage extends React.Component {
   static propTypes = {
     cattle: CustomPropTypes.cattle,
     image: React.PropTypes.string,
+    croppedImage: React.PropTypes.string,
+    isUploading: React.PropTypes.bool,
     error: React.PropTypes.object
   };
 
@@ -53,6 +57,13 @@ class CreateCattlePage extends React.Component {
     handleError(props.error);
   }
 
+  gotLocation(position) {
+    var latitude  = position.coords.latitude;
+    var longitude = position.coords.longitude;
+    this.props.cattle.longitude = longitude;
+    this.props.cattle.latitude = latitude;
+  }
+
   renderToolbar() {
     return (
       <CattleCreateTopBar
@@ -61,6 +72,15 @@ class CreateCattlePage extends React.Component {
           callback: (res) => { if (res)
               this.props.handleCancel(); }
         })}
+      />
+    );
+  }
+
+  renderLoadingSpiral() {
+    return (
+      <ProgressSpinner
+        message='Registering Cattle'
+        shouldDisplay={ this.props.isUploading }
       />
     );
   }
@@ -95,6 +115,7 @@ class CreateCattlePage extends React.Component {
       <Page renderToolbar={ () => this.renderToolbar() }>
         { this.renderCattleDetail() }
         { this.renderDoneButton() }
+        { this.renderLoadingSpiral() }
       </Page>
     )
   }

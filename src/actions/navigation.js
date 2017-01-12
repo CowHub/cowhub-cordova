@@ -55,6 +55,7 @@ export function cameraVerifyImageRedirect() {
 export function backToCameraRedirect()  {
   return(dispatch)  =>  {
     dispatch(backToCameraCapturePage());
+    return Promise.resolve();
   }
 }
 
