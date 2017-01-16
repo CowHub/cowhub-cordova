@@ -8,6 +8,8 @@ import {
     ListItem
 } from 'react-onsenui';
 
+import ons from 'onsenui';
+
 class HamburgerButton extends React.Component {
 
   static propTypes = {
@@ -27,15 +29,36 @@ class HamburgerButton extends React.Component {
 
   renderHamburger() {
     return (
-      <ToolbarButton ref='optionsMenu' style={ styles.button }>
-        <Icon icon='md-more-vert'
-          onClick={ () => this.setState({ expanded: true })}/>
+      ons.platform.isIOS() ?
+      <ToolbarButton ref='optionsMenu' style={ styles.button }
+        onClick={ () => this.setState({ expanded: true })}>
+        <Icon icon='md-menu'/>
+      </ToolbarButton>
+      :
+      <ToolbarButton ref='optionsMenu' style={ styles.button }
+        onClick={ () => this.setState({ expanded: true })}>
+        <Icon icon='md-more-vert'/>
       </ToolbarButton>
     );
   }
 
   renderOptions() {
     return (
+      ons.platform.isIOS() ?
+      <Popover
+        isOpen={ this.state.expanded }
+        onCancel={ () => this.setState({ expanded: false })}
+        isCancelable={ true }
+        getTarget={ () => { return this.refs.optionsMenu; }}
+        direction='down'
+      >
+        <List>
+          { this.props.options.map((option) => {
+            return this.renderOption(option);
+          })}
+        </List>
+      </Popover>
+      :
       <Popover
         isOpen={ this.state.expanded }
         onCancel={ () => this.setState({ expanded: false })}
@@ -77,7 +100,7 @@ class HamburgerButton extends React.Component {
 
 const styles = {
   button: {
-    margin: "0 25px",
+    padding: '10px 25px',
   }
 }
 

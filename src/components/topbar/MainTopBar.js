@@ -29,14 +29,6 @@ class MainTopBar extends React.Component {
     handleLogout: React.PropTypes.func
   };
 
-  renderRefreshButton() {
-    return (ons.platform.isIOS() &&
-      <div className="left">
-        <Icon icon="ion-ios-refresh" style={styles.refresh}
-              onClick={() => this.props.fetchCattle()}/>
-      </div>)
-  }
-
   renderTitle() {
     return (
       <div className='center'>
@@ -47,6 +39,22 @@ class MainTopBar extends React.Component {
 
   renderRightButton() {
     return (
+      ons.platform.isIOS() ?
+      <HamburgerButton
+        options={[
+          {
+            icon: 'ion-ios-refresh',
+            title: 'Refresh',
+            onClick: this.props.fetchCattle
+          },
+          {
+            icon: 'fa-sign-out',
+            title: 'Logout',
+            onClick: this.props.handleLogout
+          }
+        ]}
+      />
+      :
       <HamburgerButton
         options={[
           {
@@ -62,7 +70,6 @@ class MainTopBar extends React.Component {
   render() {
     return (
       <Toolbar>
-        { this.renderRefreshButton() }
         { this.renderTitle() }
         { this.renderRightButton() }
       </Toolbar>
@@ -72,7 +79,7 @@ class MainTopBar extends React.Component {
 
 const styles = {
   refresh: {
-    margin: '0 25px',
+    padding: '10px 20px',
     color: 'rgb(66, 139, 202)'
   }
 }
