@@ -1,7 +1,6 @@
 import $ from 'jquery';
 import store from '../store/store';
-import {postDelete} from './edit';
-
+import {postDelete,endEditCattle} from './edit';
 import {createCattleSuccess} from './creation';
 import {identifyCattleSuccess} from './identification';
 
@@ -59,7 +58,6 @@ export let REGISTER_CATTLE_ERROR = 'REGISTER_CATTLE_ERROR';
 
 export function registerCattle(params) {
   let token = store.getState().authentication.token;
-  console.log(params);
   return (dispatch) => {
     dispatch(registerCattlePending());
     $.ajax(`${process.env.API_ENDPOINT}/cattle/new`, {
@@ -114,8 +112,12 @@ export function updateCattle(id, params) {
       },
       data: params,
     }).then((response) => {
-      dispatch(endEditCattle());
       dispatch(updateCattleSuccess(response.cattle));
+      for (let image_id of response.cattle.image_ids)  {
+        dispatch(fetchCattleImage(id,image_id))
+      }
+      dispatch(endEditCattle());
+      console.log(response);
     }).catch((error) => {
       dispatch(updateCattleError(error));
     })

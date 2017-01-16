@@ -65,34 +65,52 @@ class CattleDetail extends React.Component {
       );
   }
 
+  // renderSelectInput(value, placeholder, key, options, values) {
+  //   console.log("in renderSelectInput");
+  //   console.log("placeholder " + placeholder);
+  //   if (!values)
+  //     values = options;
+  //   if (this.props.isEditing || value) {
+  //     if (this.props.isEditing) {
+  //       console.log("this.props.isEditing " + this.props.isEditing);
+  //       return (
+  //         <ListItem style={ styles.input_wrapper }>
+  //           <select  style={styles.drop_down} onChange={(e) => this.props.handleChange(key, e.target.value)}>
+  //             <option value="">{placeholder}</option>
+  //             { options.map((o, i) => {
+  //               return <option value={ values[i] } key={ i }>{ o }</option>
+  //             })}
+  //           </select>
+  //         </ListItem>
+  //       )
+  //     } else if (value){
+  //       console.log("this.props.value " + value);
+  //       return this.renderTextInput(value, placeholder, key)
+  //     }
+  //   }
+  //   console.log("\n");
+  // }
   renderSelectInput(value, placeholder, key, options, values) {
     if (!values)
       values = options;
-    if (this.props.isEditing || value) {
-      if (this.props.isEditing) {
-        return (
-          <ListItem style={ styles.input_wrapper }>
-            <select style={styles.drop_down} onChange={(e) => this.props.handleChange(key, e.target.value)}>
+    if (this.props.isEditing || value)
+      return (
+        <ListItem style={ styles.input_wrapper }>
+          { this.props.isEditing &&
+            <select  style={styles.drop_down} onChange={(e) => this.props.handleChange(key, e.target.value)}>
               <option value="">{placeholder}</option>
               { options.map((option, i) => {
                 return <option value={ values[i] } key={ i }>{ option }</option>
               })}
             </select>
-
-
-          </ListItem>
-        )
-      } else {
-        return (
-          <ListItem style={ styles.input_wrapper }>
+          }
+          { value &&
             <Input float placeholder={ placeholder } type='text' value={ value }
-                   onChange={ (e) => this.props.handleChange(key, e.target.value) }
                    style={ styles.input } readOnly={true}
             />
-          </ListItem>
-        );
-      }
-    }
+          }
+        </ListItem>
+      );
   }
 
 
