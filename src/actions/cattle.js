@@ -117,7 +117,6 @@ export function updateCattle(id, params) {
         dispatch(fetchCattleImage(id,image_id))
       }
       dispatch(endEditCattle());
-      console.log(response);
     }).catch((error) => {
       dispatch(updateCattleError(error));
     })
