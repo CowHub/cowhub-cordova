@@ -77,11 +77,4 @@ class MainTopBar extends React.Component {
   }
 }
 
-const styles = {
-  refresh: {
-    padding: '10px 20px',
-    color: 'rgb(66, 139, 202)'
-  }
-}
-
 export default connect(mapStateToProps, mapDispatchToProps)(MainTopBar);

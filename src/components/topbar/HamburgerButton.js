@@ -35,7 +35,7 @@ class HamburgerButton extends React.Component {
         <Icon icon='md-menu'/>
       </ToolbarButton>
       :
-      <ToolbarButton ref='optionsMenu' style={ styles.button }
+      <ToolbarButton ref='optionsMenu' 
         onClick={ () => this.setState({ expanded: true })}>
         <Icon icon='md-more-vert'/>
       </ToolbarButton>
