@@ -70,7 +70,7 @@ class IdentifyCattleWaitingPage extends React.Component {
 
   renderCancelButton() {
     return (
-      ons.platform.isIOS ?
+      ons.platform.isIOS() ?
       <Fab
           onClick={ () => notification.confirm({
             message: 'Are you sure you want to cancel request',
