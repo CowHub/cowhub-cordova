@@ -43,8 +43,8 @@ export function cropImage(base64in) {
       image.src = base64in;
       image.onload = function () {
         //width
-        let width = this.width;
-        let height = this.height;
+        let width = window.screen.width;
+        let height = window.screen.height;
 
         // create an off-screen canvas
         var canvas = document.createElement('canvas');

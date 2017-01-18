@@ -7,6 +7,8 @@ import {
     Fab
 } from 'react-onsenui';
 
+import ons from 'onsenui';
+
 import { handleError } from '../utilities/ErrorHandler';
 import { cancelIdentify, matchCattleExceptionSeen } from '../actions';
 
@@ -68,6 +70,19 @@ class IdentifyCattleWaitingPage extends React.Component {
 
   renderCancelButton() {
     return (
+      ons.platform.isIOS() ?
+      <Fab
+          onClick={ () => notification.confirm({
+            message: 'Are you sure you want to cancel request',
+            callback: (answer) => { if (answer)
+              this.props.handleEndIdentification();
+            }
+          })}
+          position='bottom center'
+          style= { styles.fab_ios }>
+        <Icon icon='md-close-circle' />
+      </Fab>
+      :
       <Fab
           onClick={ () => notification.confirm({
             message: 'Are you sure you want to cancel request',
@@ -112,6 +127,9 @@ const styles = {
     height: '3%',
     width: '100%',
     marginTop: '-20px'
+  },
+  fab_ios: {
+    background: 'rgb(66, 139, 202)'
   }
 };
 
